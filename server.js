@@ -3,9 +3,9 @@ const path = require('path');
 
 const app = express();
 
-//app.get('/', (req, res) => res.send('API Running'));
+// app.get('/', (req, res) => res.send('API Running'));
 
-// server static assets in production
+    // server static assets in production
 if (process.env.NODE_ENV === 'production') {
     // set static folder
     app.use(express.static('client/build'));
