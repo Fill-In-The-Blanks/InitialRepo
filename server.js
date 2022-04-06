@@ -7,7 +7,14 @@ const app = express();
 // Connect the database
 connectDB();
 
+// Init middleware
+app.use(express.json({ extended: false })); // this allows us to access the body in request
+
 //app.get('/', (req, res) => res.send('API Running'));
+
+// Define routes
+app.use('/api/admin', require('./routes/api/admin'));
+app.use('/api/auth', require('./routes/api/auth'));
 
 // server static assets in production
 if (process.env.NODE_ENV === 'production') {
