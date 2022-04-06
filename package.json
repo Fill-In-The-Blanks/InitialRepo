@@ -13,13 +13,21 @@
   "author": "Rahuman A.A.A. battery",
   "license": "UNLICENSED",
   "dependencies": {
+    "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.7",
     "express": "^4.17.3",
     "express-validator": "^6.14.0",
     "gravatar": "^1.8.2",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.2",
     "mongoose": "^6.2.9",
+    "react-moment": "^1.1.2",
+    "react-redux": "^7.2.8",
+    "react-router-dom": "^6.3.0",
+    "redux": "^4.1.2",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.1",
     "request": "^2.88.2"
   },
   "devDependencies": {
