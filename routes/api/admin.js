@@ -71,13 +71,7 @@ jwt.sign(
         res.status(500).send('Server error')
     }
 
-    //see if the admin exists
-
-    //get users gravatar 
-
-    //encrypt password
-
-    //Return jsonwebtoken
+    
 
     
 });

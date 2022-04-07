@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 const auth = require('../../middleware/auth');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const { check, validationResult } = require('express-validator');
+
 
 const Admin = require('../../model/Admin');
 
@@ -18,7 +23,68 @@ router.get('/', auth, async (req, res) => {
 }
 });
 
+// @route   POST api/auth
+// @desc    authenticate user & get token
+// @access  Public
+router.post('/', [
+  //check('ID', 'SLIIT employee ID is required').not().isEmpty(),
+  check('email', 'SLIIT employee email is required').isEmail(),
+  check('password', 'Password is required').exists()
+  ], 
+  async  (req, res) => {
 
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.status(400)
+      .json({ errors: errors.array() });
+  }
+
+
+  const{email, password} = req.body; //ID taken out
+
+  try {
+      
+  //see if the admin exists
+  let admin = await Admin.findOne({email});
+  if(admin){
+      return res
+      .status(400)
+      .json({errors: [{msg:'Invalid Credentials'}]});
+  }
+
+     const isMatch = await bcrypt.compare(password, admin.password);
+     if(!isMatch) {
+      return res
+      .status(400)
+      .json({errors: [{msg:'Invalid Credentials'}]});
+     }
+
+
+
+  //Return jsonwebtoken
+  const payload = {
+      admin:{
+          id: admin.id
+      }
+  }
+jwt.sign(
+  payload, 
+  config.get('jwtSecret'),
+  {expiresIn:360000}, //token expires in an hour, for now we keep a higher val for testing purposes
+  (err, token)=>{
+      if(err) throw err;
+      res.json({ token }); // can send user id as well 
+  }); 
+
+  }   catch(err){
+      console.error(err.message);
+      res.status(500).send('Server error')
+  }
+
+  
+
+  
+});
 
 
 module.exports = router;
