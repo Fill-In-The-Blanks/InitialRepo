@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
-const Admin = require('../../model/Admin') //imporating admin model for line 24
+const Admin = require('../../model/Admin') //importing admin model for line 24
 
 // @route   POST api/admin
 // @desc    Register an Admin
@@ -24,56 +24,53 @@ router.post('/', [
     }
 
 
-    const{ userName, ID, email, password} = req.body;
+    const{ userName, ID, email, password } = req.body;
 
     try {
         
-    //see if the admin exists
-    let admin = await Admin.findOne({email});
-    if(admin){
-        res.status(400).json({errors: [{msg:'Admin already exists'}]});
-    }
-
-    //initilize the admin variable(takes val from req,res body)
-    admin = new Admin ({
-        userName,ID,email,password
-    });
-
-    //get users gravatar 
-
-    //encrypt password
-    
-    const salt = await bcrypt.genSalt(10); //hasing intilzied 
-   
-    admin.password = await bcrypt.hash(password, salt); //hasing assgined, next is saving to database
-    console.log('reached here');
-
-    await admin.save();//saving admin
-
-
-    //Return jsonwebtoken
-    const payload = {
-        admin:{
-            id: admin.id
+        //see if the admin exists
+        let admin = await Admin.findOne({email});
+        if(admin){
+            res.status(400).json({errors: [{msg:'Admin already exists'}]});
         }
-    }
-jwt.sign(
-    payload, 
-    config.get('jwtSecret'),
-    {expiresIn:360000}, //token expires in an hour, for now we keep a higher val for testing purposes
-    (err, token)=>{
-        if(err) throw err;
-        res.json({ token }); // can send user id as well 
-    }); 
+
+        //initilize the admin variable(takes val from req,res body)
+        admin = new Admin ({
+            userName,ID,email,password
+        });
+
+        //get users gravatar 
+
+        //encrypt password
+        
+        const salt = await bcrypt.genSalt(10); //hasing intilzied 
+    
+        admin.password = await bcrypt.hash(password, salt); //hasing assgined, next is saving to database
+        console.log('reached here');
+
+        await admin.save(); //saving admin
+
+
+        //Return jsonwebtoken
+        const payload = {
+            admin:{
+                id: admin.id
+            }
+        }
+        
+        jwt.sign(
+            payload, 
+            config.get('jwtSecret'),
+            {expiresIn:360000}, //token expires in an hour, for now we keep a higher val for testing purposes
+            (err, token)=>{
+                if(err) throw err;
+                res.json({ token }); // can send user id as well 
+            }); 
 
     }   catch(err){
         console.error(err.message);
         res.status(500).send('Server error')
-    }
-
-    
-
-    
+    }    
 });
 
 module.exports = router;

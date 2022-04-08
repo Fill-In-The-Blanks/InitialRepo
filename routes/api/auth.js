@@ -10,7 +10,7 @@ const { check, validationResult } = require('express-validator');
 const Admin = require('../../model/Admin');
 
 // @route   GET api/auth
-// @desc    Test route
+// @desc    Admin token authentication route
 // @access  Public
 router.get('/', auth, async (req, res) => {
   try {
@@ -23,10 +23,8 @@ router.get('/', auth, async (req, res) => {
 }
 });
 
-
-
 // @route   POST api/auth
-// @desc    authenticate user & get token
+// @desc    authenticate admin & get token
 // @access  Public
 router.post('/', [
   check('email', 'SLIIT employee email is required').isEmail(),
@@ -46,24 +44,20 @@ router.post('/', [
   try {
     
   //see if the admin exists
-  let admin = await Admin.findOne({ email });
-  if(admin){
+  let admin = await Admin.findOne({ email: { $regex: new RegExp("^" + req.body.email + "$", "i") } });  // the regex code is to make the search non case sensitive
+  if(!admin){
       return res
       .status(400)
-      .json({errors: [{msg:'Invalid Username'}]});
-      
+      .json({errors: [{msg:'Invalid email'}]});
   }
-
-  console.log('email checker')
   
 
-     const isMatch = await bcrypt.compare(password, admin.password);
-     if(!isMatch) {
-      return res
-      .status(400)
-      .json({errors: [{msg:'Invalid Password'}]});
-     }
-     console.log('hash reached')
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if(!isMatch) {
+    return res
+    .status(400)
+    .json({errors: [{msg:'Invalid Password'}]});
+    }
 
 
   //Return jsonwebtoken
@@ -85,10 +79,6 @@ jwt.sign(
       console.error(err.message);
       res.status(500).send('Server error')
   }
-
-  
-
-  
 });
 
 
