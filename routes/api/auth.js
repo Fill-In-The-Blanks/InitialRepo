@@ -5,7 +5,7 @@ const auth = require('../../middleware/auth');
 const Admin = require('../../model/Admin');
 
 // @route   GET api/auth
-// @desc    Test route
+// @desc    Admin token authentication route
 // @access  Public
 router.get('/', auth, async (req, res) => {
   try {
@@ -17,8 +17,5 @@ router.get('/', auth, async (req, res) => {
     
 }
 });
-
-
-
 
 module.exports = router;
