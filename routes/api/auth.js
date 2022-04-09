@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
-
 const Admin = require('../../model/Admin');
 
 // @route   GET api/auth
@@ -14,72 +13,65 @@ const Admin = require('../../model/Admin');
 // @access  Public
 router.get('/', auth, async (req, res) => {
   try {
-        const admin = await Admin.findById(req.admin.id).select('-password');
-        res.json(admin);
-  } catch(err){
-  console.error(err.message);
-  res.status(500).send('Server Error')
-    
-}
+    const admin = await Admin.findById(req.admin.id).select('-password');
+    res.json(admin);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 // @route   POST api/auth
 // @desc    authenticate admin & get token
 // @access  Public
-router.post('/', [
-  check('email', 'SLIIT employee email is required').isEmail(),
-  check('password', 'Password is required').exists()
-  ], 
-  async  (req, res) => {
-
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-      return res.status(400)
-      .json({ errors: errors.array() });
-  }
-
-
-  const {email, password} = req.body; //ID taken out
-
-  try {
-    
-  //see if the admin exists
-  let admin = await Admin.findOne({ email: { $regex: new RegExp("^" + req.body.email + "$", "i") } });  // the regex code is to make the search non case sensitive
-  if(!admin){
-      return res
-      .status(400)
-      .json({errors: [{msg:'Invalid email'}]});
-  }
-  
-
-    const isMatch = await bcrypt.compare(password, admin.password);
-    if(!isMatch) {
-    return res
-    .status(400)
-    .json({errors: [{msg:'Invalid Password'}]});
+router.post(
+  '/',
+  [
+    check('email', 'SLIIT employee email is required').isEmail(),
+    check('password', 'Password is required').exists(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
+    const { email, password } = req.body; //ID taken out
 
-  //Return jsonwebtoken
-  const payload = {
-      admin:  {
-          id: admin.id
+    try {
+      //see if the admin exists
+      let admin = await Admin.findOne({
+        email: { $regex: new RegExp('^' + req.body.email + '$', 'i') },
+      }); // the regex code is to make the search non case sensitive
+      if (!admin) {
+        return res.status(400).json({ errors: [{ msg: 'Invalid email' }] });
       }
-  }
-jwt.sign(
-  payload, 
-  config.get('jwtSecret'),
-  {expiresIn:360000}, //token expires in an hour, for now we keep a higher val for testing purposes
-  (err, token) => {
-      if (err) throw err;
-      res.json({ token }); // can send user id as well 
-  }); 
 
-  }   catch(err){
+      const isMatch = await bcrypt.compare(password, admin.password);
+      if (!isMatch) {
+        return res.status(400).json({ errors: [{ msg: 'Invalid Password' }] });
+      }
+
+      //Return jsonwebtoken
+      const payload = {
+        admin: {
+          id: admin.id,
+        },
+      };
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        { expiresIn: 360000 }, //token expires in an hour, for now we keep a higher val for testing purposes
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token }); // can send user id as well
+        }
+      );
+    } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server error')
+      res.status(500).send('Server error');
+    }
   }
-});
-
+);
 
 module.exports = router;

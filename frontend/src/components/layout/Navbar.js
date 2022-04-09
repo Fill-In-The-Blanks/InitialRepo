@@ -1,18 +1,59 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const Navbar = () => {
+const Navbar = ({ auth: { isAuthenticated, loading, admin } }) => {
+  const adminLinks = (
+    <ul>
+      <li>
+        <Link to='/adminDashboard'>
+          <i className='fas fa-user'></i>{' '}
+          <span className='hide-sm'>Dashboard</span>
+        </Link>
+      </li>
+      <li>
+        <a href='/'>
+          <i className='fas fa-sign-out-al'></i>{' '}
+          <span className='hide-sm'>Logout</span>
+        </a>
+      </li>
+    </ul>
+  );
+
+  const guestLinks = (
+    <ul>
+      <li>
+        <Link to='/login' style={{ color: '#fff', background: '#17a2b8' }}>
+          Admin Login
+        </Link>
+      </li>
+    </ul>
+  );
   return (
-    <nav className="navbar bg-dark">
+    <nav className='navbar bg-light'>
       <h1>
-        <Link to="/"><i className="fas fa-code"></i> SLIIT IAS</Link>
+        <Link to='/'>
+          <p style={{ float: 'left', color: '#17a2b8' }}>
+            <i className='fas fa-code'></i> SLIIT IAS
+          </p>
+        </Link>
       </h1>
-      <ul>
-        {/* <li><a href="register.html">Register</a></li> */}
-        <li><Link to="/login">Login</Link></li>
-      </ul>
+      {!loading && isAuthenticated ? (
+        <Fragment>{/* user ? authLinks : */ adminLinks}</Fragment>
+      ) : (
+        <Fragment>{guestLinks}</Fragment>
+      )}
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar;
+Navbar.propTypes = {
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Navbar);

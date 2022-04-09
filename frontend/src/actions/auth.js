@@ -7,6 +7,27 @@ import {
   LOGIN_FAIL,
   LOGOUT,
 } from './types';
+import setAuthToken from '../utils/setAuthToken';
+
+// Load Admin
+export const loadAdmin = () => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get('/api/auth');
+
+    dispatch({
+      type: ADMIN_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
 
 // Login Admin
 export const loginAdmin = (email, password) => async (dispatch) => {
