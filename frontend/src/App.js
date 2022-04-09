@@ -10,6 +10,7 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import AddEmployee from './components/employee/AddEmployee';
+import Alert from './components/layout/Alert';
 
 //Redux
 import { Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
@@ -19,6 +20,7 @@ const Contained = () => {
   return (
     <>
       <section className='container'>
+        <Alert />
         <Outlet />
       </section>
     </>

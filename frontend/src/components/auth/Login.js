@@ -1,6 +1,11 @@
 import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alert';
+import PropTypes from 'prop-types';
 
-const Login = () => {
+// import connect to connect this component to redux. Use when you want the component to call an action or get a state
+
+const Login = ({ setAlert }) => {
   // formData is the object that holds our values and setFormData is the function to change the values
   const [formData, setFormData] = useState({
     email: '',
@@ -14,7 +19,7 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log('Sucess');
+    setAlert('Success', 'success');
   };
   return (
     <Fragment>
@@ -49,4 +54,9 @@ const Login = () => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setAlert })(Login);
+// connect takes in two parameters - first param as any state you want to map and second param is object with actions you want to use
