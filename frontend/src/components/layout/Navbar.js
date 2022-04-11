@@ -20,7 +20,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, admin }, logout }) => {
             href='/'
             style={{ /* color: '#fff',  */ background: 'red' }}
           >
-            <i className='fas fa-sign-out-al'></i>{' '}
+            <i className='fa fa-sign-out'></i>{' '}
             <span className='hide-sm'>Logout</span>
           </a>
         </li>
