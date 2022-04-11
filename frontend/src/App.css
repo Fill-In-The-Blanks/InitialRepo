@@ -331,6 +331,10 @@ button {
   margin-right: 0.6rem;
 }
 
+/* .logout:hover {
+  color: var(--primary-color);
+} */
+
 /* Landing Page */
 .landing {
   position: relative;
