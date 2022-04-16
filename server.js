@@ -15,15 +15,16 @@ app.use(express.json({ extended: false })); // this allows us to access the body
 // Define routes
 app.use('/api/admin', require('./routes/api/admin'));
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/employee', require('./routes/api/employee'));
 
 // server static assets in production
 if (process.env.NODE_ENV === 'production') {
-    // set static folder
-    app.use(express.static('frontend/build'));
+  // set static folder
+  app.use(express.static('frontend/build'));
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
-    });
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
 }
 
 const PORT = process.env.PORT || 5000;
