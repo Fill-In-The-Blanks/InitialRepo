@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.881e918b.css",
+    "main.js": "/static/js/main.9ea15870.js",
+    "static/media/background.png": "/static/media/background.be872d275e3b2c43071c.png",
+    "index.html": "/index.html",
+    "main.881e918b.css.map": "/static/css/main.881e918b.css.map",
+    "main.9ea15870.js.map": "/static/js/main.9ea15870.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.881e918b.css",
+    "static/js/main.9ea15870.js"
+  ]
+}

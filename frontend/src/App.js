@@ -20,6 +20,7 @@ import { loadAdmin } from './actions/auth';
 //Redux
 import { Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
 import store from './store';
+import AddModule from './components/Modules/AddModules';
 
 const Contained = () => {
   return (
@@ -55,6 +56,7 @@ const App = () => {
               <Route path='/login' element={<Login />} />
               {/* <Route path='/addEmployee' element={<AddEmployee />} /> */}
               <Route path='/adminDashboard' element={<AdminDashboard />} />
+              <Route path='/addModules' element={<AddModule />} />
             </Route>
           </Routes>
         </Fragment>

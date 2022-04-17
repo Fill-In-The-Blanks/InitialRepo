@@ -15,6 +15,7 @@ app.use(express.json({ extended: false })); // this allows us to access the body
 // Define routes
 app.use('/api/admin', require('./routes/api/admin'));
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/module', require('./routes/api/module'));
 
 // server static assets in production
 if (process.env.NODE_ENV === 'production') {
