@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react'
-import axios from 'axios';
+
 import { connect } from 'react-redux';
-import { setAlert } from '../../actions/alert';
+
 import { addModules } from '../../actions/module_auth';
 import PropTypes from 'prop-types';
-const AddModule = ({setAlert,addModules}) => {
+const AddModule = ({addModules}) => {
     const[formData,setFormData] = useState({
         moduleName:'',
         ModuleID:'',
@@ -19,6 +19,7 @@ const AddModule = ({setAlert,addModules}) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        //console.log(formData);
         addModules({moduleName,ModuleID,specialization,year,semester});
     
         
@@ -72,11 +73,9 @@ const AddModule = ({setAlert,addModules}) => {
 }
 
 AddModule.propTypes={
-    setAlert:PropTypes.func.isRequired,
+   
     addModules:PropTypes.func.isRequired
 
 }
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-});
-export default connect(mapStateToProps,{setAlert,addModules})(AddModule);
+
+export default connect(null,{addModules})(AddModule);

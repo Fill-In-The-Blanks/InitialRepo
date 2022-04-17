@@ -4,8 +4,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  MODULE_SUCCESS,
-  MODULE_EXISTS
+  
 
 } from '../actions/types';
 
@@ -35,19 +34,12 @@ export default function foo(state = initialState, action) {
         isAuthenticated: true,
         loading: false,
       };
-      case MODULE_SUCCESS:
-        localStorage.setItem('token', payload.token);
-        return {
-          ...state,
-          ...payload,
-          isAuthenticated: true,
-          loading: false,
-        };
+      
 
     
     case AUTH_ERROR:
     case LOGIN_FAIL:
-    case MODULE_EXISTS:
+    
     case LOGOUT:
       localStorage.removeItem('token');
       return {
