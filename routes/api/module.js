@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
@@ -11,11 +10,11 @@ const Module = require('../../model/modules') //importing admin model for line 2
 // @desc    Register a module
 // @access  Public
 router.post('/', [
-    check('moduleName', 'ModuleName is required').not().isEmpty(), //route validation
+    check('moduleName', 'Module Name is required').not().isEmpty(), //route validation
     check('ModuleID', 'Enter Valid module Code').not().isEmpty(),
     check('specialization', 'specialization is required').not().isEmpty(),
-    check('year', 'year Of Study is required').not().isEmpty(),
-    check('semester', 'Semester of Study').not().isEmpty()
+    check('year', 'year of Study is required').not().isEmpty(),
+    check('semester', 'Semester of Study is required').not().isEmpty()
     ], 
     async  (req, res) => {
 

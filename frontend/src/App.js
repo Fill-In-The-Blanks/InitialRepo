@@ -22,6 +22,7 @@ import { Provider } from 'react-redux'; // the providers connects react and redu
 import store from './store';
 import AddModule from './components/Modules/AddModules';
 
+
 const Contained = () => {
   return (
     <>
@@ -62,7 +63,7 @@ const App = () => {
                 element={<EmployeeManagement />}
               />
               <Route path='/adminDashboard' element={<AdminDashboard />} />
-              <Route path='/addModules' element={<AddModule />} />
+              <Route path='/addModules' element={<AddModule/>} />
             </Route>
           </Routes>
         </Fragment>

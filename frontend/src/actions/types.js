@@ -8,5 +8,4 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 
-export const MODULE_SUCCESS = 'MODULE_SUCCESFULLY_ADDED';
-export const MODULE_EXISTS = 'MODULE_EXISTS';
+

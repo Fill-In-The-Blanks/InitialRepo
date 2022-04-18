@@ -1,32 +1,35 @@
-import React, { Fragment, useState } from 'react';
-import axios from 'axios';
+import React, { Fragment, useState } from 'react'
+
 import { connect } from 'react-redux';
-import { setAlert } from '../../actions/alert';
-import { addModules } from '../../actions/module_auth';
+import { Modules } from '../../actions/modules_auth';
 import PropTypes from 'prop-types';
-const AddModule = ({ setAlert, addModules }) => {
-  const [formData, setFormData] = useState({
-    moduleName: '',
-    ModuleID: '',
-    specialization: '',
-    year: '',
-    semester: '',
-  });
+import { Link } from 'react-router-dom'; 
 
-  const { moduleName, ModuleID, specialization, year, semester } = formData;
-  const onchange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+const AddModule = ({Modules}) => {
+    const[formData,setFormData] = useState({
+        moduleName:'',
+        ModuleID:'',
+        specialization:'',
+        year: '',
+        semester:''
+    });
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    addModules({ moduleName, ModuleID, specialization, year, semester });
-  };
+  
+
+    const {moduleName,ModuleID,specialization,year,semester}= formData;
+    const onchange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const onsubmit = async (e) => {
+        e.preventDefault();
+        //console.log(formData);
+        Modules(formData);
+    };
   return (
     <Fragment>
       <section className='container'>
         <h1 className='large text-primary'>Module Management</h1>
         <p className='lead'> Add New module</p>
-        <form className='form' onSubmit={(e) => onSubmit(e)}>
+        <form className='form' onSubmit={(e) => onsubmit(e)}>
           <div className='form-group'>
             <input
               type='text'
@@ -72,20 +75,20 @@ const AddModule = ({ setAlert, addModules }) => {
               onChange={(e) => onchange(e)}
             />
           </div>
-
+          
           <input type='submit' className='btn btn-primary' value='Confirm' />
-          <input type='reset' className='btn btn-primary' value='Cancel' />
+          <Link to='/adminDashboard'><input type='reset' className='btn btn-primary' value='Cancel'  /></Link>
+        
         </form>
       </section>
-    </Fragment>
+     </Fragment>
   );
 };
 
-AddModule.propTypes = {
-  setAlert: PropTypes.func.isRequired,
-  addModules: PropTypes.func.isRequired,
-};
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-export default connect(mapStateToProps, { setAlert, addModules })(AddModule);
+AddModule.propTypes={
+   
+    Modules:PropTypes.func.isRequired
+
+}
+
+export default connect(null,{Modules})(AddModule);

@@ -15,8 +15,8 @@ const AdminDashboard = ({ auth: { admin } }) => {
         {/* <i className='fas fa-user'></i> */} Managements
       </p>
 
-      <Link to='/addmodules' className='btn btn-light'>
-        Add Module
+      <Link className='btn moduleManagement' to='/addModules'>
+        {' '}
       </Link>
 
       <Link className='btn empManagement' to='/employeeManagement'></Link>
