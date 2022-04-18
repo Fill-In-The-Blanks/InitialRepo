@@ -1,9 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import { addEmployee } from '../../actions/employee';
+import { setAlert } from '../../actions/alert';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const EmployeeManagement = ({ addEmployee }) => {
+const EmployeeManagement = ({ addEmployee, setAlert }) => {
   const [formData, setFormData] = useState({
     empNo: '',
     empName: '',
@@ -19,7 +20,11 @@ const EmployeeManagement = ({ addEmployee }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addEmployee(formData);
+    if (document.getElementsByName('department')[0].value === '0') {
+      setAlert('Select a department', 'danger');
+    } else {
+      addEmployee(formData);
+    }
   };
 
   return (
@@ -35,6 +40,10 @@ const EmployeeManagement = ({ addEmployee }) => {
 
         <form className='form' onSubmit={(e) => onSubmit(e)}>
           <div className='form-group'>
+            Employee's ID Number
+            <small className='form-text'>
+              Will be rejected if employee number already exists
+            </small>
             <input
               type='text'
               placeholder='Employee Number'
@@ -46,6 +55,7 @@ const EmployeeManagement = ({ addEmployee }) => {
           </div>
 
           <div className='form-group'>
+            Employee's Name
             <input
               type='text'
               placeholder='Employee Name'
@@ -56,6 +66,10 @@ const EmployeeManagement = ({ addEmployee }) => {
           </div>
 
           <div className='form-group'>
+            Employee's SLIIT email
+            <small className='form-text'>
+              Will be rejected if employee email already exists
+            </small>
             <input
               type='email'
               placeholder='Employee SLIIT email'
@@ -67,14 +81,42 @@ const EmployeeManagement = ({ addEmployee }) => {
           </div>
 
           <div className='form-group'>
+            Employee's Phone Number
+            <small className='form-text'>
+              Will be rejected if phone number is already used
+            </small>
             <input
-              type='password'
-              placeholder='Confirm Password'
-              name='password2'
-              minLength='6'
+              type='text'
+              placeholder='Phone number'
+              name='phone'
+              value={phone}
+              onChange={(e) => onChange(e)}
             />
           </div>
-          <input type='submit' className='btn btn-primary' value='Register' />
+
+          <div className='form-group'>
+            Department
+            <small className='form-text'>Departments in computing only</small>
+            <select
+              name='department'
+              value={department}
+              onChange={(e) => onChange(e)}
+            >
+              <option value='0'>* Select the department</option>
+              <option value='SE'>SE</option>
+              <option value='IT'>IT</option>
+              <option value='CSNE'>CSNE</option>
+              <option value='ISE'>ISE</option>
+              <option value='CS'>CS</option>
+              <option value='IM'>IM</option>
+              <option value='DS'>DS</option>
+            </select>
+          </div>
+          <input
+            type='submit'
+            className='btn btn-primary'
+            value='Add Employee'
+          />
         </form>
       </section>
     </Fragment>
@@ -83,6 +125,7 @@ const EmployeeManagement = ({ addEmployee }) => {
 
 EmployeeManagement.propTypes = {
   addEmployee: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
 };
 
-export default connect(null, { addEmployee })(EmployeeManagement);
+export default connect(null, { addEmployee, setAlert })(EmployeeManagement);

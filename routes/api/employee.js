@@ -14,7 +14,8 @@ router.post(
   [
     check('empNo', 'Must provide a valid SLIIT employee number')
       .not()
-      .isEmpty(),
+      .isEmpty()
+      .toLowerCase(),
     check('sliitEmail', 'Must provide a valid SLIIT employee email')
       .not()
       .isEmpty()

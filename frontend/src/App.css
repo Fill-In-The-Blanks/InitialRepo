@@ -220,8 +220,8 @@ img {
 
 /* Link button design */
 .empManagement {
-  background: url('./img/background.png');
-  padding: 0.4rem 1.3rem;
+  background: url('./img/EmpDashboardButton.png') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
 }
 
 .bg-light,
