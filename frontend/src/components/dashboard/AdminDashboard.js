@@ -1,16 +1,22 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
+
+
 
 const AdminDashboard = () => {
   return (
   <section className='dashboard'>
-  <div>Admin Dashboard Components
-    <div className='buttons'>
-     <Link to='/addmodules' className='btn btn-light'>
-              Add Module
-    </Link>
-    </div>
+  <div>Admin Dashboard Components</div>
+  <div>
+    
+      
+   
+    <a href="/addModules">
+    <img src="../../img/books.png" alt="Module Management" width="100" height="132"/>
+    </a>
+    
+    
     </div>
   </section>
   

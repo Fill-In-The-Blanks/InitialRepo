@@ -333,6 +333,10 @@ button {
   margin-right: 0.6rem;
 }
 
+/* .logout:hover {
+  color: var(--primary-color);
+} */
+
 /* Landing Page */
 .landing {
   position: relative;
@@ -583,4 +587,13 @@ button {
   .post button {
     padding: 0.3rem 0.4rem;
   }
+
+  /* Landing Page */
+.moduleIcon {
+  background-image: url('./img/book.png');
+  height: 50%;
+  width: 50%;
+
+}
+
 }
