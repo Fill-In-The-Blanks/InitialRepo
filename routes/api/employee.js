@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
 const auth = require('../../middleware/auth');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 const { check, validationResult } = require('express-validator');
 
 const Employee = require('../../model/Employee');
@@ -17,7 +14,8 @@ router.post(
   [
     check('empNo', 'Must provide a valid SLIIT employee number')
       .not()
-      .isEmpty(),
+      .isEmpty()
+      .toLowerCase(),
     check('sliitEmail', 'Must provide a valid SLIIT employee email')
       .not()
       .isEmpty()
