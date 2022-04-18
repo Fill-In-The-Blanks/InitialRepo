@@ -224,6 +224,12 @@ img {
   padding: 5.4rem 5.3rem;
 }
 
+.moduleManagement {
+  background: url('./img/ModuleDashboardButton.png') no-repeat center
+    center/cover;
+  padding: 5.4rem 5.3rem;
+}
+
 .bg-light,
 .badge-light {
   border: #ccc solid 1px;
@@ -602,16 +608,4 @@ button {
   .post button {
     padding: 0.3rem 0.4rem;
   }
-
-
-  
-
-  /* Landing Page */
-.moduleManagement {
-  background: url('./img/book.png') no-repeat  center/cover;
-  padding: 5.4rem 5.3rem;
-  
-
-}
-
 }
