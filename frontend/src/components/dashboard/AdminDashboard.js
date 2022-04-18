@@ -16,6 +16,8 @@ const AdminDashboard = ({ auth: { admin } }) => {
       </p>
 
       <Link className='btn empManagement' to='/employeeManagement'></Link>
+
+      <Link className='btn moduleManagement' to='/addModules'></Link>
     </Fragment>
   );
 };

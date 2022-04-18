@@ -224,6 +224,12 @@ img {
   padding: 5.4rem 5.3rem;
 }
 
+.moduleManagement {
+  background: url('./img/ModuleDashboardButton.png') no-repeat center
+    center/cover;
+  padding: 5.4rem 5.3rem;
+}
+
 .bg-light,
 .badge-light {
   border: #ccc solid 1px;
@@ -264,6 +270,7 @@ img {
 .form input[type='email'],
 .form input[type='password'],
 .form input[type='date'],
+.form input[type='number'],
 .form select,
 .form textarea {
   display: block;
@@ -275,6 +282,7 @@ img {
 }
 
 .form input[type='submit'],
+.form input[type='reset'],
 button {
   font: inherit;
 }

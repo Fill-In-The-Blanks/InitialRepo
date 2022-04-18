@@ -13,7 +13,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, admin }, logout }) => {
           <span className='hide-sm'>Dashboard</span>
         </Link>
       </li>
-      <li>
+      
         <li>
           <a
             onClick={logout}
@@ -24,7 +24,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, admin }, logout }) => {
             <span className='hide-sm'>Logout</span>
           </a>
         </li>
-      </li>
+      
     </ul>
   );
 
