@@ -3,6 +3,7 @@ import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux';
 import { Modules } from '../../actions/modules_auth';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'; 
 
 const AddModule = ({Modules}) => {
     const[formData,setFormData] = useState({
@@ -76,6 +77,7 @@ const AddModule = ({Modules}) => {
           </div>
           
           <input type='submit' className='btn btn-primary' value='Confirm' />
+          <Link to='/adminDashboard'><input type='reset' className='btn btn-primary' value='Cancel'  /></Link>
         
         </form>
       </section>
