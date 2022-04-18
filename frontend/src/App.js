@@ -9,7 +9,7 @@ import './App.css';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
-import AddEmployee from './components/employee/AddEmployee';
+import EmployeeManagement from './components/employee/EmployeeManagement';
 import Alert from './components/layout/Alert';
 import AdminDashboard from './components/dashboard/AdminDashboard';
 
@@ -25,12 +25,15 @@ import AddModule from './components/Modules/AddModules';
 const Contained = () => {
   return (
     <>
-      <section className='landing landing-modified'>
-        <section className='container'>
-          <Alert />
-          <Outlet />
-        </section>
+      {/* <section className='landing landing-modified'> */}
+      <section
+        className='container'
+        /* style={{ borderStyle: 'solid', borderColor: 'red' }} */
+      >
+        <Alert />
+        <Outlet />
       </section>
+      {/* </section> */}
     </>
   );
 };
@@ -54,7 +57,10 @@ const App = () => {
             {/* Encompassing the routes inside a contained route to move the elements towards the centre of the page */}
             <Route element={<Contained />}>
               <Route path='/login' element={<Login />} />
-              {/* <Route path='/addEmployee' element={<AddEmployee />} /> */}
+              <Route
+                path='/employeeManagement'
+                element={<EmployeeManagement />}
+              />
               <Route path='/adminDashboard' element={<AdminDashboard />} />
               <Route path='/addModules' element={<AddModule />} />
             </Route>
