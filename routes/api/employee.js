@@ -43,9 +43,11 @@ router.post(
       let employeePhone = await Employee.findOne({ phone });
       if (employeeNo) {
         res.status(400).json({ errors: [{ msg: 'Employee already exists' }] });
-      } else if (employeeEmail) {
+      }
+      if (employeeEmail) {
         res.status(400).json({ errors: [{ msg: 'Employee email is used' }] });
-      } else if (employeePhone) {
+      }
+      if (employeePhone) {
         res
           .status(400)
           .json({ errors: [{ msg: 'Employee phone number is used' }] });
