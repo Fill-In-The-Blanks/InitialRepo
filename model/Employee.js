@@ -25,6 +25,7 @@ const EmployeeSchema = new mongoose.Schema({
   },
   vacancyStatus: {
     type: String,
+    default: 'false',
   },
 });
 

@@ -1,34 +1,33 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react';
 
 import { connect } from 'react-redux';
 import { Modules } from '../../actions/modules_auth';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 
-const AddModule = ({Modules}) => {
-    const[formData,setFormData] = useState({
-        moduleName:'',
-        ModuleID:'',
-        specialization:'',
-        year: '',
-        semester:''
-    });
+const AddModule = ({ Modules }) => {
+  const [formData, setFormData] = useState({
+    moduleName: '',
+    ModuleID: '',
+    specialization: '',
+    year: '',
+    semester: '',
+  });
 
-  
+  const { moduleName, ModuleID, specialization, year, semester } = formData;
+  const onchange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const {moduleName,ModuleID,specialization,year,semester}= formData;
-    const onchange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const onsubmit = async (e) => {
-        e.preventDefault();
-        //console.log(formData);
-        Modules(formData);
-    };
+  const onsubmit = async (e) => {
+    e.preventDefault();
+    //console.log(formData);
+    Modules(formData);
+  };
   return (
     <Fragment>
-      <section className='container'>
-        <h1 className='large text-primary'>Module Management</h1>
-        <p className='lead'> Add New module</p>
+      <section className='container container-margin-top-override'>
+        {/* <h1 className='large text-primary'>Module Management</h1> */}
+        <p className='lead'> Module Management</p>
         <form className='form' onSubmit={(e) => onsubmit(e)}>
           <div className='form-group'>
             <input
@@ -75,20 +74,19 @@ const AddModule = ({Modules}) => {
               onChange={(e) => onchange(e)}
             />
           </div>
-          
+
           <input type='submit' className='btn btn-primary' value='Confirm' />
-          <Link to='/adminDashboard'><input type='reset' className='btn btn-primary' value='Cancel'  /></Link>
-        
+          <Link to='/adminDashboard'>
+            <input type='reset' className='btn btn-primary' value='Cancel' />
+          </Link>
         </form>
       </section>
-     </Fragment>
+    </Fragment>
   );
 };
 
-AddModule.propTypes={
-   
-    Modules:PropTypes.func.isRequired
+AddModule.propTypes = {
+  Modules: PropTypes.func.isRequired,
+};
 
-}
-
-export default connect(null,{Modules})(AddModule);
+export default connect(null, { Modules })(AddModule);

@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import { Link } from 'react-router-dom'; 
-
-
-
-const AdminDashboard = () => {
+const AdminDashboard = ({ auth: { admin } }) => {
   return (
-  <section className='dashboard'>
-  <div>Admin Dashboard Components</div>
-  <div>
-    
-      
-   
-    <Link 
-    className='btn moduleManagement' 
-    to='/addModules'> </Link>
-    
-    
-    </div>
-  </section>
-  
+    <Fragment>
+      <h1 className='large text-primary center-text'>
+        Hello {admin && admin.userName}
+      </h1>
+      <p className='lead center-text'>
+        {/* <i className='fas fa-user'></i> */} Let's get started
+      </p>
+      <p className='lead'>
+        {/* <i className='fas fa-user'></i> */} Managements
+      </p>
+
+      <Link className='btn empManagement' to='/employeeManagement'></Link>
+
+      <Link className='btn moduleManagement' to='/addModules'></Link>
+    </Fragment>
   );
 };
 
-export default AdminDashboard;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(AdminDashboard);
