@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { Modules } from '../../actions/modules_auth';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import {useNavigate} from "react-router-dom"
 
-const AddModule = ({ Modules }) => {
+const AddModule = ({ Modules}) => {
   const [formData, setFormData] = useState({
     moduleName: '',
     ModuleID: '',
@@ -13,7 +14,7 @@ const AddModule = ({ Modules }) => {
     year: '',
     semester: '',
   });
-
+  const navigate = useNavigate();
   const { moduleName, ModuleID, specialization, year, semester } = formData;
   const onchange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,7 +22,7 @@ const AddModule = ({ Modules }) => {
   const onsubmit = async (e) => {
     e.preventDefault();
     //console.log(formData);
-    Modules(formData);
+    Modules(formData,navigate);
   };
   return (
     <Fragment>
@@ -75,7 +76,8 @@ const AddModule = ({ Modules }) => {
             />
           </div>
 
-          <input type='submit' className='btn btn-primary' value='Confirm' />
+
+           <input type='submit' className='btn btn-primary' value='Confirm' />
           <Link to='/adminDashboard'>
             <input type='reset' className='btn btn-primary' value='Cancel' />
           </Link>

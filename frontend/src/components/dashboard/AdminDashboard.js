@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import List from '../Modules/ModuleItem';
 
 const AdminDashboard = ({ auth: { admin } }) => {
   return (
@@ -17,7 +18,8 @@ const AdminDashboard = ({ auth: { admin } }) => {
 
       <Link className='btn empManagement' to='/employeeManagement'></Link>
 
-      <Link className='btn moduleManagement' to='/addModules'></Link>
+      <Link className='btn moduleManagement' to='/ListModules'></Link>
+   
     </Fragment>
   );
 };
