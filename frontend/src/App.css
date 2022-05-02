@@ -314,20 +314,19 @@ button {
 
 .table th,
 .table td {
+  /* padding: 1rem; older css nuzha changed
+  text-align: left; */
   padding-top: 10px;
   padding-bottom: 20px;
   padding-left: 30px;
   padding-right: 40px;
   padding: 10px;
-  text-align:right;
-  
+  text-align: right;
 }
 
 .table th {
-  background: lightblue ;
+  background: lightblue;
 }
-
-
 
 /* Navbar */
 .navbar {
@@ -607,7 +606,7 @@ button {
     width: 100%;
     margin-bottom: 0.2rem;
   }
- 
+
   .post {
     grid-template-columns: 1fr;
   }
