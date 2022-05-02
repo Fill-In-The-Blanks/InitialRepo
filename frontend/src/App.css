@@ -224,6 +224,11 @@ img {
   padding: 5.4rem 5.3rem;
 }
 
+.initialConfig {
+  background: url('./img/InitialConfigButton.png') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
+}
+
 .moduleManagement {
   background: url('./img/ModuleDashboardButton.png') no-repeat center
     center/cover;
