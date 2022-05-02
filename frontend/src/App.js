@@ -4,6 +4,8 @@ import {
   Routes,
   Route,
   Outlet,
+  
+  
 } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/layout/Navbar';
@@ -12,7 +14,7 @@ import Login from './components/auth/Login';
 import EmployeeManagement from './components/employee/EmployeeManagement';
 import Alert from './components/layout/Alert';
 import AdminDashboard from './components/dashboard/AdminDashboard';
-
+import {useNavigate} from "react-router-dom";
 import setAuthToken from './utils/setAuthToken';
 
 import { loadAdmin } from './actions/auth';
@@ -21,6 +23,9 @@ import { loadAdmin } from './actions/auth';
 import { Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
 import store from './store';
 import AddModule from './components/Modules/AddModules';
+import List from './components/Modules/Modules';
+import EditModule from './components/Modules/EditModule'
+
 
 
 const Contained = () => {
@@ -64,6 +69,10 @@ const App = () => {
               />
               <Route path='/adminDashboard' element={<AdminDashboard />} />
               <Route path='/addModules' element={<AddModule/>} />
+              <Route path='/ListModules' element={<List/>} />
+              <Route path='/EditModules' element={<EditModule/>} />
+              <Route path='/EditModules/:id' element={<EditModule/>} />
+              
             </Route>
           </Routes>
         </Fragment>

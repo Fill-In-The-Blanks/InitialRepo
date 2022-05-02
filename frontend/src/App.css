@@ -314,12 +314,18 @@ button {
 
 .table th,
 .table td {
-  padding: 1rem;
-  text-align: left;
+  /* padding: 1rem; older css nuzha changed
+  text-align: left; */
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 40px;
+  padding: 10px;
+  text-align: right;
 }
 
 .table th {
-  background: var(--light-color);
+  background: lightblue;
 }
 
 /* Navbar */
