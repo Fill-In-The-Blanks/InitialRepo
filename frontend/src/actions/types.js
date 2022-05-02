@@ -9,3 +9,7 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 
 
+export const GET_MODULE = 'GET_MODULE';
+export const GET_MODULES = 'GET_MODULES';
+export const MODULE_ERROR = 'MODULE_ERROR';
+export const LOADING_TRUE = 'LOADING_TRUE';
