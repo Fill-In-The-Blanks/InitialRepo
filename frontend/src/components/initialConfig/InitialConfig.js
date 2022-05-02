@@ -33,6 +33,10 @@ const InitialConfig = () => {
     promise.then((d) => {
       /* console.log(d); */
       setFormData(d);
+      console.log(d);
+      /* d.map((row) => {   Add one object a time. Might lag the server with the constant function calls
+        console.log(row);
+      }); */
     });
   };
 

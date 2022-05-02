@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Modules } from '../../actions/modules_auth';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from 'react-router-dom';
 
-const AddModule = ({ Modules}) => {
+const AddModule = ({ Modules }) => {
   const [formData, setFormData] = useState({
     moduleName: '',
     ModuleID: '',
@@ -22,15 +22,19 @@ const AddModule = ({ Modules}) => {
   const onsubmit = async (e) => {
     e.preventDefault();
     //console.log(formData);
-    Modules(formData,navigate);
+    Modules(formData, navigate);
   };
   return (
     <Fragment>
       <section className='container container-margin-top-override'>
         {/* <h1 className='large text-primary'>Module Management</h1> */}
-        <p className='lead'> Module Management</p>
+        <p className='lead'>Add Modules</p>
         <form className='form' onSubmit={(e) => onsubmit(e)}>
           <div className='form-group'>
+            Module Name
+            <small className='form-text'>
+              Will be rejected if module already exists
+            </small>
             <input
               type='text'
               placeholder='Name'
@@ -40,6 +44,10 @@ const AddModule = ({ Modules}) => {
             />
           </div>
           <div className='form-group'>
+            Module Code
+            <small className='form-text'>
+              Will be rejected if module already exists
+            </small>
             <input
               type='text'
               placeholder='Module Code'
@@ -49,6 +57,7 @@ const AddModule = ({ Modules}) => {
             />
           </div>
           <div className='form-group'>
+            Specialization
             <input
               type='text'
               placeholder='Specialization'
@@ -58,6 +67,7 @@ const AddModule = ({ Modules}) => {
             />
           </div>
           <div className='form-group'>
+            Year
             <input
               type='text'
               placeholder='Year Of Study'
@@ -67,6 +77,7 @@ const AddModule = ({ Modules}) => {
             />
           </div>
           <div className='form-group'>
+            Semester
             <input
               type='text'
               placeholder='Semester'
@@ -76,8 +87,7 @@ const AddModule = ({ Modules}) => {
             />
           </div>
 
-
-           <input type='submit' className='btn btn-primary' value='Confirm' />
+          <input type='submit' className='btn btn-primary' value='Confirm' />
           <Link to='/adminDashboard'>
             <input type='reset' className='btn btn-primary' value='Cancel' />
           </Link>
