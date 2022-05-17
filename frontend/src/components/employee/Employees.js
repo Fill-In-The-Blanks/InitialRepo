@@ -22,6 +22,10 @@ const Employees = ({ getEmployees, employee: { employees } }) => {
             Add Employees
           </button>
         </Link>
+        <Link to={`/listEmployees`}>
+          <button className='btn btn-primary'>List Employees</button>
+        </Link>
+
         {employees.length > 0 ? (
           <EmployeeItem employees={employees} />
         ) : (

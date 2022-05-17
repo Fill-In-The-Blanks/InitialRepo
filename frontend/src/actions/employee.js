@@ -61,3 +61,24 @@ export const getEmployees = () => async (dispatch) => {
     });
   }
 };
+
+// @Desc  Delete employee by ID
+export const deleteEmployee = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`/api/employee/${id}`);
+
+    dispatch(setAlert('Employee Deleted', 'success'));
+
+    const res = await axios.get('/api/employee');
+
+    dispatch({
+      type: GET_EMPLOYEES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: EMPLOYEE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
