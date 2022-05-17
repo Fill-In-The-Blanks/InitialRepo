@@ -87,6 +87,23 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route   DELETE api/employee/:id
+// @desc    Delete employee by ID
+// @access  private
+router.delete('/:id', async (req, res) => {
+  try {
+    const employee = await Employee.findById(req.params.id);
+    if (!employee) {
+      return res.status(404).json({ msg: 'Employee Not Found' });
+    }
+    await employee.remove();
+    res.json({ msg: 'Employee Removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   POST api/employee/employees v1 [Has try catch in and outside the map]
 // @desc    Add employees
 // @access  private

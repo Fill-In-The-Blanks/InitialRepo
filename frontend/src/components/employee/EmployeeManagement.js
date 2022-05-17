@@ -39,6 +39,9 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           {/* <i className='fas fa-user'></i> */} Employee Management
         </p>
 
+        <Link to={`/employeeManagement`}>
+          <button className='btn btn-primary'>Add Employees</button>
+        </Link>
         <Link to={`/listEmployees`}>
           <button className='btn btn-primary'>List Employees</button>
         </Link>
