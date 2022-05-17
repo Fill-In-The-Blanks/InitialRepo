@@ -1,7 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import * as XLSX from 'xlsx';
+import { addEmployees } from '../../actions/employee';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const InitialConfig = () => {
+const InitialConfig = ({ addEmployees }) => {
   const [formData, setFormData] = useState([]);
 
   // Sam Lama's code - https://github.com/Rinlama/ReactTools/blob/readexcel/src/App.js
@@ -31,9 +34,10 @@ const InitialConfig = () => {
     });
 
     promise.then((d) => {
-      /* console.log(d); */
       setFormData(d);
-      console.log(d);
+      addEmployees(d);
+      /* console.log(d); */
+
       /* d.map((row) => {   Add one object a time. Might lag the server with the constant function calls
         console.log(row);
       }); */
@@ -79,4 +83,8 @@ const InitialConfig = () => {
   );
 };
 
-export default InitialConfig;
+InitialConfig.propTypes = {
+  addEmployees: PropTypes.func.isRequired,
+};
+
+export default connect(null, { addEmployees })(InitialConfig);

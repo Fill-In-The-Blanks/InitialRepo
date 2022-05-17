@@ -3,6 +3,7 @@ import { addEmployee } from '../../actions/employee';
 import { setAlert } from '../../actions/alert';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const EmployeeManagement = ({ addEmployee, setAlert }) => {
   const [formData, setFormData] = useState({
@@ -37,6 +38,10 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
         <p className='lead'>
           {/* <i className='fas fa-user'></i> */} Employee Management
         </p>
+
+        <Link to={`/listEmployees`}>
+          <button className='btn btn-primary'>List Employees</button>
+        </Link>
 
         <form className='form' onSubmit={(e) => onSubmit(e)}>
           <div className='form-group'>
@@ -114,7 +119,7 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           </div>
           <input
             type='submit'
-            className='btn btn-primary'
+            className='btn btn-success'
             value='Add Employee'
           />
         </form>

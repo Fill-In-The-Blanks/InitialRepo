@@ -16,6 +16,7 @@ import AddModule from './components/Modules/AddModules';
 import List from './components/Modules/Modules';
 import EditModule from './components/Modules/EditModule';
 import InitialConfig from './components/initialConfig/InitialConfig';
+import Employees from './components/employee/Employees';
 
 import { useNavigate } from 'react-router-dom';
 import setAuthToken from './utils/setAuthToken';
@@ -71,6 +72,7 @@ const App = () => {
               <Route path='/EditModules' element={<EditModule />} />
               <Route path='/EditModules/:id' element={<EditModule />} />
               <Route path='/initialConfig' element={<InitialConfig />} />
+              <Route path='/listEmployees' element={<Employees />} />
             </Route>
           </Routes>
         </Fragment>

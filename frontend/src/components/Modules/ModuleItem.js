@@ -35,12 +35,18 @@ const ModuleItem = ({ module, deleteModule }) => {
         <thead>
           <tr>
             <th>Module Name</th>
-            <th className='hide-sm'>Module code</th>
-            <th className='hide-sm'>specialization</th>
-            <th className='hide-sm'>Year</th>
-            <th className='hide-sm'>semester</th>
-            <th> </th>
-            <th></th>
+            <th className='hide-sm' style={{ textAlign: 'center' }}>
+              Module code
+            </th>
+            <th className='hide-sm' style={{ textAlign: 'center' }}>
+              specialization
+            </th>
+            <th className='hide-sm' style={{ textAlign: 'center' }}>
+              Year
+            </th>
+            <th className='hide-sm' style={{ textAlign: 'center' }}>
+              semester
+            </th>
           </tr>
         </thead>
         <tbody>{modules}</tbody>

@@ -88,7 +88,7 @@ const AddModule = ({ Modules }) => {
           </div>
 
           <input type='submit' className='btn btn-primary' value='Confirm' />
-          <Link to='/adminDashboard'>
+          <Link to='/ListModules'>
             <input type='reset' className='btn btn-primary' value='Cancel' />
           </Link>
         </form>
