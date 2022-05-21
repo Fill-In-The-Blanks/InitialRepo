@@ -5,6 +5,36 @@ const { check, validationResult } = require('express-validator');
 
 const Slot = require('../../model/Slot');
 
+// @route   GET api/timetable
+// @desc    Get all slots
+// @access  private
+router.get('/', async (req, res) => {
+  try {
+    const slots = await Slot.find();
+    res.json(slots);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route   DELETE api/timetable/:id
+// @desc    Delete slot by ID
+// @access  private
+router.delete('/:id', async (req, res) => {
+  try {
+    const slot = await Slot.findById(req.params.id);
+    if (!slot) {
+      return res.status(404).json({ msg: 'Slot Not Found' });
+    }
+    await slot.remove();
+    res.json({ msg: 'Slot Removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   POST api/timetable/slots v1 [Has try catch in and outside the map]. v2 in employee api
 // @desc    Add slots
 // @access  private

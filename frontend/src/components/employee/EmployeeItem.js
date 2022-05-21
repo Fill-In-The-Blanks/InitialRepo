@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { deleteEmployee } from '../../actions/employee';
 
 const EmployeeItem = ({ employees, deleteEmployee }) => {
@@ -26,7 +25,6 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
   ));
   return (
     <Fragment>
-      {/* <p className='lead'> Module Management</p> */}
       <table className='table'>
         <thead>
           <tr>

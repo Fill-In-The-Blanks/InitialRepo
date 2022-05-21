@@ -10,6 +10,7 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import EmployeeManagement from './components/employee/EmployeeManagement';
+import TimetableManagement from './components/timetable/TimetableManagement';
 import Alert from './components/layout/Alert';
 import AdminDashboard from './components/dashboard/AdminDashboard';
 import AddModule from './components/Modules/AddModules';
@@ -65,6 +66,10 @@ const App = () => {
               <Route
                 path='/employeeManagement'
                 element={<EmployeeManagement />}
+              />
+              <Route
+                path='/timetableManagement'
+                element={<TimetableManagement />}
               />
               <Route path='/adminDashboard' element={<AdminDashboard />} />
               <Route path='/addModules' element={<AddModule />} />

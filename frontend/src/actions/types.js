@@ -16,3 +16,6 @@ export const LOADING_TRUE = 'LOADING_TRUE';
 export const GET_EMPLOYEE = 'GET_EMPLOYEE';
 export const GET_EMPLOYEES = 'GET_EMPLOYEES';
 export const EMPLOYEE_ERROR = 'EMPLOYEE_ERROR';
+
+export const GET_SLOTS = 'GET_SLOTS';
+export const SLOT_ERROR = 'SLOT_ERROR';
