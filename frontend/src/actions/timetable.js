@@ -11,6 +11,7 @@ export const addTimetableSheet = (formData) => async (dispatch) => {
     };
 
     /* console.log(formData); */
+    const res = await axios.post('/api/timetable/slots', formData, config);
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
