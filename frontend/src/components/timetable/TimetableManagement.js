@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getSlots } from '../../actions/timetable';
+import { getSlots, deleteSlots } from '../../actions/timetable';
 import TimetableItem from './TimetableItem';
 
-const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
+const TimetableManagement = ({
+  getSlots,
+  deleteSlots,
+  timetable: { slots },
+}) => {
   useEffect(() => {
     getSlots();
   }, []);
+
   return (
     <Fragment>
       <section className='container container-margin-top-override'>
@@ -24,6 +29,14 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
           <button className='btn btn-primary'>List Slots</button>
         </Link>
 
+        <button
+          className='btn btn-danger'
+          style={{ float: 'right' }}
+          onClick={() => deleteSlots()}
+        >
+          Delete All Slots{' '}
+        </button>
+
         {slots.length > 0 ? (
           <TimetableItem slots={slots} />
         ) : (
@@ -36,8 +49,10 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
 
 TimetableManagement.propTypes = {
   getSlots: PropTypes.func.isRequired,
+  deleteSlots: PropTypes.func.isRequired,
   timetable: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  Confirm: PropTypes.any,
 };
 
 const mapStateToProps = (state) => ({
@@ -45,4 +60,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getSlots })(TimetableManagement);
+export default connect(mapStateToProps, { getSlots, deleteSlots })(
+  TimetableManagement
+);

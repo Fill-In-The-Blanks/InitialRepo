@@ -35,6 +35,19 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// @route   DELETE api/timetable/
+// @desc    Delete all slots
+// @access  private
+router.delete('/', async (req, res) => {
+  try {
+    await Slot.deleteMany();
+    res.json('All slots deleted');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   POST api/timetable/slots v1 [Has try catch in and outside the map]. v2 in employee api
 // @desc    Add slots
 // @access  private

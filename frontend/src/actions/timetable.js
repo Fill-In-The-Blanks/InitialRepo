@@ -58,3 +58,24 @@ export const deleteSlot = (id) => async (dispatch) => {
     });
   }
 };
+
+// @Desc  Delete all slots
+export const deleteSlots = () => async (dispatch) => {
+  try {
+    await axios.delete('/api/timetable/');
+
+    dispatch(setAlert('Slots Deleted', 'success'));
+
+    const res = await axios.get('/api/timetable');
+
+    dispatch({
+      type: GET_SLOTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: SLOT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
