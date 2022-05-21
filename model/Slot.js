@@ -23,7 +23,6 @@ const SlotSchema = new mongoose.Schema({
   },
   group: {
     type: String,
-    required: true,
   },
   sessionType: {
     type: String,
@@ -39,4 +38,4 @@ module.exports = Slot = mongoose.model('slot', SlotSchema); // Slot is the varia
 
 //start time, end time, day of the week, module, venue, group, lab/lecture/tutorial, staff requirement
 
-// { year, semester, WE/WD, batch no.} => group, will be made into an object later into development for filter purposes.
+// group => { year, semester, WE/WD, batch no.}, will be made into an object later into development for filter purposes.

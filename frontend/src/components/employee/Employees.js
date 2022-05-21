@@ -31,9 +31,6 @@ const Employees = ({ getEmployees, employee: { employees } }) => {
         ) : (
           <h4>No employees found</h4>
         )}
-        {/* <Link to={`/addModules`}>
-          <button className='btn btn-success'>+</button>
-        </Link> */}
       </section>
     </Fragment>
   );
