@@ -4,6 +4,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const Employee = require('../../model/Employee');
+const e = require('express');
 
 // @route   POST api/employee
 // @desc    Add employee
@@ -103,6 +104,106 @@ router.delete('/:id', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @route   GET api/employee/:id
+// @desc    Get employee by ID
+// @access  private
+router.get('/:id', async (req, res) => {
+  try {
+    const employee = await Employee.findById(req.params.id);
+    if (!employee) {
+      return res.status(404).json({ msg: 'Employee Not Found' });
+    }
+    res.json(employee);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'String') {
+      return res.status(404).json({ msg: 'Employee not found' });
+    }
+    res.status(500).send('Server error');
+  }
+});
+
+// @route   PUT api/employee/:id
+// @desc    Update employee by ID
+// @access  private
+router.put(
+  '/:id',
+  [
+    check('sliitEmail', 'Must provide a valid SLIIT employee email')
+      .not()
+      .isEmpty()
+      .isEmail()
+      .normalizeEmail(),
+    check('phone', 'Must provide a phone number')
+      .not()
+      .isEmpty()
+      .isMobilePhone(),
+    check('department', 'Must be assigned a department').not().isEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { empName, sliitEmail, phone, department } = req.body;
+
+    try {
+      const employees = await Employee.find();
+      const employeePhone = employees.find((o) => o.phone === phone);
+      const employeeEmail = employees.find((o) => o.sliitEmail === sliitEmail);
+      let employee = employees.find((o) => o.id === req.params.id);
+
+      /* These "if" validations are in place to allow primary keys to be changed while at the same time ensuring
+      it is not changed to an existing primary key value. 
+      For the loop body to be executed an object connected to the primary key value and the object being updated should exist but the former should not be the same object as the one being updated. 
+      So if we were to leave the primary key value as it was retrieved, the program knows the object connected to the primary key value is the same as the one being updated and hence does not execute the loop body. */
+      if (employeePhone && employee && employeePhone != employee) {
+        return res.status(400).json({
+          errors: [
+            {
+              msg: 'The phone number is already used by ' + employeePhone.empNo,
+            },
+          ],
+        });
+      } else if (employeeEmail && employee && employeeEmail != employee) {
+        return res.status(400).json({
+          errors: [
+            {
+              msg: 'The sliit email is already used by ' + employeeEmail.empNo,
+            },
+          ],
+        });
+      }
+
+      if (employee) {
+        const updatedEmployee = {
+          empName,
+          sliitEmail,
+          phone,
+          department,
+        };
+        employee = await Employee.findOneAndUpdate(
+          { _id: req.params.id },
+          { $set: updatedEmployee },
+          { new: true }
+        );
+      } else
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Employee does not exist' }] });
+
+      res.json(employee);
+    } catch (err) {
+      console.error(err.message);
+      if (err.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'Employee does not exist' });
+      }
+      res.status(500).send('Server error');
+    }
+  }
+);
 
 // @route   POST api/employee/employees v1 [Has try catch in and outside the map]
 // @desc    Add employees
