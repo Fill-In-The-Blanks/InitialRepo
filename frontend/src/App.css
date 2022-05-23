@@ -250,6 +250,14 @@ img {
   margin: 1.5rem 0;
 }
 
+/* Dialog box designs*/
+
+/* .dialogContentAlignment2 {
+  position: relative;
+    top: 30px;
+  transform: translate(-50%, -50%);
+} */
+
 /* Overlay */
 .dark-overlay {
   background-color: rgba(0, 0, 0, 0.7);
