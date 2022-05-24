@@ -5,12 +5,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getEmployees } from '../../actions/employee';
 import EmployeeItem from './EmployeeItem';
+import Spinner from '../layout/Spinner';
 
-const Employees = ({ getEmployees, employee: { employees } }) => {
+const Employees = ({ getEmployees, employee: { employees, loading } }) => {
   useEffect(() => {
     getEmployees();
   }, []);
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <section className='container container-margin-top-override'>
         <p className='lead'>

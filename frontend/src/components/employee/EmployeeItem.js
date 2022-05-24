@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteEmployee } from '../../actions/employee';
@@ -20,6 +21,14 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
         >
           Delete{' '}
         </button>
+      </td>
+      <td>
+        <Link
+          to={`/updateEmployee/${employee._id}`}
+          className='btn btn-success'
+        >
+          Update
+        </Link>
       </td>
     </tr>
   ));
