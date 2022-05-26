@@ -22,11 +22,13 @@ const AdminDashboard = ({ auth: { admin } }) => {
         Timetable Management
       </Link>
       <Link className='btn initialConfig' to='/initialConfig'></Link>
+   
     </Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
+  
   auth: state.auth,
 });
 
