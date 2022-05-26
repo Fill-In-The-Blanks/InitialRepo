@@ -58,35 +58,53 @@ const AddModule = ({ Modules }) => {
           </div>
           <div className='form-group'>
             Specialization
-            <input
-              type='text'
-              placeholder='Specialization'
+          
+            <select
               name='specialization'
               value={specialization}
               onChange={(e) => onchange(e)}
-            />
+            >
+              <option value='0'>* Select the Specialization</option>
+              <option value='SE'>SE</option>
+              <option value='IT'>IT</option>
+              <option value='CSNE'>CSNE</option>
+              <option value='ISE'>ISE</option>
+              <option value='CS'>CS</option>
+              <option value='IM'>IM</option>
+              <option value='DS'>DS</option>
+            </select>
           </div>
           <div className='form-group'>
             Year
-            <input
-              type='text'
-              placeholder='Year Of Study'
+            
+            <select
               name='year'
               value={year}
               onChange={(e) => onchange(e)}
-            />
+            >
+              <option value='0'>* Select the Year of Study</option>
+              <option value='1'>1</option>
+              <option value='2'>2</option>
+              <option value='3'>3</option>
+              <option value='4'>4</option>
+              
+            </select>
           </div>
+          
           <div className='form-group'>
             Semester
-            <input
-              type='text'
-              placeholder='Semester'
+            
+            <select
               name='semester'
               value={semester}
               onChange={(e) => onchange(e)}
-            />
+            >
+              <option value='0'>* Select the Semester</option>
+              <option value='1'>Semester 1</option>
+              <option value='2'>Semester 2</option>
+              
+            </select>
           </div>
-
           <input type='submit' className='btn btn-primary' value='Confirm' />
           <Link to='/ListModules'>
             <input type='reset' className='btn btn-primary' value='Cancel' />

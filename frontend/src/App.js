@@ -79,6 +79,7 @@ const App = () => {
               <Route path='/EditModules/:id' element={<EditModule />} />
               <Route path='/initialConfig' element={<InitialConfig />} />
               <Route path='/listEmployees' element={<Employees />} />
+              
               <Route
                 path='/slotsConfirmation'
                 element={<SlotsConfirmationDialog />}

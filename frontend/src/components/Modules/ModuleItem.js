@@ -22,8 +22,8 @@ const ModuleItem = ({ module, deleteModule }) => {
         </button>
       </td>
       <td>
-        <Link to={`/EditModules/${mod.ModuleID}`}>
-          <button className='btn btn-danger'>Edit</button>
+        <Link to={`/EditModules/${mod._id}`}>
+          <button className='btn btn-success'>Edit</button>
         </Link>
       </td>
     </tr>

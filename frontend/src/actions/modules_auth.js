@@ -77,7 +77,7 @@ export const deleteModule = id => async dispatch => {
 };
 
 
-export const updateModuleByID = (ID, formData) => async dispatch => {
+export const updateModuleByID = (ID, formData,navigate) => async (dispatch) => {
   try {
       const config = {
           headers: {
@@ -87,7 +87,7 @@ export const updateModuleByID = (ID, formData) => async dispatch => {
 
       const res = await axios.put(`/api/module/${ID}`, formData, config);
       dispatch(setAlert('Module Updated', 'success'));
-      
+      navigate('/ListModules');
       dispatch({
           type: GET_MODULES,
           payload: res.data
@@ -106,14 +106,14 @@ export const updateModuleByID = (ID, formData) => async dispatch => {
   }
 }  
 
-export const getModuleByID = ModuleID => async dispatch => {
+export const getModuleByID = (ModuleID) => async (dispatch) => {
   try {
       console.log('I reached here');
 
       const res = await axios.get(`/api/module/${ModuleID}`);
 
       
-
+      console.log(res);
 
       dispatch({
           type: GET_MODULE,
