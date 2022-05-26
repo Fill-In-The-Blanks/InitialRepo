@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { EMPLOYEE_ERROR, GET_EMPLOYEES } from './types';
+import { EMPLOYEE_ERROR, GET_EMPLOYEE, GET_EMPLOYEES } from './types';
 
 export const addEmployee = (formData) => async (dispatch) => {
   try {
@@ -82,3 +82,51 @@ export const deleteEmployee = (id) => async (dispatch) => {
     });
   }
 };
+
+// @Desc get employee by ID
+export const getEmployeeByID = (id) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/employee/${id}`);
+    dispatch({
+      type: GET_EMPLOYEE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: EMPLOYEE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// @Desc update employee by ID
+export const updateEmployeeByID =
+  (id, formData, navigate) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const res = await axios.put(`/api/employee/${id}`, formData, config);
+      dispatch(setAlert('Employee Updated', 'success'));
+
+      dispatch({
+        type: GET_EMPLOYEE,
+        payload: res.data,
+      });
+
+      /* navigate('/listEmployees'); */
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      }
+
+      dispatch({
+        type: EMPLOYEE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
+  };
