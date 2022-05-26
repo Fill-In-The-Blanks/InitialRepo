@@ -19,6 +19,7 @@ import AddModule from './components/Modules/AddModules';
 import List from './components/Modules/Modules';
 import EditModule from './components/Modules/EditModule';
 import InitialConfig from './components/initialConfig/InitialConfig';
+import AddVenue from './components/Venue/AddVenue';
 
 import SlotsConfirmationDialog from './components/dialogBox/SlotsConfirmationDialog';
 
@@ -82,6 +83,7 @@ const App = () => {
               <Route path='/initialConfig' element={<InitialConfig />} />
               <Route path='/listEmployees' element={<Employees />} />
               <Route path='/updateEmployee/:id' element={<UpdateEmployee />} />
+              <Route path='/AddVenues' element={<AddVenue />} />
               <Route
                 path='/slotsConfirmation'
                 element={<SlotsConfirmationDialog />}
