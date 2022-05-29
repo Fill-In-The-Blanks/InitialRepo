@@ -22,7 +22,9 @@ const AdminDashboard = ({ auth: { admin } }) => {
         Timetable Management
       </Link>
       <Link className='btn initialConfig' to='/initialConfig'></Link>
-   
+      <Link className='btn' to='/AddVenues'>
+        Venues
+      </Link>
     </Fragment>
   );
 };
