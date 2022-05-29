@@ -20,6 +20,7 @@ app.use('/api/module', require('./routes/api/module'));
 app.use('/api/timetable', require('./routes/api/timetable'));
 app.use('/api/venues', require('./routes/api/venues'));
 
+
 // server static assets in production
 if (process.env.NODE_ENV === 'production') {
   // set static folder
