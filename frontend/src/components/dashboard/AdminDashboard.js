@@ -30,6 +30,7 @@ const AdminDashboard = ({ auth: { admin } }) => {
 };
 
 const mapStateToProps = (state) => ({
+  
   auth: state.auth,
 });
 

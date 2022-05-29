@@ -153,11 +153,11 @@ try{
 
 
 // @route   GET api/module/:name
-// @desc    Get medicine by name
+// @desc    Get module by name
 // @access  private
-router.get('/:ModuleID', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
-        const module = await Module.findOne({ ModuleID: { $regex: new RegExp("^" + req.params.ModuleID + "$", "i") } });
+        const module = await Module.findById(req.params.id);
 
         if(!module) {
             return res.status(404).json({ msg: 'Module not found' });
