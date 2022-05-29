@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ModuleSchema = new mongoose.Schema({
-  venueName: {
+  moduleName: {
     type: String,
     required: true,
   },
