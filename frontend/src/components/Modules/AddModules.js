@@ -83,10 +83,10 @@ const AddModule = ({ Modules }) => {
               onChange={(e) => onchange(e)}
             >
               <option value='0'>* Select the Year of Study</option>
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
+              <option value='Year 1'>1</option>
+              <option value='Year 2'>2</option>
+              <option value='Year 3'>3</option>
+              <option value='Year 4'>4</option>
               
             </select>
           </div>

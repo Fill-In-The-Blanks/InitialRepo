@@ -234,6 +234,16 @@ img {
     center/cover;
   padding: 5.4rem 5.3rem;
 }
+.VenueManagement {
+  background: url('./img/venue.png') no-repeat center
+    center/cover;
+  padding: 5.4rem 5.3rem;
+}
+.timeTableManagement {
+  background: url('./img/timetable.png') no-repeat center
+    center/cover;
+  padding: 5.4rem 5.3rem;
+}
 
 .venuesManagement {
   background: url('./img/venue.png') no-repeat center center/cover;

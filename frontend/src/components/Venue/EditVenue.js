@@ -1,36 +1,57 @@
-import React, { Fragment, useState } from 'react';
-
-import { connect } from 'react-redux';
-import { Venue} from '../../actions/venues';
+import React, { Fragment, useState, useEffect } from 'react';
+import { Link, useMatch, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-const AddVenue = ({ Venue }) => {
-    const [formData, setFormData] = useState({
-        vName:'',
-        vID:'',
-        type:'',
-        size:'',
-        floor:'',
-        faculty:''
-    });
-    const navigate = useNavigate();
-  const { vName,vID,type,size,floor,faculty} = formData;
-  const onchange = (e) =>
-  setFormData({ ...formData, [e.target.name]: e.target.value });
-    const onsubmit = async (e) => {
-        e.preventDefault();
-        
-        Venue(formData,navigate);
-      };
+import { connect } from 'react-redux';
+import { updateVenueByID, getVenueID } from '../../actions/venues';
+import { useParams } from 'react-router-dom';
+const initialState = {
+    
+    vName:'',
+     vID:'',
+     type:'',
+    size:'',
+    floor:'',
+    faculty:''
+};
+const EditVenue=({
+    venue: { venue, loading },
+    updateVenueByID,
+    getVenueID
+  }) => {
+    const [formData, setFormData] = useState(initialState);
+    const {id }= useParams();
+    const updateVenue = useMatch('/updateVenueByID');
+    useEffect(() => {
+        if (!venue) getVenueID(id);
+        if (!loading && venue) {
+          const venueData = { ...initialState };
+          for (const key in venue) {
+            if (key in venueData) venueData[key] = venue[key];
+          }
+          setFormData(venueData);
+        }
+      }, [loading, getVenueID, venue]);
+      const {
+ 
+        vName,vID,type,size,floor,faculty
+      
+      
+      }=formData;
+      const navigate = useNavigate();
+const onchange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
-      return (
-        <Fragment>
-          <section className='container container-margin-top-override'>
-            {/* <h1 className='large text-primary'>Module Management</h1> */}
-            <p className='lead'>Add Venues</p>
-            <form className='form' onSubmit={(e) => onsubmit(e)}>
-              <div className='form-group'>
+  const onsubmit = (e) => {
+    e.preventDefault();
+    updateVenueByID(id ,formData,navigate);
+  };
+  return (
+    <Fragment>
+      <section className='container container-margin-top-override'>
+        {/* <h1 className='large text-primary'>Module Management</h1> */}
+        <p className='lead'>Edit Venue</p>
+        <form className='form' onSubmit={(e) => onsubmit(e)}>
+        <div className='form-group'>
                 Venue Name
                 <small className='form-text'>
                   Will be rejected if venue already exists
@@ -54,6 +75,7 @@ const AddVenue = ({ Venue }) => {
                   name='vID'
                   value={vID}
                   onChange={(e) => onchange(e)}
+                  disabled
                 />
               </div>
               <div className='form-group'>
@@ -120,9 +142,16 @@ const AddVenue = ({ Venue }) => {
         </Fragment>
       );
     };
-    AddVenue.propTypes = {
-        Venue: PropTypes.func.isRequired,
+    EditVenue.propTypes = {
+        updateVenueByID: PropTypes.func.isRequired,
+        getVenueID: PropTypes.func.isRequired,
+        venue: PropTypes.object.isRequired
       };
       
-      export default connect(null, { Venue })(AddVenue);
+      const mapStateToProps = (state) => ({
+        venue: state.venue
+      });
       
+      export default connect(mapStateToProps, { updateVenueByID, getVenueID })(
+        EditVenue
+      );

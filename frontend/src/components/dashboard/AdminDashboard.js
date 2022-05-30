@@ -18,12 +18,12 @@ const AdminDashboard = ({ auth: { admin } }) => {
 
       <Link className='btn empManagement' to='/employeeManagement'></Link>
       <Link className='btn moduleManagement' to='/ListModules'></Link>
-      <Link className='btn' to='/timetableManagement'>
-        Timetable Management
+      <Link className='btn timeTableManagement' to='/timetableManagement'>
+     
       </Link>
       <Link className='btn initialConfig' to='/initialConfig'></Link>
-      <Link className='btn' to='/AddVenues'>
-        Venues
+      <Link className='btn VenueManagement' to='/ListVenues'>
+       
       </Link>
     </Fragment>
   );
