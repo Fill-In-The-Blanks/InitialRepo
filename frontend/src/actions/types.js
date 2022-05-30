@@ -19,3 +19,7 @@ export const EMPLOYEE_ERROR = 'EMPLOYEE_ERROR';
 
 export const GET_SLOTS = 'GET_SLOTS';
 export const SLOT_ERROR = 'SLOT_ERROR';
+
+export const GET_VENUE = 'GET_VENUE';
+export const GET_VENUES = 'GET_VENUES';
+export const VENUE_ERROR = 'VENUE_ERROR';
