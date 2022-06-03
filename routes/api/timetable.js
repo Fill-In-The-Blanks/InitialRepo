@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
+const Timetable = require('../../model/TimeTable')
 const { check, validationResult } = require('express-validator');
 
 const Slot = require('../../model/Slot');
@@ -99,4 +100,49 @@ router.post('/slots', auth, async (req, res) => {
   }
 });
 
+router.post('/createTimeTable' , async(req,res)=>
+{
+    req.body.timetable.forEach(async (item)=>{
+      try {
+        let result = await new Timetable({
+          module : item.module, 
+          startTime : item.startTime, 
+          endTime : item.endTime, 
+          empName : item.empName, 
+          empNo : item.empNo , 
+          sessionType : item.sessionType,
+          venue : item.venue, 
+          day : item.dayOfTheWeek,
+          slotID : item._id
+        }).save()
+        let result2 = await Slot.updateOne({_id : item._id} ,{assigned : true})
+      } catch (error) {
+        console.log(error)
+      }
+      
+    })
+    res.status(200).send("added")
+})
+
+router.post('/deleteSlots' , async(req , res)=>
+{
+  try {
+    await Timetable.deleteMany({slotID : req.body.slotID})
+    const test3 = await Slot.findByIdAndUpdate(req.body.slotID ,{$set : {assigned : false}}) 
+    
+    
+    res.status(200).send("result")
+  } catch (error) {
+    res.status(500).send("internal server error")
+  }
+})
+router.get('/getTimeTable' , async (req, res)=>
+{
+  try {
+    const result = await Timetable.find()
+    res.status(200).send(result)
+  } catch (error) {
+    
+  }
+})
 module.exports = router;

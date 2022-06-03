@@ -28,7 +28,9 @@ const TimetableManagement = ({
         <Link to={`/timetableManagement`}>
           <button className='btn btn-primary'>List Slots</button>
         </Link>
-
+        <Link to={`/allocateSlot`}>
+          <button className='btn btn-primary'>Allocate Sots</button>
+        </Link>
         <button
           className='btn btn-danger'
           style={{ float: 'right' }}

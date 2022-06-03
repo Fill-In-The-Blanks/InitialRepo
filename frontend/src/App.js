@@ -25,8 +25,9 @@ import setAuthToken from './utils/setAuthToken';
 import { loadAdmin } from './actions/auth';
 
 //Redux
-import { Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
+import { connect, Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
 import store from './store';
+import TimeTableAllocate from './components/timetable/TimeTableAllocate';
 
 const Contained = () => {
   return (
@@ -78,6 +79,7 @@ const App = () => {
               <Route path='/EditModules/:id' element={<EditModule />} />
               <Route path='/initialConfig' element={<InitialConfig />} />
               <Route path='/listEmployees' element={<Employees />} />
+              <Route path='/allocateSlot' element={<TimeTableAllocate />} />
             </Route>
           </Routes>
         </Fragment>
