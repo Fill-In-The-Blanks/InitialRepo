@@ -20,7 +20,7 @@ import List from './components/Modules/Modules';
 import EditModule from './components/Modules/EditModule';
 import InitialConfig from './components/initialConfig/InitialConfig';
 import AddVenue from './components/Venue/AddVenue';
-import ListVenue from './components/Venue/Venue'
+import ListVenue from './components/Venue/Venue';
 import SlotsConfirmationDialog from './components/dialogBox/SlotsConfirmationDialog';
 import EditVenue from './components/Venue/EditVenue';
 /* import { useNavigate } from 'react-router-dom'; */
@@ -88,10 +88,11 @@ const App = () => {
                 path='/slotsConfirmation'
                 element={<SlotsConfirmationDialog />}
               />
-            </Route>
-            <Route path='/ListVenues' element={<ListVenue />} />
-            <Route path='/EditVenues' element={<EditVenue />} />
+              <Route path='/ListVenues' element={<ListVenue />} />
+              <Route path='/EditVenues' element={<EditVenue />} />
               <Route path='/Editvenues/:id' element={<EditVenue />} />
+            </Route>{' '}
+            {/* Don't put routes outside this. Putting outside will override the container and display the elements under/above the navbar */}
           </Routes>
         </Fragment>
       </Router>
