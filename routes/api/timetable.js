@@ -4,7 +4,9 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const Slot = require('../../model/Slot');
-const Module=require('../../model/modules');
+const Module = require('../../model/modules');
+const Venue = require('../../model/Venues');
+const Venues = require('../../model/Venues');
 // @route   GET api/timetable
 // @desc    Get all slots
 // @access  private
@@ -55,7 +57,6 @@ router.post('/slots', auth, async (req, res) => {
   const sheet = req.body;
   const skippedEntries = [];
 
-
   try {
     /* console.log(sheet); */
     for (slot in sheet) {
@@ -77,15 +78,15 @@ router.post('/slots', auth, async (req, res) => {
       }
 
       let found = await Slot.findOne({ startTime, dayOfTheWeek, group });
-     
-      let moduleObject= await Module.findOne({moduleName:module});
-      
+
+      let moduleObject = await Module.findOne({ moduleName: module });
+
+      let venueObject = await Venues.findOne({ vName: venue }); // venueObject variable,
+
       if (found) {
         /* console.log(found + ' was found'); */
         continue;
       }
-     
-     
 
       slot = new Slot({
         startTime,
@@ -98,19 +99,25 @@ router.post('/slots', auth, async (req, res) => {
         staffRequirement,
       });
 
-     //console.log(moduleObject);
+      //console.log(moduleObject);
 
-    if(!moduleObject){
-     
-      moduleObject = new Module ({
-        moduleName:module
-     });
-      
-     await moduleObject.save();
-    }
+      if (!moduleObject) {
+        moduleObject = new Module({
+          moduleName: module,
+        });
+
+        await moduleObject.save();
+      }
+
+      if (!venueObject) {
+        venueObject = new Venues({
+          vName: venue,
+        });
+
+        await venueObject.save();
+      }
 
       await slot.save();
-     
     }
   } catch (error) {
     console.error(error.message);
