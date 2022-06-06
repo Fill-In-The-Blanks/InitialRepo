@@ -3,24 +3,24 @@ const mongoose = require('mongoose');
 const ModuleSchema = new mongoose.Schema({
   moduleName: {
     type: String,
-    required: true,
+    required:true,
+    unique:true
   },
   ModuleID: {
     type: String,
-    required: true,
-    unique: true,
+    
   },
   specialization: {
     type: String,
-    required: true,
+    
   },
   year: {
     type: String,
-    required: true,
+   
   },
   semester: {
     type: String,
-    required: true,
+    
   },
 });
 

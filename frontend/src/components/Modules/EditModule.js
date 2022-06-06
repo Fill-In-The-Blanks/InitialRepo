@@ -65,6 +65,7 @@ const onchange = (e) =>
               name='moduleName'
               value={moduleName}
               onChange={(e) => onchange(e)}
+              disabled
             />
           </div>
           <div className='form-group'>
@@ -78,7 +79,7 @@ const onchange = (e) =>
               name='ModuleID'
               value={ModuleID}
               onChange={(e) => onchange(e)}
-              disabled
+             
             />
           </div>
           <div className='form-group'>
