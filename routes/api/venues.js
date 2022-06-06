@@ -29,7 +29,7 @@ router.post(
 
     try {
       //see if the module exists
-      let venue = await Venues.findOne({ vID });
+      let venue = await Venues.findOne({ vName });
       if (venue) {
         res.status(400).json({ errors: [{ msg: 'venue already exists' }] });
       }
