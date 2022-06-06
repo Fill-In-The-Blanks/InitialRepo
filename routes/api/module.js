@@ -28,7 +28,7 @@ router.post(
 
     try {
       //see if the module exists
-      let module = await Module.findOne({ ModuleID });
+      let module = await Module.findOne({ moduleName });
       if (module) {
         res.status(400).json({ errors: [{ msg: 'Module already exists' }] });
       }
@@ -48,8 +48,8 @@ router.post(
 
       res.send('Module Added Succesfully');
     } catch (err) {
-      /* console.error(err.message); */
-      res.status(500).send('Server error');
+      console.error(err.message);
+      //res.status(500).send('Server error')
     }
   }
 );
