@@ -16,6 +16,7 @@ const AdminDashboard = ({ auth: { admin } }) => {
         {/* <i className='fas fa-user'></i> */} Managements
       </p>
 
+
       <Link className='btn empManagement' to='/employeeManagement'></Link>
       <Link className='btn moduleManagement' to='/ListModules'></Link>
       <Link className='btn timeTableManagement' to='/timetableManagement'>
@@ -25,6 +26,16 @@ const AdminDashboard = ({ auth: { admin } }) => {
       <Link className='btn VenueManagement' to='/ListVenues'>
        
       </Link>
+
+      <div className="container" style={{ height: "100vh" }}>
+        <Link className='rounded float-start m-3 empManagement' to='/employeeManagement'></Link>
+        <Link className='rounded float-start m-3 moduleManagement' to='/ListModules'></Link>
+        <Link className='rounded float-start m-3 initialConfig' to='/initialConfig'></Link>
+        <Link class='btn' to='/timetableManagement'>
+          Timetable Management
+        </Link>
+      </div>
+
     </Fragment>
   );
 };
