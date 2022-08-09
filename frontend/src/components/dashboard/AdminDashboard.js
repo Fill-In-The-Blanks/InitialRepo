@@ -15,34 +15,36 @@ const AdminDashboard = ({ auth: { admin } }) => {
       <p className='lead'>
         {/* <i className='fas fa-user'></i> */} Managements
       </p>
-
-<<<<<<< HEAD
       <Link className='btn empManagement' to='/employeeManagement'></Link>
       <Link className='btn moduleManagement' to='/ListModules'></Link>
-      <Link className='btn timeTableManagement' to='/timetableManagement'>
-     
-      </Link>
+      <Link
+        className='btn timeTableManagement'
+        to='/timetableManagement'
+      ></Link>
       <Link className='btn initialConfig' to='/initialConfig'></Link>
-      <Link className='btn VenueManagement' to='/ListVenues'>
-       
-      </Link>
-=======
-      <div className="container" style={{ height: "100vh" }}>
-        <Link className='rounded float-start m-3 empManagement' to='/employeeManagement'></Link>
-        <Link className='rounded float-start m-3 moduleManagement' to='/ListModules'></Link>
-        <Link className='rounded float-start m-3 initialConfig' to='/initialConfig'></Link>
+      <Link className='btn VenueManagement' to='/ListVenues'></Link>
+      <div className='container' style={{ height: '100vh' }}>
+        <Link
+          className='rounded float-start m-3 empManagement'
+          to='/employeeManagement'
+        ></Link>
+        <Link
+          className='rounded float-start m-3 moduleManagement'
+          to='/ListModules'
+        ></Link>
+        <Link
+          className='rounded float-start m-3 initialConfig'
+          to='/initialConfig'
+        ></Link>
         <Link class='btn' to='/timetableManagement'>
           Timetable Management
         </Link>
       </div>
-
->>>>>>> df18513dcd9a77c662ec01bb277c27876db05c6d
     </Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
-  
   auth: state.auth,
 });
 

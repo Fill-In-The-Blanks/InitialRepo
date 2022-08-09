@@ -20,7 +20,6 @@ app.use('/api/module', require('./routes/api/module'));
 app.use('/api/timetable', require('./routes/api/timetable'));
 app.use('/api/venues', require('./routes/api/venues'));
 
-
 // server static assets in production
 if (process.env.NODE_ENV === 'production') {
   // set static folder
@@ -31,6 +30,6 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

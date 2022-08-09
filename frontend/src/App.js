@@ -20,7 +20,7 @@ import List from './components/Modules/Modules';
 import EditModule from './components/Modules/EditModule';
 import InitialConfig from './components/initialConfig/InitialConfig';
 import AddVenue from './components/Venue/AddVenue';
-import ListVenue from './components/Venue/Venue'
+import ListVenue from './components/Venue/Venue';
 import SlotsConfirmationDialog from './components/dialogBox/SlotsConfirmationDialog';
 import EditVenue from './components/Venue/EditVenue';
 /* import { useNavigate } from 'react-router-dom'; */
@@ -83,20 +83,18 @@ const App = () => {
               <Route path='/EditModules/:id' element={<EditModule />} />
               <Route path='/initialConfig' element={<InitialConfig />} />
               <Route path='/listEmployees' element={<Employees />} />
-<<<<<<< HEAD
+
               <Route path='/updateEmployee/:id' element={<UpdateEmployee />} />
               <Route path='/AddVenues' element={<AddVenue />} />
               <Route
                 path='/slotsConfirmation'
                 element={<SlotsConfirmationDialog />}
               />
-=======
               <Route path='/allocateSlot' element={<TimeTableAllocate />} />
->>>>>>> df18513dcd9a77c662ec01bb277c27876db05c6d
             </Route>
             <Route path='/ListVenues' element={<ListVenue />} />
             <Route path='/EditVenues' element={<EditVenue />} />
-              <Route path='/Editvenues/:id' element={<EditVenue />} />
+            <Route path='/Editvenues/:id' element={<EditVenue />} />
           </Routes>
         </Fragment>
       </Router>
