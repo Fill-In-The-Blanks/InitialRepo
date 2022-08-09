@@ -22,6 +22,7 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
       <section className='container container-margin-top-override'>
         <p className='lead'>Timetable Management</p>
 
+<<<<<<< HEAD
         {buttonStatus.delete ? (
           <Fragment>
             <SlotsConfirmationDialog
@@ -30,6 +31,29 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
               deleteP={buttonStatus.delete}
             />
           </Fragment>
+=======
+        <Link to={`/`}>
+          <button className='btn btn-primary' style={{ marginBottom: '5px' }}>
+            Add Slot
+          </button>
+        </Link>
+        <Link to={`/timetableManagement`}>
+          <button className='btn btn-primary'>List Slots</button>
+        </Link>
+        <Link to={`/allocateSlot`}>
+          <button className='btn btn-primary'>Allocate Sots</button>
+        </Link>
+        <button
+          className='btn btn-danger'
+          style={{ float: 'right' }}
+          onClick={() => deleteSlots()}
+        >
+          Delete All Slots{' '}
+        </button>
+
+        {slots.length > 0 ? (
+          <TimetableItem slots={slots} />
+>>>>>>> df18513dcd9a77c662ec01bb277c27876db05c6d
         ) : (
           <Fragment>
             <Link to={`/`}>
