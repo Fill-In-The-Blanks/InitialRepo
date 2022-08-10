@@ -14,7 +14,7 @@ export default combineReducers({
   employee,
   timetable,
   venue,
-  /*   notice */
+  /*   notice, */
 });
 
 // this gets imported in the store.js file
