@@ -1,6 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db');
-const path = require('path');
+const path = require('path'); //NodeJS path module is a core built-in module. It provides functionalities for accessing and interacting with files. It provides users a way of working with file paths and directories.
 
 const app = express();
 
@@ -19,7 +19,6 @@ app.use('/api/employee', require('./routes/api/employee'));
 app.use('/api/module', require('./routes/api/module'));
 app.use('/api/timetable', require('./routes/api/timetable'));
 app.use('/api/venues', require('./routes/api/venues'));
-
 
 // server static assets in production
 if (process.env.NODE_ENV === 'production') {

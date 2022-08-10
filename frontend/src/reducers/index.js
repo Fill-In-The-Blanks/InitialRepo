@@ -12,7 +12,7 @@ export default combineReducers({
   module,
   employee,
   timetable,
-  venue
+  venue,
 });
 
 // this gets imported in the store.js file

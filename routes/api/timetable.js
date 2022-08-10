@@ -5,8 +5,9 @@ const { check, validationResult } = require('express-validator');
 
 const Slot = require('../../model/Slot');
 const Module = require('../../model/modules');
-const Venue = require('../../model/Venues');
 const Venues = require('../../model/Venues');
+const Timetable = require('../../model/TimeTable');
+
 // @route   GET api/timetable
 // @desc    Get all slots
 // @access  private
@@ -122,6 +123,30 @@ router.post('/slots', auth, async (req, res) => {
   } catch (error) {
     console.error(error.message);
   }
+});
+
+// @route   POST api/timetable/createTimeTable
+// @desc    Allocate slots to instructors
+// @access  private
+router.post('/createTimeTable', async (req, res) => {
+  req.body.forEach(async (item) => {
+    try {
+      await new Timetable({
+        module: item.module,
+        startTime: item.startTime,
+        endTime: item.endTime,
+        empName: item.empName,
+        empNo: item.empNo,
+        sessionType: item.sessionType,
+        venue: item.venue,
+        day: item.dayOfTheWeek,
+        slotID: item._id,
+      }).save();
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  res.status(200).send('added');
 });
 
 module.exports = router;
