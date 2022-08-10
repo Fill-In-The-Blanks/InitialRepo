@@ -23,8 +23,10 @@ import AddVenue from './components/Venue/AddVenue';
 import ListVenue from './components/Venue/Venue'
 import SlotsConfirmationDialog from './components/dialogBox/SlotsConfirmationDialog';
 import EditVenue from './components/Venue/EditVenue';
+// import AddNotice from './components/Notices/AddNotice'
 /* import { useNavigate } from 'react-router-dom'; */
 import setAuthToken from './utils/setAuthToken';
+
 
 import { loadAdmin } from './actions/auth';
 
@@ -92,6 +94,7 @@ const App = () => {
             <Route path='/ListVenues' element={<ListVenue />} />
             <Route path='/EditVenues' element={<EditVenue />} />
               <Route path='/Editvenues/:id' element={<EditVenue />} />
+              {/* <Route path='/AddNotice' element={<AddNotice/>} /> */}
           </Routes>
         </Fragment>
       </Router>

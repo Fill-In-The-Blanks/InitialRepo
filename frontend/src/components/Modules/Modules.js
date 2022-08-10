@@ -1,10 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getModules } from '../../actions/modules_auth';
 import ModuleItem from './ModuleItem';
+
+
+
+
 
 const List = ({
   getModules,
@@ -27,7 +32,13 @@ const List = ({
           <button className='btn btn-success'>+</button>
         </Link>
       </div>
+
+      <div>
+        
+      </div>
     </Fragment>
+
+    
   );
 };
 
