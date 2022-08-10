@@ -4,7 +4,7 @@ const router = express.Router();
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
-const Module = require('../../model/modules') //importing admin model for line 24
+const Module = require('../../model/modules') //importing Module model for line 24
 
 // @route   POST api/module
 // @desc    Register a module
@@ -28,7 +28,7 @@ router.post('/', [
 
     try {
         
-        //see if the module exists
+        //see if the module exists 
         let module = await Module.findOne({moduleName});
         if(module){
             res.status(400).json({errors: [{msg:'Module already exists'}]});
@@ -172,5 +172,26 @@ router.get('/:id', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+// @route   GET api/module/:name
+// @desc    Get module by name
+// @access  private
+router.get('/search/:name', async (req, res) => {
+    try {
+        const module = await Module.findOne({ moduleName: { $regex: new RegExp("^" + req.params.name + "$", "i") } });
+
+        if(!module) {
+            return res.status(404).json({ msg: 'Module not found' });
+        }
+
+        res.json(module);
+    } catch (err) {
+        console.error(err.message);
+        if(err.kind === 'String') {
+            return res.status(404).json({ msg: 'Module not found' });
+        }
+        res.status(500).send('Server error');
+    }
+});
+
 
 module.exports = router;
