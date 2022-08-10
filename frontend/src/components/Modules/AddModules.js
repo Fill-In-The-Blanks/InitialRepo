@@ -41,6 +41,7 @@ const AddModule = ({ Modules }) => {
               name='moduleName'
               value={moduleName}
               onChange={(e) => onchange(e)}
+              
             />
           </div>
           <div className='form-group'>

@@ -250,6 +250,11 @@ img {
   padding: 5.4rem 5.3rem;
 }
 
+.NoticesManagement {
+  background: url('./img/Notices.png') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
+}
+
 .bg-light,
 .badge-light {
   border: #ccc solid 1px;
@@ -641,5 +646,12 @@ button {
   .post a,
   .post button {
     padding: 0.3rem 0.4rem;
+  }
+  .searchbox{
+  height: 50px;
+  width: 400px;
+  margin: 20px;
+  border: solid skyblue;
+
   }
 }
