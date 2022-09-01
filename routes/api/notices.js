@@ -51,4 +51,44 @@ router.post(
     }
   }
 );
+
+//Start from here 
+// @route   GET api/module
+//@desc get all module details
+// @access  Public
+
+router.get('/', async (req, res) => {
+  try {
+    const notices = await Notice.find();
+    res.json(notices);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+
+
+
+
+// @route   DELETE api/module
+//@desc get all module details
+// @access  Public
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const notice = await Notice.findById(req.params.id);
+    if (!notice) {
+      return res.status(404).json({ msg: 'Notice Not Found' });
+    }
+
+    await notice.remove();
+    res.json({ msg: 'Notice Removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
