@@ -6,6 +6,7 @@ import { deleteModule } from '../../actions/modules_auth';
 import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
+import axios from 'axios';
 const pdfGenerate =(e)=>{
   var doc=new jsPDF('landscape','px','a4','false');
   doc.addImage(logo,'PNG',100,200,400,200);
@@ -18,6 +19,7 @@ const ModuleItem = ({ module, deleteModule }) => {
   const [value,SetValue]=useState('');
   const [dataSource,SetdataSource]=useState(module);
   const [tableFilter,SetTableFilter]=useState([]);
+  //const [sortvalue,SetsortValue]=useState('');
   
   const filterData=(e)=>{
     if(e.target.value!=""){
@@ -30,6 +32,18 @@ const ModuleItem = ({ module, deleteModule }) => {
     }
 
   }
+
+  const handleFilter = (value)=>{
+    SetValue(value);
+    const filterData=dataSource.filter(module=>module.specialization===value);
+    SetTableFilter([...filterData]);
+  
+  }
+
+  
+
+  
+  
   
   const modules =  value.length > 0 ? tableFilter.map((mod) => (
     
@@ -91,6 +105,17 @@ const ModuleItem = ({ module, deleteModule }) => {
     value={value}
     onChange={filterData}/>
   </div>
+  <div>
+       <h3>Filter by specialization</h3>
+       <button className=' btn btn-success'  onClick={()=>handleFilter("SE")}>SE</button>
+       <button className=' btn btn-success'onClick={()=>handleFilter("IT")}>IT</button>
+       <button className=' btn btn-success'onClick={()=>handleFilter("CSNE")}>CSNE</button>
+       <button className='  btn btn-success'onClick={()=>handleFilter("ISE")}>ISE</button>
+       <button className=' btn btn-success'onClick={()=>handleFilter("CS")}>CS</button>
+       <button className='  btn btn-success'onClick={()=>handleFilter("IM")}>IM</button>
+       <button className='  btn btn-success'onClick={()=>handleFilter("DM")}>DM</button>
+  </div>
+  
   
       <table className='table' id='module-table'>
         <thead>
