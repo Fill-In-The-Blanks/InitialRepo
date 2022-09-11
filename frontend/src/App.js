@@ -20,7 +20,7 @@ import List from './components/Modules/Modules';
 import EditModule from './components/Modules/EditModule';
 import InitialConfig from './components/initialConfig/InitialConfig';
 import AddVenue from './components/Venue/AddVenue';
-import ListVenue from './components/Venue/Venue'
+import ListVenue from './components/Venue/Venue';
 import SlotsConfirmationDialog from './components/dialogBox/SlotsConfirmationDialog';
 import EditVenue from './components/Venue/EditVenue';
 /* import { useNavigate } from 'react-router-dom'; */
@@ -32,6 +32,7 @@ import { loadAdmin } from './actions/auth';
 import { connect, Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
 import store from './store';
 import TimeTableAllocate from './components/timetable/TimeTableAllocate';
+import AllocatedTime from './components/timetable/AllocatedTime ';
 
 const Contained = () => {
   return (
@@ -90,10 +91,11 @@ const App = () => {
                 element={<SlotsConfirmationDialog />}
               />
               <Route path='/allocateSlot' element={<TimeTableAllocate />} />
+              <Route path='/allocatedSlot' element={<AllocatedTime />} />
             </Route>
             <Route path='/ListVenues' element={<ListVenue />} />
             <Route path='/EditVenues' element={<EditVenue />} />
-              <Route path='/Editvenues/:id' element={<EditVenue />} />
+            <Route path='/Editvenues/:id' element={<EditVenue />} />
           </Routes>
         </Fragment>
       </Router>
