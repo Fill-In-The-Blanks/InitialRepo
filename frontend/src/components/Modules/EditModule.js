@@ -83,13 +83,12 @@ const onchange = (e) =>
             />
           </div>
           <div className='form-group'>
-            Specialization
+          Specialization
             <small className='form-text'>Specialization in computing only</small>
             <select
-              name='specilization'
+              name='specialization'
               value={specialization}
-              onChange={(e) => onchange(e)}
-            >
+              onChange={(e) => onchange(e)}>
               <option value='0'>* Select the Specialization</option>
               <option value='SE'>SE</option>
               <option value='IT'>IT</option>
@@ -130,7 +129,7 @@ const onchange = (e) =>
               
             </select>
           </div>
-
+      
           <input type='submit' className='btn btn-primary' value='Confirm' />
           <Link to='/ListModules'>
             <input type='reset' className='btn btn-primary' value='Cancel' />

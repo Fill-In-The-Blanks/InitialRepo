@@ -24,24 +24,7 @@ const AdminDashboard = ({ auth: { admin } }) => {
       ></Link>
       <Link className='btn initialConfig' to='/initialConfig'></Link>
       <Link className='btn VenueManagement' to='/ListVenues'></Link>
-      <Link class='btn' to='/timetableManagement'>
-        Timetable Management
-      </Link>
-
-      {/* <div className='container' style={{ height: '100vh' }}>
-        <Link
-          className='rounded float-start m-3 empManagement'
-          to='/employeeManagement'
-        ></Link>
-        <Link
-          className='rounded float-start m-3 moduleManagement'
-          to='/ListModules'
-        ></Link>
-        <Link
-          className='rounded float-start m-3 initialConfig'
-          to='/initialConfig'
-        ></Link>
-      </div> */}
+      <Link className='btn NoticesManagement' to='/AddNotice'></Link>
     </Fragment>
   );
 };
