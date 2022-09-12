@@ -133,7 +133,6 @@ router.post('/createTimeTable', async (req, res) => {
         endTime: item.endTime,
         empName: item.empName,
         empNo: item.empNo,
-        sessionType: item.sessionType,
         venue: item.venue,
         day: item.dayOfTheWeek,
         slotID: item._id,
