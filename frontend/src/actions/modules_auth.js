@@ -126,4 +126,25 @@ export const getModuleByID = (ModuleID) => async (dispatch) => {
       });
   }
 }
+
+export const getModuleByName = (moduleName) => async (dispatch) => {
+  try {
+      console.log('I reached here');
+
+      const res = await axios.get(`/api/module/search/${moduleName}`);
+
+      
+      console.log(res);
+
+      dispatch({
+          type: GET_MODULE,
+          payload: res.data
+      });
+  } catch (err) {
+      dispatch({
+          type: MODULE_ERROR,
+          payload: { msg: err.response.statusText, status: err.response.status }
+      });
+  }
+}
     

@@ -32,14 +32,19 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
           </Fragment>
         ) : (
           <Fragment>
-            <Link to={`/`}>
+            {/* <Link to={`/`}>
               <button
                 className='btn btn-primary'
                 style={{ marginBottom: '5px' }}
               >
                 Add Slot
               </button>
+            </Link> */}
+
+            <Link to={`/allocateSlot`}>
+              <button className='btn btn-primary'>Allocate Sots</button>
             </Link>
+
             <Link to={`/timetableManagement`}>
               <button className='btn btn-primary'>List Slots</button>
             </Link>

@@ -4,23 +4,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getVenues } from '../../actions/venues';
-import VenueItem from './VenueItem'
+import VenueItem from './VenueItem';
 
-const ListVenue=({
+const ListVenue = ({
   getVenues,
   venue: { venues, loading },
   auth: { admin },
-})=> {
+}) => {
   useEffect(() => {
     getVenues();
   }, []);
   return (
     <Fragment>
       <section className='container container-margin-top-override'>
-      <p className='lead'>
+        <p className='lead'>
           {/* <i className='fas fa-user'></i> */} Venue Management
         </p>
-        {venues.length >0  ? (
+        {venues.length > 0 ? (
           <VenueItem venue={venues} />
         ) : (
           <h4>No Venues found</h4>
@@ -28,7 +28,7 @@ const ListVenue=({
         <Link to={`/addVenues`}>
           <button className='btn btn-success'>+</button>
         </Link>
-      </section >
+      </section>
     </Fragment>
   );
 };

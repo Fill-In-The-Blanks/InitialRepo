@@ -32,9 +32,14 @@ const SlotSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  assigned :
+  {
+    type: Boolean, 
+    default : false
+  }
 });
-
-module.exports = Slot = mongoose.model('slot', SlotSchema); // Slot is the variable, slot is the name of the model used for reference, SlotSchema is the model schema
+const Slot = mongoose.model('slot', SlotSchema);
+module.exports = Slot  // Slot is the variable, slot is the name of the model used for reference, SlotSchema is the model schema
 
 //start time, end time, day of the week, module, venue, group, lab/lecture/tutorial, staff requirement
 
