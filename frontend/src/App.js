@@ -30,8 +30,10 @@ import setAuthToken from './utils/setAuthToken';
 import { loadAdmin } from './actions/auth';
 
 //Redux
-import { Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
+import { connect, Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
 import store from './store';
+import TimeTableAllocate from './components/timetable/TimeTableAllocate';
+import AllocatedTime from './components/timetable/AllocatedTime ';
 
 const Contained = () => {
   return (
@@ -89,6 +91,8 @@ const App = () => {
                 path='/slotsConfirmation'
                 element={<SlotsConfirmationDialog />}
               />
+              <Route path='/allocateSlot' element={<TimeTableAllocate />} />
+              <Route path='/allocatedSlot' element={<AllocatedTime />} />
               <Route path='/ListVenues' element={<ListVenue />} />
               <Route path='/EditVenues' element={<EditVenue />} />
               <Route path='/Editvenues/:id' element={<EditVenue />} />
