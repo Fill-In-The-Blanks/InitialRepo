@@ -4,8 +4,9 @@ import { connect, shallowEqual } from 'react-redux';
 import { deleteSlot } from '../../actions/timetable';
 
 const TimetableItem = ({ slots, deleteSlot }) => {
-  const slotsMapped = slots.map((slot) => (
+  const slotsMapped = slots.map((slot, index) => (
     <tr key={slot._id}>
+      <td>{index + 1}</td>
       <td>
         {slot.startTime} - {slot.endTime}
       </td>
@@ -13,7 +14,6 @@ const TimetableItem = ({ slots, deleteSlot }) => {
       <td>{slot.module}</td>
       <td>{slot.venue}</td>
       <td>{slot.group}</td>
-      <td>{slot.sessionType}</td>
       <td>{slot.staffRequirement}</td>
       <td>
         {' '}
@@ -29,6 +29,9 @@ const TimetableItem = ({ slots, deleteSlot }) => {
         <thead>
           <tr>
             <th className='hide-sm' style={{ textAlign: 'center' }}>
+              No.
+            </th>
+            <th className='hide-sm' style={{ textAlign: 'center' }}>
               Time Slot
             </th>
             <th className='hide-sm' style={{ textAlign: 'center' }}>
@@ -42,9 +45,6 @@ const TimetableItem = ({ slots, deleteSlot }) => {
             </th>
             <th className='hide-sm' style={{ textAlign: 'center' }}>
               Group
-            </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
-              Session Type
             </th>
             <th className='hide-sm' style={{ textAlign: 'center' }}>
               Staff Requirement
