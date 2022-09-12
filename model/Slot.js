@@ -24,22 +24,21 @@ const SlotSchema = new mongoose.Schema({
   group: {
     type: String,
   },
-  sessionType: {
+  /* sessionType: {
     type: String,
     required: true,
-  },
+  }, */
   staffRequirement: {
     type: Number,
-    required: true,
+    default: 2,
   },
-  assigned :
-  {
-    type: Boolean, 
-    default : false
-  }
+  assigned: {
+    type: Boolean,
+    default: false,
+  },
 });
 const Slot = mongoose.model('slot', SlotSchema);
-module.exports = Slot  // Slot is the variable, slot is the name of the model used for reference, SlotSchema is the model schema
+module.exports = Slot; // Slot is the variable, slot is the name of the model used for reference, SlotSchema is the model schema
 
 //start time, end time, day of the week, module, venue, group, lab/lecture/tutorial, staff requirement
 
