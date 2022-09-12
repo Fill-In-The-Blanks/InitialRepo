@@ -152,12 +152,6 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
             <th scope='col' style={{ textAlign: 'center' }}>
               Group
             </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
-              Session Type
-            </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
-              Staff Requirement
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -174,8 +168,6 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
               <td>{row.module}</td>
               <td>{row.venue}</td>
               <td>{row.group}</td>
-              <td>{row.sessionType}</td>
-              <td>{row.staffRequirement}</td>
             </tr>
           ))}
         </tbody>

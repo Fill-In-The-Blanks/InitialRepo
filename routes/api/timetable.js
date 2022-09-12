@@ -66,7 +66,8 @@ router.post('/slots', auth, async (req, res) => {
       const dayOfTheWeek = sheet[slot][Object.keys(sheet[slot])[2]];
       const module = sheet[slot][Object.keys(sheet[slot])[3]];
       const venue = sheet[slot][Object.keys(sheet[slot])[4]];
-      let group = '',
+      const group = sheet[slot][Object.keys(sheet[slot])[5]];
+      /* let group = '',
         sessionType = '',
         staffRequirement = '';
       if (sheet[slot][Object.keys(sheet[slot])[5]][0] == 'Y') {
@@ -76,7 +77,7 @@ router.post('/slots', auth, async (req, res) => {
       } else {
         sessionType = sheet[slot][Object.keys(sheet[slot])[5]];
         staffRequirement = sheet[slot][Object.keys(sheet[slot])[6]];
-      }
+      } */
 
       let found = await Slot.findOne({ startTime, dayOfTheWeek, group });
 
@@ -96,8 +97,6 @@ router.post('/slots', auth, async (req, res) => {
         module,
         venue,
         group,
-        sessionType,
-        staffRequirement,
       });
 
       //console.log(moduleObject);
