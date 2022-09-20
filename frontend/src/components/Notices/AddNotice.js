@@ -27,15 +27,25 @@ const AddNotice = ({ Notices }) => {
     Notices(formData);
   };
   return (
+
     <Fragment>
+      
       <section className="container container-margin-top-override">
         <p className="lead">Add Notices</p>
+        <Link to={`/AddNotice`}>
+          <button className='btn btn-primary'>AddNotice Notices</button>
+        </Link>
+        <Link to={`/notices`}>
+          <button className='btn btn-primary'>List Notices</button>
+        </Link>
+
         <form className="form" onSubmit={(e) => onsubmit(e)}>
           <div className="form-group">
             Notice Number
             <small className="form-text">
               Will be rejected if not a number
             </small>
+
             <input
               type="number"
               placeholder="Notice Number"

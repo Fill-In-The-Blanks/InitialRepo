@@ -24,6 +24,7 @@ import ListVenue from './components/Venue/Venue';
 import SlotsConfirmationDialog from './components/dialogBox/SlotsConfirmationDialog';
 import EditVenue from './components/Venue/EditVenue';
  import AddNotice from './components/Notices/AddNotice'
+ import Notices from './components/Notices/Notices'
 /* import { useNavigate } from 'react-router-dom'; */
 import setAuthToken from './utils/setAuthToken';
 
@@ -85,6 +86,7 @@ const App = () => {
               <Route path='/listEmployees' element={<Employees />} />
               <Route path='/updateEmployee/:id' element={<UpdateEmployee />} />
               <Route path='/AddVenues' element={<AddVenue />} />
+              <Route path='/notices' element={<Notices/>}/>
               <Route
                 path='/slotsConfirmation'
                 element={<SlotsConfirmationDialog />}
