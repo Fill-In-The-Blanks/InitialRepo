@@ -24,6 +24,10 @@ export const GET_VENUE = 'GET_VENUE';
 export const GET_VENUES = 'GET_VENUES';
 export const VENUE_ERROR = 'VENUE_ERROR';
 
+export const GET_NOTICE = 'GET_NOTICE';
+export const GET_NOTICES = 'GET_NOTICES';
+export const NOTICE_ERROR = 'NOTICE_ERROR';
+
 export const GET_LEAVE = 'GET_LEAVE';
 export const GET_LEAVES = 'GET_LEAVES';
 export const LEAVE_ERROR = 'LEAVE_ERROR';
