@@ -103,9 +103,9 @@ const App = () => {
               <Route path='/ListVenues' element={<ListVenue />} />
               <Route path='/EditVenues' element={<EditVenue />} />
               <Route path='/Editvenues/:id' element={<EditVenue />} />
+              <Route path='/AddNotice' element={<AddNotice />} />
             </Route>{' '}
             {/* Don't put routes outside this. Putting outside will override the container and display the elements under/above the navbar */}
-            <Route path='/AddNotice' element={<AddNotice />} />
           </Routes>
         </Fragment>
       </Router>
