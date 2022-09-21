@@ -6,7 +6,7 @@ import { deleteModule } from '../../actions/modules_auth';
 import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
-import axios from 'axios';
+
 const pdfGenerate =(e)=>{
   var doc=new jsPDF('landscape','px','a4','false');
   doc.addImage(logo,'PNG',100,200,400,200);
@@ -53,7 +53,7 @@ const ModuleItem = ({ module, deleteModule }) => {
       <td>{mod.specialization}</td>
       <td>{mod.year}</td>
       <td>{mod.semester}</td>
-      
+      <td>
         {' '}
         <button
           className='btn btn-danger'
@@ -62,11 +62,12 @@ const ModuleItem = ({ module, deleteModule }) => {
           Delete{' '}
         </button>
       
-      
+      </td>
+      <td>
         <Link to={`/EditModules/${mod._id}`}>
           <button className='btn btn-success'>Edit</button>
         </Link>
-      
+      </td>
     </tr>
   )):  module.map((mod) => (
     
@@ -76,7 +77,7 @@ const ModuleItem = ({ module, deleteModule }) => {
    <td>{mod.specialization}</td>
   <td>{mod.year}</td>
   <td>{mod.semester}</td>
-  
+  <td>
   {' '}
   <button
   className='btn btn-danger'
@@ -84,11 +85,13 @@ const ModuleItem = ({ module, deleteModule }) => {
    >
   Delete{' '}
    </button>
-  
+   </td>
+  <td>
   <Link to={`/EditModules/${mod._id}`}>
   <button className='btn btn-success'>Edit</button>
   </Link>
   
+  </td>
   </tr>
   ))
   
@@ -136,9 +139,9 @@ const ModuleItem = ({ module, deleteModule }) => {
             
             
             
-        
+            <th>
             <button className='btn btn-success' onClick={pdfGenerate}>Download PDF</button>
-        
+            </th>
             
           </tr>
         </thead>

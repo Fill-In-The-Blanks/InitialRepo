@@ -23,11 +23,10 @@ import AddVenue from './components/Venue/AddVenue';
 import ListVenue from './components/Venue/Venue';
 import SlotsConfirmationDialog from './components/dialogBox/SlotsConfirmationDialog';
 import EditVenue from './components/Venue/EditVenue';
-// import AddNotice from './components/Notices/AddNotice'
-/* import { useNavigate } from 'react-router-dom'; */
 import setAuthToken from './utils/setAuthToken';
-
+import SendRequest from './components/LeaveManagement/SendRequest' 
 import { loadAdmin } from './actions/auth';
+import ListLeave from './components/LeaveManagement/Leaves'
 
 //Redux
 import { connect, Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
@@ -93,6 +92,8 @@ const App = () => {
               <Route path='/allocateSlot' element={<TimeTableAllocate />} />
               <Route path='/ListVenues' element={<ListVenue />} />
               <Route path='/EditVenues' element={<EditVenue />} />
+              <Route path='/ListLeave' element={<ListLeave />} />
+              <Route path='/SendRequest' element={<SendRequest />} />
               <Route path='/Editvenues/:id' element={<EditVenue />} />
             </Route>{' '}
             {/* Don't put routes outside this. Putting outside will override the container and display the elements under/above the navbar */}
