@@ -23,12 +23,13 @@ import AddVenue from './components/Venue/AddVenue';
 import ListVenue from './components/Venue/Venue';
 import SlotsConfirmationDialog from './components/dialogBox/SlotsConfirmationDialog';
 import EditVenue from './components/Venue/EditVenue';
- import AddNotice from './components/Notices/AddNotice'
- import Notices from './components/Notices/Notices'
+import AddNotice from './components/Notices/AddNotice';
+import Notices from './components/Notices/Notices';
 /* import { useNavigate } from 'react-router-dom'; */
 import setAuthToken from './utils/setAuthToken';
-
+import SendRequest from './components/LeaveManagement/SendRequest';
 import { loadAdmin } from './actions/auth';
+import ListLeave from './components/LeaveManagement/Leaves';
 
 //Redux
 import { connect, Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
@@ -88,19 +89,23 @@ const App = () => {
               <Route path='/listEmployees' element={<Employees />} />
               <Route path='/updateEmployee/:id' element={<UpdateEmployee />} />
               <Route path='/AddVenues' element={<AddVenue />} />
-              <Route path='/notices' element={<Notices/>}/>
+              <Route path='/notices' element={<Notices />} />
               <Route
                 path='/slotsConfirmation'
                 element={<SlotsConfirmationDialog />}
               />
               <Route path='/allocateSlot' element={<TimeTableAllocate />} />
+              <Route path='/ListVenues' element={<ListVenue />} />
+              <Route path='/EditVenues' element={<EditVenue />} />
+              <Route path='/ListLeave' element={<ListLeave />} />
+              <Route path='/SendRequest' element={<SendRequest />} />
               <Route path='/allocatedSlot' element={<AllocatedTime />} />
               <Route path='/ListVenues' element={<ListVenue />} />
               <Route path='/EditVenues' element={<EditVenue />} />
               <Route path='/Editvenues/:id' element={<EditVenue />} />
             </Route>{' '}
             {/* Don't put routes outside this. Putting outside will override the container and display the elements under/above the navbar */}
-             <Route path='/AddNotice' element={<AddNotice/>} /> 
+            <Route path='/AddNotice' element={<AddNotice />} />
           </Routes>
         </Fragment>
       </Router>

@@ -8,9 +8,9 @@ const Navbar = ({ auth: { isAuthenticated, loading, admin }, logout }) => {
   const adminLinks = (
     <ul>
       <li>
-        <Link to='/adminDashboard' style={{ background: 'green' }}>
-          <i className='fas fa-user'></i>{' '}
-          <span className='hide-sm'>Dashboard</span>
+        <Link to='/adminDashboard'>
+          
+          <button className='btn btn-success'><i className='fas fa-user'></i>{' '}Dashboard</button>
         </Link>
       </li>
       
@@ -18,10 +18,10 @@ const Navbar = ({ auth: { isAuthenticated, loading, admin }, logout }) => {
           <a
             onClick={logout}
             href='/'
-            style={{ /* color: '#fff',  */ background: 'red' }}
+            
           >
-            <i className='fa fa-sign-out'></i>{' '}
-            <span className='hide-sm'>Logout</span>
+            
+            <button className='btn btn-danger'><i className='fa fa-sign-out'></i>{' '}  Logout </button>
           </a>
         </li>
       
