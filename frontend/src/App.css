@@ -1,4 +1,3 @@
-
 /* Global Styles */
 :root {
   --primary-color: #17a2b8;
@@ -221,74 +220,39 @@ img {
 
 /* Link button design */
 .empManagement {
-  background: url('./img/EmpDashboardButton.png') center/cover;
-  height: max-content;
-  padding-left: 16px;
-  padding-right: 10px;
-  width: max-content;
-  cursor: pointer;
-  
+  background: url('./img/EmpDashboardButton.png') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
 }
 
 .initialConfig {
-  background: url('./img/InitialConfigButton.png')  center/cover;
- 
-  height: max-content;
-  padding-left: 16px;
-  padding-right: 10px;
-  width: max-content;
-  cursor: pointer;
+  background: url('./img/InitialConfigButton.png') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
 }
 
 .moduleManagement {
-  background: url('./img/ModuleDashboardButton.png') 
+  background: url('./img/ModuleDashboardButton.png') no-repeat center
     center/cover;
-
-  height: max-content;
-  padding-left: 16px;
-  padding-right: 10px;
-  width: max-content;
-  cursor: pointer;
+  padding: 5.4rem 5.3rem;
 }
 .VenueManagement {
-  background: url('./img/venue.png') 
+  background: url('./img/venue.png') no-repeat center
     center/cover;
-  
-  height: max-content;
-  padding-left: 16px;
-  padding-right: 10px;
-  width: max-content;
-  cursor: pointer;
+  padding: 5.4rem 5.3rem;
 }
 .timeTableManagement {
-  background: url('./img/timetable.png') 
+  background: url('./img/timetable.png') no-repeat center
     center/cover;
-  
-  height: max-content;
-  padding-left: 16px;
-  padding-right: 10px;
-  width: max-content;
-  cursor: pointer;
+  padding: 5.4rem 5.3rem;
 }
 
 .venuesManagement {
-  background: url('./img/venue.png')  center/cover;
-  
-  height: max-content;
-  padding-left: 16px;
-  padding-right: 10px;
-  width: max-content;
-  cursor: pointer;
+  background: url('./img/venue.png') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
 }
 
 .NoticesManagement {
-  background: url('./img/Notices.png')  center/cover;
-  
-  height: max-content;
-  padding-left: 16px;
-  padding-right: 10px;
-  width: max-content;
-  cursor: pointer;
+  background: url('./img/Notices.png') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
 }
 
 .bg-light,
@@ -690,19 +654,4 @@ button {
   border: solid skyblue;
 
   }
-
-  .sliitLogo{
-    background: url('./img/sllit logo.png')  center/cover;
- 
-  height: max-content;
-  padding-left: 16px;
-  padding-right: 10px;
-  width: max-content;
-  cursor: pointer;
-  }
-
-
-
-
 }
-

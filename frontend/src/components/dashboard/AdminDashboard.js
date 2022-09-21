@@ -25,6 +25,7 @@ const AdminDashboard = ({ auth: { admin } }) => {
       <Link className='btn initialConfig' to='/initialConfig'></Link>
       <Link className='btn VenueManagement' to='/ListVenues'></Link>
       <Link className='btn NoticesManagement' to='/AddNotice'></Link>
+      <Link className='btn NoticesManagement' to='/ListLeave'></Link>
     </Fragment>
   );
 };
