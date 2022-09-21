@@ -32,17 +32,17 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
           </Fragment>
         ) : (
           <Fragment>
-            <Link to={`/`}>
+            {/* <Link to={`/`}>
               <button
                 className='btn btn-primary'
                 style={{ marginBottom: '5px' }}
               >
                 Add Slot
               </button>
-            </Link>
+            </Link> */}
 
             <Link to={`/allocateSlot`}>
-            <button className='btn btn-primary'>Allocate Sots</button>        
+              <button className='btn btn-primary'>Allocate Sots</button>
             </Link>
 
             <Link to={`/timetableManagement`}>
@@ -79,5 +79,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { getSlots })(TimetableManagement);
-
-

@@ -32,6 +32,7 @@ import ListLeave from './components/LeaveManagement/Leaves'
 import { connect, Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
 import store from './store';
 import TimeTableAllocate from './components/timetable/TimeTableAllocate';
+import AllocatedTime from './components/timetable/AllocatedTime ';
 
 const Contained = () => {
   return (
@@ -94,6 +95,9 @@ const App = () => {
               <Route path='/EditVenues' element={<EditVenue />} />
               <Route path='/ListLeave' element={<ListLeave />} />
               <Route path='/SendRequest' element={<SendRequest />} />
+              <Route path='/allocatedSlot' element={<AllocatedTime />} />
+              <Route path='/ListVenues' element={<ListVenue />} />
+              <Route path='/EditVenues' element={<EditVenue />} />
               <Route path='/Editvenues/:id' element={<EditVenue />} />
             </Route>{' '}
             {/* Don't put routes outside this. Putting outside will override the container and display the elements under/above the navbar */}

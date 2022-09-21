@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
-const Timetable = require('../../model/TimeTable')
+const Timetable = require('../../model/Timetable');
 const { check, validationResult } = require('express-validator');
 
 const Slot = require('../../model/Slot');
 const Module = require('../../model/modules');
-const Venue = require('../../model/Venues');
 const Venues = require('../../model/Venues');
+
 // @route   GET api/timetable
 // @desc    Get all slots
 // @access  private
@@ -66,7 +66,8 @@ router.post('/slots', auth, async (req, res) => {
       const dayOfTheWeek = sheet[slot][Object.keys(sheet[slot])[2]];
       const module = sheet[slot][Object.keys(sheet[slot])[3]];
       const venue = sheet[slot][Object.keys(sheet[slot])[4]];
-      let group = '',
+      const group = sheet[slot][Object.keys(sheet[slot])[5]];
+      /* let group = '',
         sessionType = '',
         staffRequirement = '';
       if (sheet[slot][Object.keys(sheet[slot])[5]][0] == 'Y') {
@@ -76,7 +77,7 @@ router.post('/slots', auth, async (req, res) => {
       } else {
         sessionType = sheet[slot][Object.keys(sheet[slot])[5]];
         staffRequirement = sheet[slot][Object.keys(sheet[slot])[6]];
-      }
+      } */
 
       let found = await Slot.findOne({ startTime, dayOfTheWeek, group });
 
@@ -96,8 +97,6 @@ router.post('/slots', auth, async (req, res) => {
         module,
         venue,
         group,
-        sessionType,
-        staffRequirement,
       });
 
       //console.log(moduleObject);
@@ -125,49 +124,43 @@ router.post('/slots', auth, async (req, res) => {
   }
 });
 
-router.post('/createTimeTable' , async(req,res)=>
-{
-    req.body.timetable.forEach(async (item)=>{
-      try {
-        let result = await new Timetable({
-          module : item.module, 
-          startTime : item.startTime, 
-          endTime : item.endTime, 
-          empName : item.empName, 
-          empNo : item.empNo , 
-          sessionType : item.sessionType,
-          venue : item.venue, 
-          day : item.dayOfTheWeek,
-          slotID : item._id
-        }).save()
-        let result2 = await Slot.updateOne({_id : item._id} ,{assigned : true})
-      } catch (error) {
-        console.log(error)
-      }
-      
-    })
-    res.status(200).send("added")
-})
+router.post('/createTimeTable', async (req, res) => {
+  req.body.timetable.forEach(async (item) => {
+    try {
+      let result = await new Timetable({
+        module: item.module,
+        startTime: item.startTime,
+        endTime: item.endTime,
+        empName: item.empName,
+        empNo: item.empNo,
+        venue: item.venue,
+        day: item.dayOfTheWeek,
+        slotID: item._id,
+      }).save();
+      let result2 = await Slot.updateOne({ _id: item._id }, { assigned: true });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  res.status(200).send('added');
+});
 
-router.post('/deleteSlots' , async(req , res)=>
-{
+router.post('/deleteSlots', async (req, res) => {
   try {
-    await Timetable.deleteMany({slotID : req.body.slotID})
-    const test3 = await Slot.findByIdAndUpdate(req.body.slotID ,{$set : {assigned : false}}) 
-    
-    
-    res.status(200).send("result")
+    await Timetable.deleteMany({ slotID: req.body.slotID });
+    const test3 = await Slot.findByIdAndUpdate(req.body.slotID, {
+      $set: { assigned: false },
+    });
+
+    res.status(200).send('result');
   } catch (error) {
-    res.status(500).send("internal server error")
+    res.status(500).send('internal server error');
   }
-})
-router.get('/getTimeTable' , async (req, res)=>
-{
+});
+router.get('/getTimeTable', async (req, res) => {
   try {
-    const result = await Timetable.find()
-    res.status(200).send(result)
-  } catch (error) {
-    
-  }
-})
+    const result = await Timetable.find();
+    res.status(200).send(result);
+  } catch (error) {}
+});
 module.exports = router;

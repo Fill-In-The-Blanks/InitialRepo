@@ -10,29 +10,26 @@ const AdminDashboard = ({ auth: { admin } }) => {
         Hello {admin && admin.userName}
       </h1>
       <p className='lead center-text'>
-        {/* <i className='fas fa-user'></i> */} Let's get started
+        <i className='fas fa-user'></i> Let's get started
       </p>
       <p className='lead'>
-        {/* <i className='fas fa-user'></i> */} Managements
+        <i className='fas fa-user'></i> Managements
       </p>
 
-       <Link className='btn empManagement' to='/employeeManagement'></Link>
-      <Link className=' btn moduleManagement' to='/ListModules'></Link>
-      <Link className=' btn timeTableManagement' to='/timetableManagement'>
-     
-      </Link>
-      <Link className=' btn initialConfig' to='/initialConfig'></Link>
-      <Link className=' btn VenueManagement' to='/ListVenues'></Link>
-      <Link className=' btn NoticesManagement' to='/AddNotice'></Link> 
-      <Link className=' btn btn primary ' to='/ListLeave'> Request</Link> 
-
-      
+      <Link className='btn empManagement' to='/employeeManagement'></Link>
+      <Link className='btn moduleManagement' to='/ListModules'></Link>
+      <Link
+        className='btn timeTableManagement'
+        to='/timetableManagement'
+      ></Link>
+      <Link className='btn initialConfig' to='/initialConfig'></Link>
+      <Link className='btn VenueManagement' to='/ListVenues'></Link>
+      <Link className='btn NoticesManagement' to='/AddNotice'></Link>
     </Fragment>
   );
 };
 
 const mapStateToProps = (state) => ({
-  
   auth: state.auth,
 });
 
