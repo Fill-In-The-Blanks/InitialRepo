@@ -1,8 +1,8 @@
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { logout } from "../../actions/auth";
+import React, { Fragment, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../../actions/auth';
 
 const Navbar = ({
   auth: { isAuthenticated, loading, admin, instructor, isInstructor, isAdmin },
@@ -13,19 +13,19 @@ const Navbar = ({
       <li>
         <div>
           {isAuthenticated && isAdmin ? (
-            <Link to={`Profile/${admin.ID}`} style={{ background: "green" }}>
-              {" "}
-              <i className="fas fa-user"></i>{" "}
-              <span className="hide-sm">Profile</span>
+            <Link to={`Profile/${admin.ID}`} style={{ background: 'green' }}>
+              {' '}
+              <i className='fas fa-user'></i>{' '}
+              <span className='hide-sm'>Profile</span>
             </Link>
           ) : (
             <Link
               to={`Profile/${instructor.ID}`}
-              style={{ background: "green" }}
+              style={{ background: 'green' }}
             >
-              {" "}
-              <i className="fas fa-user"></i>{" "}
-              <span className="hide-sm">Profile</span>
+              {' '}
+              <i className='fas fa-user'></i>{' '}
+              <span className='hide-sm'>Profile</span>
             </Link>
           )}
         </div>
@@ -33,14 +33,14 @@ const Navbar = ({
       <li>
         <div>
           {isAuthenticated && isAdmin ? (
-            <Link to="/adminDashboard" style={{ background: "green" }}>
-              <i className="fa fa-home"></i>{" "}
-              <span className="hide-sm">Dashboard</span>
+            <Link to='/adminDashboard' style={{ background: 'green' }}>
+              <i className='fa fa-home'></i>{' '}
+              <span className='hide-sm'>Dashboard</span>
             </Link>
           ) : (
-            <Link to="/instructorDashboard" style={{ background: "green" }}>
-              <i className="fa fa-home"></i>{" "}
-              <span className="hide-sm">Dashboard</span>
+            <Link to='/instructorDashboard' style={{ background: 'green' }}>
+              <i className='fa fa-home'></i>{' '}
+              <span className='hide-sm'>Dashboard</span>
             </Link>
           )}
         </div>
@@ -49,20 +49,20 @@ const Navbar = ({
         {isAuthenticated && isAdmin ? (
           <a
             onClick={logout}
-            href="/"
-            style={{ /* color: '#fff',  */ background: "red" }}
+            href='/'
+            style={{ /* color: '#fff',  */ background: 'red' }}
           >
-            <i className="fa fa-sign-out"></i>{" "}
-            <span className="hide-sm">Logout</span>
+            <i className='fa fa-sign-out'></i>{' '}
+            <span className='hide-sm'>Logout</span>
           </a>
         ) : (
           <a
             onClick={logout}
-            href="/"
-            style={{ /* color: '#fff',  */ background: "red" }}
+            href='/'
+            style={{ /* color: '#fff',  */ background: 'red' }}
           >
-            <i className="fa fa-sign-out"></i>{" "}
-            <span className="hide-sm">Logoutss</span>
+            <i className='fa fa-sign-out'></i>{' '}
+            <span className='hide-sm'>Logoutss</span>
           </a>
         )}
       </li>
@@ -72,7 +72,7 @@ const Navbar = ({
   const guestLinks = (
     <ul>
       <li>
-        <Link to="/login" style={{ color: "#fff", background: "#17a2b8" }}>
+        <Link to='/login' style={{ color: '#fff', background: '#17a2b8' }}>
           Admin Login
         </Link>
       </li>
@@ -80,11 +80,11 @@ const Navbar = ({
   );
 
   return (
-    <nav className="navbar bg-light">
+    <nav className='navbar bg-light'>
       <h1>
-        <Link to="/">
-          <p style={{ float: "left", color: "#17a2b8" }}>
-            <i className="fas fa-file"></i> SLIIT IAS
+        <Link to='/'>
+          <p style={{ float: 'left', color: '#17a2b8' }}>
+            <i className='fas fa-file'></i> SLIIT IAS
           </p>
         </Link>
       </h1>

@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import List from '../Modules/ModuleItem';
 
 const AdminDashboard = ({ auth: { admin } }) => {
   return (
@@ -10,10 +9,10 @@ const AdminDashboard = ({ auth: { admin } }) => {
         Hello {admin && admin.userName}
       </h1>
       <p className='lead center-text'>
-        {/* <i className='fas fa-user'></i> */} Let's get started
+        <i className='fas fa-user'></i> Let's get started
       </p>
       <p className='lead'>
-        {/* <i className='fas fa-user'></i> */} Managements
+        <i className='fas fa-user'></i> Managements
       </p>
 
       <Link className='btn empManagement' to='/employeeManagement'></Link>
@@ -25,6 +24,7 @@ const AdminDashboard = ({ auth: { admin } }) => {
       <Link className='btn initialConfig' to='/initialConfig'></Link>
       <Link className='btn VenueManagement' to='/ListVenues'></Link>
       <Link className='btn NoticesManagement' to='/AddNotice'></Link>
+      <Link className='btn NoticesManagement' to='/ListLeave'></Link>
       <Link className='btn InstructorManagement' to='/UserManagement'></Link>
     </Fragment>
   );

@@ -30,3 +30,5 @@ const EmployeeSchema = new mongoose.Schema({
 });
 
 module.exports = Employee = mongoose.model('employee', EmployeeSchema); // Employee is the variable, employee is the name of the model, EmployeeSchema is the model schema
+
+//The first argument in mongoose.model() is the singular name of the collection your model is for

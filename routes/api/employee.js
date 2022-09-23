@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
+//The express.Router() function is used to create a new router object. This function is used when you want to create a new router object in your program to handle requests.
+
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const Employee = require('../../model/Employee');
-const e = require('express');
+/* const e = require('express'); */
 
 // @route   POST api/employee
 // @desc    Add employee
 // @access  private
+//router.post(1,2,3,4);
 router.post(
   '/',
   auth,
@@ -54,22 +57,22 @@ router.post(
           .json({ errors: [{ msg: 'Employee phone number is used' }] });
       }
 
-      employee = new Employee({
-        empNo,
+      let employee = new Employee({
+        vacancyStatus,
         empName,
         sliitEmail,
         phone,
         department,
-        vacancyStatus,
+        empNo,
       });
 
       await employee.save();
 
       res.json(employee);
-      console.log(employee);
+      /* console.log(employee); */
     } catch (error) {
-      console.error(error.message);
-      /* res.status(500).send('Server error');  Bug fixing */
+      /* console.error(error.message); */
+      res.status(500).send('Server error');
       /* return; */
     }
   }
@@ -83,7 +86,7 @@ router.get('/', async (req, res) => {
     const employees = await Employee.find();
     res.json(employees);
   } catch (err) {
-    console.error(err.message);
+    /* console.error(err.message); */
     res.status(500).send('Server error');
   }
 });
@@ -100,7 +103,7 @@ router.delete('/:id', async (req, res) => {
     await employee.remove();
     res.json({ msg: 'Employee Removed' });
   } catch (err) {
-    console.error(err.message);
+    /* console.error(err.message); */
     res.status(500).send('Server Error');
   }
 });
@@ -189,6 +192,7 @@ router.put(
           { $set: updatedEmployee },
           { new: true }
         );
+        // If `new` isn't true, `findOneAndUpdate()` will return the document as it was _before_ it was updated.
       } else
         return res
           .status(400)

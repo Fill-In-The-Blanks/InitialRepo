@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const SlotSchema = new mongoose.Schema({
+const TimeTableSchema = new mongoose.Schema({
   startTime: {
     type: String,
     required: true,
@@ -9,7 +10,7 @@ const SlotSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  dayOfTheWeek: {
+  day: {
     type: String,
     required: true,
   },
@@ -21,24 +22,27 @@ const SlotSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  group: {
-    type: String,
-  },
-  /* sessionType: {
+
+  /*   sessionType: {
     type: String,
     required: true,
   }, */
-  staffRequirement: {
-    type: Number,
-    default: 2,
+
+  empName: {
+    type: String,
+    required: true,
   },
-  assigned: {
-    type: Boolean,
-    default: false,
+  empNo: {
+    type: String,
+    required: true,
+  },
+  slotID: {
+    type: Schema.Types.ObjectId,
+    required: true,
   },
 });
-const Slot = mongoose.model('slot', SlotSchema);
-module.exports = Slot; // Slot is the variable, slot is the name of the model used for reference, SlotSchema is the model schema
+const Timetable = mongoose.model('TimeTable', TimeTableSchema);
+module.exports = Timetable; //Timetable is the variable, Timetable is the name of the model used for reference, TimetableSchema is the model schema
 
 //start time, end time, day of the week, module, venue, group, lab/lecture/tutorial, staff requirement
 

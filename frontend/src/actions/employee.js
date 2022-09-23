@@ -49,6 +49,7 @@ export const addEmployees = (formData) => async (dispatch) => {
 export const getEmployees = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/employee');
+    //Await function is used to wait for the promise. It could be used within the async block only. It makes the code wait until the promise returns a result. It only makes the async block wait.
 
     dispatch({
       type: GET_EMPLOYEES,
