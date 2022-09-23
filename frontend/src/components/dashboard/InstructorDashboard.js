@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import List from '../Modules/ModuleItem';
 
-const AdminDashboard = ({ auth: { admin } }) => {
+const InstructorDashboard = ({ auth: { instructor } }) => {
   return (
     <Fragment>
       <h1 className='large text-primary center-text'>
-        Hello {admin && admin.userName}
+        Hello {instructor && instructor.userName}
       </h1>
       <p className='lead center-text'>
         {/* <i className='fas fa-user'></i> */} Let's get started
@@ -16,16 +15,11 @@ const AdminDashboard = ({ auth: { admin } }) => {
         {/* <i className='fas fa-user'></i> */} Managements
       </p>
 
-      <Link className='btn empManagement' to='/employeeManagement'></Link>
+      {/* <Link className='btn empManagement' to='/employeeManagement'></Link>
       <Link className='btn moduleManagement' to='/ListModules'></Link>
-      <Link
-        className='btn timeTableManagement'
-        to='/timetableManagement'
-      ></Link>
       <Link className='btn initialConfig' to='/initialConfig'></Link>
       <Link className='btn VenueManagement' to='/ListVenues'></Link>
-      <Link className='btn NoticesManagement' to='/AddNotice'></Link>
-      <Link className='btn InstructorManagement' to='/UserManagement'></Link>
+      <Link className='btn NoticesManagement' to='/AddNotice'></Link> */}
     </Fragment>
   );
 };
@@ -34,4 +28,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(AdminDashboard);
+export default connect(mapStateToProps)(InstructorDashboard);

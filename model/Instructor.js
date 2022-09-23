@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const InstructorSchema = new mongoose.Schema({
   userName: {
@@ -20,6 +20,10 @@ const InstructorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  initialLogin: {
+    type: Boolean,
+    required: true,
+  },
 });
 
-module.exports = Instructor = mongoose.model('instructor', InstructorSchema); // Instrctuor is the variable, instrctor is the name of the model, InstructorSchema is the model schema
+module.exports = Instructor = mongoose.model("instructor", InstructorSchema); // Instrctuor is the variable, instrctor is the name of the model, InstructorSchema is the model schema

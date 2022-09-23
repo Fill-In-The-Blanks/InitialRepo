@@ -235,13 +235,11 @@ img {
   padding: 5.4rem 5.3rem;
 }
 .VenueManagement {
-  background: url('./img/venue.png') no-repeat center
-    center/cover;
+  background: url('./img/venue.png') no-repeat center center/cover;
   padding: 5.4rem 5.3rem;
 }
 .timeTableManagement {
-  background: url('./img/timetable.png') no-repeat center
-    center/cover;
+  background: url('./img/timetable.png') no-repeat center center/cover;
   padding: 5.4rem 5.3rem;
 }
 
@@ -252,6 +250,11 @@ img {
 
 .NoticesManagement {
   background: url('./img/Notices.png') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
+}
+
+.InstructorManagement {
+  background: url('./img/Instructors.png') no-repeat center center/cover;
   padding: 5.4rem 5.3rem;
 }
 
@@ -647,11 +650,10 @@ button {
   .post button {
     padding: 0.3rem 0.4rem;
   }
-  .searchbox{
-  height: 50px;
-  width: 400px;
-  margin: 20px;
-  border: solid skyblue;
-
+  .searchbox {
+    height: 50px;
+    width: 400px;
+    margin: 20px;
+    border: solid skyblue;
   }
 }

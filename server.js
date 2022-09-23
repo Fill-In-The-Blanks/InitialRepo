@@ -1,6 +1,7 @@
-const express = require('express');
-const connectDB = require('./config/db');
-const path = require('path');
+const express = require("express");
+const connectDB = require("./config/db");
+var cors = require("cors");
+const path = require("path");
 
 const app = express();
 
@@ -12,23 +13,26 @@ app.use(express.json({ extended: false })); // this allows us to access the body
 
 //app.get('/', (req, res) => res.send('API Running'));
 
+app.use(cors());
+
 // Define routes
-app.use('/api/admin', require('./routes/api/admin'));
-app.use('/api/auth', require('./routes/api/auth'));
-app.use('/api/employee', require('./routes/api/employee'));
-app.use('/api/module', require('./routes/api/module'));
-app.use('/api/timetable', require('./routes/api/timetable'));
-app.use('/api/venues', require('./routes/api/venues'));
-app.use('/api/instructors', require('./routes/api/instructor'));
+app.use("/api/admin", require("./routes/api/admin"));
+app.use("/api/auth", require("./routes/api/auth"));
+app.use("/api/instructorauth", require("./routes/api/instructorauth"));
+app.use("/api/employee", require("./routes/api/employee"));
+app.use("/api/module", require("./routes/api/module"));
+app.use("/api/timetable", require("./routes/api/timetable"));
+app.use("/api/venues", require("./routes/api/venues"));
+app.use("/api/instructor", require("./routes/api/instructor"));
 // app.use('/api/notices', require('./routes/api/notices'));
 
 // server static assets in production
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   // set static folder
-  app.use(express.static('frontend/build'));
+  app.use(express.static("frontend/build"));
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
   });
 }
 
