@@ -5,17 +5,18 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const { check, validationResult } = require("express-validator");
 
-const Admin = require("../../model/Admin"); //importing admin model for line 24
+const Instructor = require("../../model/Instructor"); //importing admin model for line 24
+//const Instructor = require('../../model/Instructor');
 
-// @route   POST api/admin
-// @desc    Register an Admin
+// @route   POST api/instructor
+// @desc    Register an Instructor
 // @access  Public
 router.post(
   "/",
   [
     check("userName", "Username is required").not().isEmpty(), //route validation
-    check("ID", "SLIIT employee ID is required").not().isEmpty(),
-    check("email", "SLIIT employee email is required")
+    check("ID", "SLIIT instrcutor ID is required").not().isEmpty(),
+    check("email", "SLIIT instructor email is required")
       .not()
       .isEmpty()
       .isEmail(),
@@ -32,14 +33,16 @@ router.post(
     const { userName, ID, email, password, initialLogin } = req.body;
 
     try {
-      //see if the admin exists
-      let admin = await Admin.findOne({ email });
-      if (admin) {
-        res.status(400).json({ errors: [{ msg: "Admin already exists" }] });
+      //see if the instructor exists
+      let instructor = await Instructor.findOne({ email });
+      if (instructor) {
+        res
+          .status(400)
+          .json({ errors: [{ msg: "Instructor already exists" }] });
       }
 
-      //initilize the admin variable(takes val from req,res body)
-      admin = new Admin({
+      //initilize the instructor variable(takes val from req,res body)
+      instructor = new Instructor({
         userName,
         ID,
         email,
@@ -53,14 +56,14 @@ router.post(
 
       const salt = await bcrypt.genSalt(10); //hasing intilzied
 
-      admin.password = await bcrypt.hash(password, salt); //hasing assgined, next is saving to database
+      instructor.password = await bcrypt.hash(password, salt); //hasing assgined, next is saving to database
 
-      await admin.save(); //saving admin
+      await instructor.save(); //saving
 
       //Return jsonwebtoken
       const payload = {
-        admin: {
-          id: admin.id,
+        instrctor: {
+          id: instructor.id,
         },
       };
 
@@ -82,8 +85,8 @@ router.post(
 
 router.get("/", async (req, res) => {
   try {
-    const admins = await Admin.find();
-    res.json(admins);
+    const instructors = await Instructor.find();
+    res.json(instructors);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
@@ -93,15 +96,16 @@ router.get("/", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const value = { ID: req.params.id };
-    await Admin.deleteOne(value);
-    res.json({ msg: "Admin Removed" });
+    await Instructor.deleteOne(value);
+    res.json({ msg: "Instructor Removed" });
   } catch (err) {
     console.error(err.message);
-    res.json({ msg: "Error Removing Admin" });
+    res.json({ msg: "Error Removing Instructor" });
     res.status(500).send("Server Error");
   }
 });
 
+//Update instructor
 router.put(
   "/:id",
   [
@@ -124,31 +128,41 @@ router.put(
     const { userName, ID, email, password, initialLogin } = req.body;
 
     try {
-      const admins = await Admin.find();
-      const adminUserName = admins.find((o) => o.userName === userName);
-      const adminEmail = admins.find((o) => o.email === email);
-      let admin = admins.find((o) => o.ID === req.params.id);
+      const instructors = await Instructor.find();
+      const instructorUserName = instructors.find(
+        (o) => o.userName === userName
+      );
+      const instructorEmail = instructors.find((o) => o.email === email);
+      let instructor = instructors.find((o) => o.ID === req.params.id);
 
-      if (adminUserName && admin && adminUserName != admin) {
+      if (
+        instructorUserName &&
+        instructor &&
+        instructorUserName != instructor
+      ) {
         return res.status(400).json({
           errors: [
             {
-              msg: "The Username is already used by " + adminUserName.ID,
+              msg: "The Username is already used by " + instructorUserName.ID,
             },
           ],
         });
-      } else if (adminEmail && admin && adminEmail != admin) {
+      } else if (
+        instructorEmail &&
+        instructor &&
+        instructorEmail != instructor
+      ) {
         return res.status(400).json({
           errors: [
             {
-              msg: "The email in already used by " + adminEmail.ID,
+              msg: "The email in already used by " + instructorEmail.ID,
             },
           ],
         });
       }
 
-      if (admin) {
-        const updatedAdmin = {
+      if (instructor) {
+        const updatedInstructor = {
           userName,
           ID,
           email,
@@ -158,19 +172,19 @@ router.put(
 
         const salt = await bcrypt.genSalt(10); //hasing intilzied
 
-        updatedAdmin.password = await bcrypt.hash(password, salt);
+        updatedInstructor.password = await bcrypt.hash(password, salt);
 
-        admin = await Admin.findOneAndUpdate(
+        instructor = await Instructor.findOneAndUpdate(
           { ID: req.params.id },
-          { $set: updatedAdmin },
+          { $set: updatedInstructor },
           { new: true }
         );
       } else
         return res
           .status(400)
           .json({ errors: [{ msg: "Instructor does not exist" }] });
-
-      res.json(admin);
+      console.log(instructor);
+      res.json(instructor);
     } catch (err) {
       console.error(err.message);
       if (err.kind === "ObjectId") {

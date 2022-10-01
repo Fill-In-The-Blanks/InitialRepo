@@ -2,12 +2,12 @@ import React, { Fragment, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
-import { loginAdmin } from "../../actions/auth";
+import { loginInstructor } from "../../actions/auth";
 import PropTypes from "prop-types";
 
 // import connect to connect this component to redux. Use when you want the component to call an action or get a state
 
-const Login = ({ loginAdmin, isAuthenticated }) => {
+const InstructorLogin = ({ setAlert, loginInstructor, isAuthenticated }) => {
   // formData is the object that holds our values and setFormData is the function to change the values
   const [formData, setFormData] = useState({
     email: "",
@@ -21,17 +21,17 @@ const Login = ({ loginAdmin, isAuthenticated }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    loginAdmin(email, password);
+    loginInstructor(email, password);
   };
 
   // Redirect if logged in
   if (isAuthenticated) {
-    return <Navigate to="/adminDashboard" />;
+    return <Navigate to="/instructorDashboard" />;
   }
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Sign In as Admin</h1>
+      <h1 className="large text-primary">Sign In as Instructor</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Sign Into Your Account
       </p>
@@ -62,9 +62,9 @@ const Login = ({ loginAdmin, isAuthenticated }) => {
   );
 };
 
-Login.propTypes = {
+InstructorLogin.propTypes = {
   setAlert: PropTypes.func.isRequired,
-  loginAdmin: PropTypes.func.isRequired,
+  loginInstructor: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 
@@ -72,5 +72,7 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { setAlert, loginAdmin })(Login);
+export default connect(mapStateToProps, { setAlert, loginInstructor })(
+  InstructorLogin
+);
 // connect takes in two parameters - first param as any state you want to map and second param is object with actions you want to use
