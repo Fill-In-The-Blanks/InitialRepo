@@ -40,7 +40,7 @@ import Home from './components/instructorCreate/Home/Home';
 import Profile from './components/profile/Profile';
 import TimeTableAllocate from './components/timetable/TimeTableAllocate';
 import AllocatedTime from './components/timetable/AllocatedTime ';
-
+import EmailHome from './components/email/EmailHome';
 const Contained = () => {
   return (
     <>
@@ -101,6 +101,7 @@ const App = () => {
               <Route path='/AddVenues' element={<AddVenue />} />
               <Route path='/UserManagement' element={<Home />} />
               <Route path='/Profile/:id' element={<Profile />} />
+              <Route path='/EmailManagement' element={<EmailHome />} />
               <Route
                 path='/slotsConfirmation'
                 element={<SlotsConfirmationDialog />}

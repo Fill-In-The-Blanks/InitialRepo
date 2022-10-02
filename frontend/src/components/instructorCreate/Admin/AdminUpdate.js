@@ -14,6 +14,7 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
 
   const [ID, setUserID] = useState("");
   const [email, setemail] = useState("");
+  const [department, setDepartment] = useState("");
   const [userName, setusername] = useState("");
   const [password, setpassword] = useState("");
   const initialLogin = false;
@@ -31,6 +32,7 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
       ID,
       email,
       userName,
+      department,
       password,
       initialLogin,
     };
@@ -38,10 +40,10 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
     updateAdminByID(UpdatedAdminformValue.ID, UpdatedAdminformValue);
     emailjs
       .sendForm(
-        "service_1v0gpp4",
-        "template_g8cmxq6",
+        "service_2yi5441",
+        "template_3uq9jb9",
         updateAdminform.current,
-        "3FDPgQ1v2eRuz7fwJ"
+        "3yiSsWex126MEwSd2"
       )
       .then(
         (result) => {
@@ -89,6 +91,22 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
             onChange={(e) => setusername(e.target.value)}
           ></input>
           <p>{errors.userName?.message}</p>
+          <br />
+          <label>Departments</label>
+          <select
+            name="department"
+            id="department"
+            style={{ width: "100%" }}
+            onChange={(e) => setDepartment(e.target.value)}
+          >
+            <option value=""></option>
+            <option value="C">Computing (C)</option>
+            <option value="IT">Information Technology (IT)</option>
+            <option value="CSNE">
+              Computer Science & Network Engineering (CSNE)
+            </option>
+          </select>
+          <p>{errors.department?.message}</p>
           <br />
           <label>Password</label>
           <input

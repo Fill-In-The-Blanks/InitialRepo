@@ -15,11 +15,15 @@ const InstructorDashboard = ({ auth: { instructor } }) => {
         {/* <i className='fas fa-user'></i> */} Managements
       </p>
 
-      {/* <Link className='btn empManagement' to='/employeeManagement'></Link>
+      {
+        <Link className='btn EmailManagement' to='/EmailManagement'></Link>
+
+        /* <Link className='btn empManagement' to='/employeeManagement'></Link>
       <Link className='btn moduleManagement' to='/ListModules'></Link>
       <Link className='btn initialConfig' to='/initialConfig'></Link>
       <Link className='btn VenueManagement' to='/ListVenues'></Link>
-      <Link className='btn NoticesManagement' to='/AddNotice'></Link> */}
+      <Link className='btn NoticesManagement' to='/AddNotice'></Link> */
+      }
     </Fragment>
   );
 };

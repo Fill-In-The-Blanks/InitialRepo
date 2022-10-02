@@ -32,6 +32,9 @@ export const GET_INSTRUCTOR = 'GET_INSTRUCTOR';
 export const GET_INSTRUCTORS = 'GET_INSTRUCTORS';
 export const INSTRUCTOR_ERROR = 'INSTRUCTOR_ERROR';
 
+export const GET_EMAILS = 'GET_EMAILS';
+export const EMAILS_ERROR = 'EMAILS_ERROR';
+
 export const GET_PROFILE = 'GET_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 

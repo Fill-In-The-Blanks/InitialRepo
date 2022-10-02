@@ -257,6 +257,10 @@ img {
   background: url('./img/Instructors.png') no-repeat center center/cover;
   padding: 5.4rem 5.3rem;
 }
+.EmailManagement {
+  background: url('./img/email.png') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
+}
 
 .bg-light,
 .badge-light {
