@@ -76,7 +76,7 @@ export const deleteModule = id => async dispatch => {
   }
 };
 
-
+//update Module
 export const updateModuleByID = (ID, formData,navigate) => async (dispatch) => {
   try {
       const config = {

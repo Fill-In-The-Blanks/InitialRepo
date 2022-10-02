@@ -2,7 +2,7 @@ import axios from 'axios';
 import { setAlert } from './alert';
 import { GET_LEAVES, LEAVE_ERROR } from './types';
 
-export const requestLeave =(formData)=> async (dispatch)=>{
+export const requestLeave =(formData,navigate)=> async (dispatch)=>{
 
     try{
 
@@ -15,6 +15,7 @@ export const requestLeave =(formData)=> async (dispatch)=>{
           const res = await axios.post('/api/leaves', formData, config);
       
           dispatch(setAlert('Request Has been Sent', 'success'));
+          navigate("/ListLeave")
 
     }catch(err){
 
@@ -67,3 +68,30 @@ export const deleteLeave = id => async dispatch => {
       });
   }
 };
+
+//update status
+export const updatestatusByID = (ID,formData) => async dispatch => {
+  try {
+      
+
+       await axios.post(`/api/leaves/${ID}`,{status:formData});
+      dispatch(setAlert('Leave Status Updated', 'success'));
+      const res = await axios.get('/api/leaves');
+
+      dispatch({
+          type: GET_LEAVES,
+          payload: res.data
+      }); 
+
+  } catch (err) {
+      const errors = err.response.data.errors;
+      if(errors) {
+          errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      }
+
+      dispatch({
+          type: LEAVE_ERROR,
+          payload: { msg: err.response.statusText, status: err.response.status }
+      });
+  }
+}; 

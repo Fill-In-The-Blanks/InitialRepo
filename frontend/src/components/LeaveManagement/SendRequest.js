@@ -18,14 +18,16 @@ const SendRequest =({requestLeave})=>{
         NumberofDays:'',
         status:''
       });
-      
+      const navigate = useNavigate();
       const { empNo , empName, CordinatorEmail, date,starttimeoff,Endtimeoff,Message, NumberofDays,status } = formData;
       const form = useRef();
       const onChange = (e) =>{
        
         
-        
+        const timeInput = document.getElementById('txtStartTime');
+        const timeInput2 = document.getElementById('txtEndTime');
 
+       
        
           var strStartTime = document.getElementById("txtStartTime").value;
           var strEndTime = document.getElementById("txtEndTime").value;
@@ -46,6 +48,7 @@ const SendRequest =({requestLeave})=>{
             e.preventDefault();
         }
         else {
+          
           setFormData({ ...formData, [e.target.name]: e.target.value });
 
           
@@ -67,7 +70,8 @@ const SendRequest =({requestLeave})=>{
       const onSubmit = async (e) => {
         e.preventDefault();
         //console.log(formData);
-        requestLeave(formData);
+        requestLeave(formData,navigate);
+
         emailjs.sendForm('service_5hilmhs', 'template_a586mw5',form.current, 'mxh2UGjiVIpuyyKJP')
           .then((result) => {
                 console.log(result.text);
@@ -135,6 +139,7 @@ const SendRequest =({requestLeave})=>{
                   placeholder='Date of leave'
                   min={new Date().toISOString()?.split('T')[0]}
                   name='date'
+                  pattern="\d{4}-\d{2}-\d{2}"
                   value={date}
                   onChange={(e) => onChange(e)}
                 />
@@ -148,6 +153,7 @@ const SendRequest =({requestLeave})=>{
                   id='txtStartTime'
                   name='starttimeoff'
                   min="08:00" max="20:00"
+                  
                   value={starttimeoff}
                   onChange={(e) => onChange(e)}
                 />
@@ -160,6 +166,7 @@ const SendRequest =({requestLeave})=>{
                   placeholder='02:30 '
                   name='Endtimeoff'
                   id='txtEndTime'
+                  
                   min="08:00" max="20:00"
                   value={Endtimeoff}
                   onChange={(e) => onChange(e)}
@@ -192,12 +199,8 @@ const SendRequest =({requestLeave})=>{
               </div>
               <div className='form-group'>
                 
+              
                 
-                <label hidden='hidden'
-                  name='status'
-                  value={status}
-                  onChange={(e) => onChange(e)}
-                >pending </label>
               </div>
 
     

@@ -30,7 +30,7 @@ import setAuthToken from './utils/setAuthToken';
 import SendRequest from './components/LeaveManagement/SendRequest';
 import { loadAdmin } from './actions/auth';
 import ListLeave from './components/LeaveManagement/Leaves';
-
+import ListLeaves from './components/LeaveManagement/LeavesAdmin';
 //Redux
 import { connect, Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
 import store from './store';
@@ -98,6 +98,7 @@ const App = () => {
               <Route path='/ListVenues' element={<ListVenue />} />
               <Route path='/EditVenues' element={<EditVenue />} />
               <Route path='/ListLeave' element={<ListLeave />} />
+              <Route path='/ListLeaves' element={<ListLeaves />} />
               <Route path='/SendRequest' element={<SendRequest />} />
               <Route path='/allocatedSlot' element={<AllocatedTime />} />
               <Route path='/ListVenues' element={<ListVenue />} />
