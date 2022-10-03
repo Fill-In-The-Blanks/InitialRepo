@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_LEAVES, LEAVE_ERROR } from './types';
+import { GET_LEAVES, LEAVE_ERROR ,GET_LEAVE} from './types';
 
 export const requestLeave =(formData,navigate)=> async (dispatch)=>{
 
@@ -68,6 +68,26 @@ export const deleteLeave = id => async dispatch => {
       });
   }
 };
+
+//get Leave by id
+export const getLeave = id => async dispatch => {
+  try {
+      const res=await axios.get(`/api/leaves/${id}`);
+
+      dispatch({
+          type: GET_LEAVE,
+          payload: res.data
+      });  
+
+  } catch (err) {
+      dispatch({
+          type: LEAVE_ERROR,
+          payload: { msg: err.response.statusText, status: err.response.status } 
+      });
+  }
+};
+
+
 
 //update status
 export const updatestatusByID = (ID,formData) => async dispatch => {

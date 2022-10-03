@@ -1,21 +1,22 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-
+import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getLeaves } from '../../actions/leaves';
+import { getLeave } from '../../actions/leaves';
 import LeaveItem from './LeaveItem';
 
 const ListLeave = ({
-    getLeaves,
+    getLeave,
     leave: { leaves, loading },
-    auth: { admin },
+    auth: { instructor },
   }) => {
+    const {id }= useParams();
     useEffect(() => {
-      getLeaves();
+      getLeave(id);
     }, []);
-  
+
     return (
       <Fragment>
         <div>
@@ -24,7 +25,7 @@ const ListLeave = ({
           ):(
             <h4>No Leaves Found</h4>
           )}
-          <Link to={`/SendRequest`}>
+          <Link to={`/SendRequest/${id}`}>
             <button className='btn btn-success'>+</button>
           </Link>
         </div>
@@ -39,7 +40,7 @@ const ListLeave = ({
   };
   
   ListLeave.propTypes = {
-    getLeaves: PropTypes.func.isRequired,
+    getLeave: PropTypes.func.isRequired,
     leave: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
   };
@@ -49,4 +50,4 @@ const ListLeave = ({
     auth: state.auth,
   });
 
-  export default connect(mapStateToProps, { getLeaves })(ListLeave);
+  export default connect(mapStateToProps, { getLeave })(ListLeave);

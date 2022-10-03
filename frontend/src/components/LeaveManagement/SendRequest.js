@@ -1,9 +1,10 @@
-import React, { Fragment, useState ,useRef} from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { requestLeave } from '../../actions/leaves';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 const SendRequest =({requestLeave})=>{
 
@@ -21,6 +22,7 @@ const SendRequest =({requestLeave})=>{
       const navigate = useNavigate();
       const { empNo , empName, CordinatorEmail, date,starttimeoff,Endtimeoff,Message, NumberofDays,status } = formData;
       const form = useRef();
+      const {id }= useParams();
       const onChange = (e) =>{
        
         
@@ -48,12 +50,13 @@ const SendRequest =({requestLeave})=>{
             e.preventDefault();
         }
         else {
-          
+          // const numInput = document.getElementById("EmpNO");
+          // empNo=numInput.value;
           setFormData({ ...formData, [e.target.name]: e.target.value });
 
           
         }
-      }
+      };
       function GetHours(d) {
           var h = parseInt(d?.split(':')[0]);
           if (d.split(':')[1]?.split(' ')[1] == "PM") {
@@ -94,18 +97,20 @@ const SendRequest =({requestLeave})=>{
             
     
             <form ref={form} className='form' onSubmit={(e) => onSubmit(e)}>
-              <div className='form-group'>
+              
                 Employee's ID Number
-                
+             
                 <input
                   type='text'
                   placeholder='Employee Number'
+                  id="EmpNO"
                   name='empNo'
-                  value={empNo}
+                  readOnly={true}
+                  value={leave=>leave.empNo==id}
                   onChange={(e) => onChange(e)}
                   required
                 />
-              </div>
+              
     
               <div className='form-group'>
                 Employee's Name
@@ -203,21 +208,27 @@ const SendRequest =({requestLeave})=>{
                 
               </div>
 
-    
-              
-              <input
-                type='submit'
-                className='btn btn-success'
-                value='Send'
-              />
-            </form>
-          </section>
-        </Fragment>
-      );
+          
+          <div className='form-group'>
+            <label
+              hidden='hidden'
+              name='status'
+              value={status}
+              onChange={(e) => onChange(e)}
+            >
+              pending{' '}
+            </label>
+          </div>
 
+          <input type='submit' className='btn btn-success' value='Send' />
+        </form>
+      </section>
+    </Fragment>
+  );
 };
 SendRequest.propTypes = {
-    requestLeave: PropTypes.func.isRequired,
-  };
-  
-  export default connect(null, { requestLeave })(SendRequest);
+  requestLeave: PropTypes.func.isRequired,
+};
+
+export default connect(null, { requestLeave })(SendRequest);
+      

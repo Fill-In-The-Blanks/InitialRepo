@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const AdminSchema = new mongoose.Schema({
+const InstructorSchema = new mongoose.Schema({
   userName: {
     type: String,
     required: true,
@@ -26,4 +26,4 @@ const AdminSchema = new mongoose.Schema({
   },
 });
 
-module.exports = Admin = mongoose.model("admin", AdminSchema); // Admin is the variable, admin is the name of the model, AdminSchema is the model schema
+module.exports = Instructor = mongoose.model("instructor", InstructorSchema); // Instrctuor is the variable, instrctor is the name of the model, InstructorSchema is the model schema

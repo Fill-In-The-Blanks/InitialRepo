@@ -18,7 +18,7 @@ const Landing = ({ isAuthenticated }) => {
           <p className='lead'></p>
           <div className='buttons'>
             {/* <a href="register.html" className="btn btn-primary">Sign Up</a> */}
-            <Link to='/login' className='btn btn-light'>
+            <Link to='/Instructorlogin' className='btn btn-light'>
               Login
             </Link>
             {/* <Link to="/addEmployee" className="btn btn-light">Test</Link> */}

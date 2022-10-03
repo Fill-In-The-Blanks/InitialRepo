@@ -158,4 +158,23 @@ router.post('/:id', async (req, res) => {
   }
 })
 
+
+router.get('/:id', async (req, res) => {
+  try {
+    const leave = await Leave.findById(req.params.id);
+
+    if (!leave) {
+      return res.status(404).json({ msg: 'leave not found' });
+    }
+
+    res.json(leave);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'String') {
+      return res.status(404).json({ msg: 'Leave not found' });
+    }
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;
