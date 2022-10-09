@@ -39,11 +39,11 @@ const InstructorView = ({
                 <div style={{ paddingTop: "10px" }}></div>
                 <div style={{ paddingTop: "10px" }}>
                   <button
-                    className="btn"
-                    style={{ backgroundColor: "#ff726f", fontWeight: "bold" }}
+                    className="btn btn-danger"
+                    
                     onClick={() => deleteFromInstructor(inst.ID)}
                   >
-                    Delete
+                    <i className='fas fa-trash'></i>
                   </button>
                 </div>
               </td>

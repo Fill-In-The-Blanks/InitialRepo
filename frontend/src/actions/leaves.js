@@ -2,7 +2,7 @@ import axios from 'axios';
 import { setAlert } from './alert';
 import { GET_LEAVES, LEAVE_ERROR ,GET_LEAVE} from './types';
 
-export const requestLeave =(formData,navigate)=> async (dispatch)=>{
+export const requestLeave =(id,formData,navigate)=> async (dispatch)=>{
 
     try{
 
@@ -13,9 +13,10 @@ export const requestLeave =(formData,navigate)=> async (dispatch)=>{
           };
       
           const res = await axios.post('/api/leaves', formData, config);
-      
+          
           dispatch(setAlert('Request Has been Sent', 'success'));
-          navigate("/ListLeave")
+          navigate(`/ListLeave/${id}`);
+          
 
     }catch(err){
 
@@ -48,18 +49,15 @@ export const getLeaves = () => async dispatch => {
 
 
 //delete Leave
-export const deleteLeave = id => async dispatch => {
+export const deleteLeave = (id,navigate) => async dispatch => {
   try {
       await axios.delete(`/api/leaves/${id}`);
 
       dispatch(setAlert('Leave Removed', 'success'));
 
-      const res = await axios.get('/api/leaves');
+      navigate(`/ListLeave/${id}`);
 
-      dispatch({
-          type: GET_LEAVES,
-          payload: res.data
-      });  
+   
 
   } catch (err) {
       dispatch({
@@ -86,6 +84,25 @@ export const getLeave = id => async dispatch => {
       });
   }
 };
+
+//get Leave by id
+export const getLeavebyName = empno => async dispatch => {
+    try {
+        const res=await axios.get(`/api/leave/${empno}`);
+  
+        dispatch({
+            type: GET_LEAVES,
+            payload: res.data
+        });  
+  
+    } catch (err) {
+        dispatch({
+            type: LEAVE_ERROR,
+            payload: { msg: err.response.statusText, status: err.response.status } 
+        });
+    }
+  };
+  
 
 
 

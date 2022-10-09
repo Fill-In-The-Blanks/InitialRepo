@@ -39,12 +39,12 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           {/* <i className='fas fa-user'></i> */} Employee Management
         </p>
 
-        <Link to={`/employeeManagement`}>
+        {/* <Link to={`/employeeManagement`}>
           <button className='btn btn-primary'>Add Employees</button>
         </Link>
         <Link to={`/listEmployees`}>
           <button className='btn btn-primary'>List Employees</button>
-        </Link>
+        </Link> */}
 
         <form className='form' onSubmit={(e) => onSubmit(e)}>
           <div className='form-group'>
@@ -125,6 +125,9 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
             className='btn btn-success'
             value='Add Employee'
           />
+          <Link to={`/listEmployees`}>
+          <button className='btn btn-primary'>cancel</button>
+        </Link>
         </form>
       </section>
     </Fragment>

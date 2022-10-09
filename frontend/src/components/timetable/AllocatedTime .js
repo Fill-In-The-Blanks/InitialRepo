@@ -69,7 +69,7 @@ function AllocatedTime() {
                             handleDelete(item);
                           }}
                         >
-                          Delete
+                          <i className='fas fa-trash'></i>
                         </button>
                       </td>
                     </tr>
@@ -80,7 +80,7 @@ function AllocatedTime() {
         </table>
       )}
       <button className='btn btn-success ' onClick={pdfGenerate}>
-        PDF
+      <i className='fas fa-file-download'></i> PDF
       </button>
     </div>
   );

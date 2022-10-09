@@ -13,12 +13,15 @@
   padding: 0;
 }
 
+
 body {
   font-family: 'Raleway', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #fff;
-  color: #333;
+  background-color: white;
+  
+
+ 
 }
 
 a {
@@ -54,6 +57,7 @@ img {
   font-size: 4rem;
   line-height: 1.2;
   margin-bottom: 1rem;
+  
 }
 
 .center-text {
@@ -64,11 +68,18 @@ img {
   font-size: 3rem;
   line-height: 1.2;
   margin-bottom: 1rem;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  color: rgb(226, 107, 56);
 }
 
 .lead {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
+  margin-top: 10px;
   margin-bottom: 1rem;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 100;
+  color:black;
+  
 }
 
 .text-center {
@@ -141,11 +152,17 @@ img {
   color: #333;
   padding: 0.4rem 1.3rem; /* 0.4rem 1.3rem */
   font-size: 1rem;
-  border: none;
+  border:none;
   cursor: pointer;
   margin-right: 0.5rem;
-  transition: opacity 0.2s ease-in;
-  outline: none;
+  margin-bottom: 0.7rem;
+  margin-top: 0.7rem;
+  transition: opacity 0.5s ease-in;
+  outline:none;
+  background-color:#95ccf3b4;
+  color: rgb(3, 3, 3);
+  box-shadow: 1px 2px rgb(211, 203, 219);
+  border-radius: 12px;
 }
 
 .badge {
@@ -169,8 +186,8 @@ img {
 .bg-primary,
 .badge-primary,
 .alert-primary {
-  background: var(--primary-color);
-  color: #fff;
+  background: #E0B2A0;
+  color:black;
 }
 
 .btn-light,
@@ -189,7 +206,7 @@ img {
   color: #fff;
 }
 
-.btn-danger,
+.btn-danger:hover,
 .bg-danger,
 .badge-danger,
 .alert-danger {
@@ -197,7 +214,7 @@ img {
   color: #fff;
 }
 
-.btn-success,
+.btn-success:hover,
 .bg-success,
 .badge-success,
 .alert-success {
@@ -295,7 +312,7 @@ img {
 
 /* Overlay */
 .dark-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0);
   position: absolute;
   top: 0;
   left: 0;
@@ -314,16 +331,18 @@ img {
   color: #888;
 }
 
+
 .form input[type='text'],
 .form input[type='email'],
 .form input[type='password'],
 .form input[type='date'],
 .form input[type='number'],
+.form input[type='time'],
 .form select,
 .form textarea {
   display: block;
   width: 50%;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
@@ -359,22 +378,31 @@ button {
 .form .social-input i.fa-linkedin {
   color: #0077b5;
 }
-
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 .table th,
 .table td {
   /* padding: 1rem; older css nuzha changed
   text-align: left; */
-  padding-top: 10px;
-  padding-bottom: 20px;
-  padding-left: 30px;
-  padding-right: 40px;
   padding: 10px;
-  text-align: right;
-}
+  width: fit-content;
+  
+  text-align:left;
+  
+  border-bottom: 1px solid #ddd;
 
-.table th {
-  background: lightblue;
 }
+tr:nth-child(even) {background-color: #fffcff;}
+.table th {
+  /* width: fit-content; */
+  background: #FCE8D9;
+  color:black;
+
+
+}
+tr:hover {background-color: #d9eaf7c9;}
 
 /* Navbar */
 .navbar {
@@ -386,22 +414,28 @@ button {
   z-index: 1;
   width: 100%;
   top: 0;
-  border-bottom: solid 1px var(--primary-color);
+  
   opacity: 0.9;
 }
 
 .navbar ul {
   display: flex;
+  
 }
 
 .navbar a {
-  color: #fff;
+ 
+  color:black;
   padding: 0.45rem;
   margin: 0 0.25rem;
 }
+.navbar{
 
+  background-color:#d6d28bc5;
+  
+}
 .navbar a:hover {
-  color: var(--primary-color);
+  color:white;
 }
 
 .navbar .welcome span {
@@ -415,14 +449,14 @@ button {
 /* Landing Page */
 .landing {
   position: relative;
-  background: url('./img/background.png') no-repeat center center/cover;
+  background: url('./img/landing1.jpg') no-repeat center center/cover;
   height: 100vh;
 }
 
 .landing-modified {
   margin-top: 0rem;
   margin-bottom: 0rem;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .landing-inner {
@@ -584,6 +618,7 @@ button {
 
   .hide-sm {
     display: none;
+   
   }
 
   /* Text Styles */
@@ -662,10 +697,21 @@ button {
   .post button {
     padding: 0.3rem 0.4rem;
   }
-  .searchbox {
-    height: 50px;
-    width: 400px;
-    margin: 20px;
-    border: solid skyblue;
-  }
+ 
+   /* styling search bar */
+   .search input[type=text]{
+    width:300px;
+    height:25px;
+    border-radius:25px;
+    border: none;
+
+}
+ 
+.search{
+    float:right;
+    margin:7px;
+
+}
+
+
 }

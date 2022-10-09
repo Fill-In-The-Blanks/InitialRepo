@@ -1,28 +1,50 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useRef,useEffect } from 'react';
 import { connect } from 'react-redux';
 import { requestLeave } from '../../actions/leaves';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import {getInstructorByID} from '../../actions/instructor';
 import emailjs from '@emailjs/browser';
-const SendRequest =({requestLeave})=>{
+import Spinner from '../layout/Spinner';
 
-    const [formData, setFormData] = useState({
-        empNo:'' , 
-        empName:'', 
-        CordinatorEmail:'', 
-        date:'', 
-        starttimeoff:'',
-        Endtimeoff:'',
-        Message:'', 
-        NumberofDays:'',
-        status:''
-      });
+
+const initialState={
+  empNo:'' , 
+  empName:'', 
+  CordinatorEmail:'', 
+  date:'', 
+  starttimeoff:'',
+  Endtimeoff:'',
+  Message:'', 
+  NumberofDays:'',
+  status:''
+};
+const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loading},})=>{
+
+   
+      const [formData, setFormData] = useState(initialState);
       const navigate = useNavigate();
-      const { empNo , empName, CordinatorEmail, date,starttimeoff,Endtimeoff,Message, NumberofDays,status } = formData;
+     
       const form = useRef();
-      const {id }= useParams();
+      const {id}= useParams();
+      useEffect(() => {
+        if (!instructor) getInstructorByID(id);
+    
+        if (!loading && instructor) {
+          const data = { ...initialState };
+          data.empNo = instructor.ID;
+          data.empName = instructor.userName;
+          
+    
+          setFormData(data);
+        }
+      }, [loading, getInstructorByID, instructor]);
+
+
+      const { empNo , empName, CordinatorEmail, date,starttimeoff,Endtimeoff,Message, NumberofDays,status } = formData;
+
       const onChange = (e) =>{
        
         
@@ -50,8 +72,7 @@ const SendRequest =({requestLeave})=>{
             e.preventDefault();
         }
         else {
-          // const numInput = document.getElementById("EmpNO");
-          // empNo=numInput.value;
+          
           setFormData({ ...formData, [e.target.name]: e.target.value });
 
           
@@ -72,8 +93,8 @@ const SendRequest =({requestLeave})=>{
     
       const onSubmit = async (e) => {
         e.preventDefault();
-        //console.log(formData);
-        requestLeave(formData,navigate);
+       
+        requestLeave(id,formData,navigate);
 
         emailjs.sendForm('service_5hilmhs', 'template_a586mw5',form.current, 'mxh2UGjiVIpuyyKJP')
           .then((result) => {
@@ -83,7 +104,9 @@ const SendRequest =({requestLeave})=>{
           });
       };
 
-      return (
+      return  loading ? (
+        <Spinner />
+      ) :(
         <Fragment>
           <section
             className='container container-margin-top-override'
@@ -103,10 +126,10 @@ const SendRequest =({requestLeave})=>{
                 <input
                   type='text'
                   placeholder='Employee Number'
-                  id="EmpNO"
+                 
                   name='empNo'
                   readOnly={true}
-                  value={leave=>leave.empNo==id}
+                  value={empNo}
                   onChange={(e) => onChange(e)}
                   required
                 />
@@ -117,6 +140,7 @@ const SendRequest =({requestLeave})=>{
                 <input
                   type='text'
                   placeholder='Employee Name'
+                  readOnly={true}
                   name='empName'
                   value={empName}
                   onChange={(e) => onChange(e)}
@@ -219,8 +243,11 @@ const SendRequest =({requestLeave})=>{
               pending{' '}
             </label>
           </div>
-
+         
           <input type='submit' className='btn btn-success' value='Send' />
+          <Link to={`/ListLeave/${id}`} >
+          <input type='reset' className='btn btn-danger' value='cancel' />
+          </Link>
         </form>
       </section>
     </Fragment>
@@ -228,7 +255,12 @@ const SendRequest =({requestLeave})=>{
 };
 SendRequest.propTypes = {
   requestLeave: PropTypes.func.isRequired,
+  getInstructorByID:PropTypes.func.isRequired,
+  instructor:PropTypes.object.isRequired
 };
+const mapStateToProps = (state) => ({
+  instructor: state.instructor,
+});
 
-export default connect(null, { requestLeave })(SendRequest);
+export default connect(mapStateToProps, { getInstructorByID,requestLeave })(SendRequest);
       

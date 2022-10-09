@@ -4,7 +4,17 @@ import { connect } from 'react-redux';
 import { Link ,useNavigate} from 'react-router-dom';
 import { deleteLeave,updatestatusByID} from '../../actions/leaves';
 import  axios  from 'axios';
+import jsPDF from 'jspdf';
+import logo from '../../img/sllit logo.png'
+import autoTable from 'jspdf-autotable';
 
+
+const pdfGenerate =(e)=>{
+  var doc=new jsPDF('landscape','px','a4','false');
+  doc.addImage(logo,'PNG',100,200,400,200);
+  autoTable(doc, { html: '#leavetable' })
+  doc.save('Leave_List.pdf')
+}
 
 const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
 
@@ -67,7 +77,7 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
               className='btn btn-danger'
             onClick={(e) => setStatus(item._id,e)}
            >
-              Disapprove{' '}
+              <i class='fas fa-window-close'></i>
             </button>
           
           </td>
@@ -79,7 +89,7 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
             className='btn btn-success'
             onClick={((e) => setStatus(item._id,e))}
             >
-              Approve{' '}
+            <i class='fas fa-check'></i>
             </button>
           
           </td>
@@ -104,7 +114,8 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
       className='btn btn-danger'
       onClick={ (e)=>setStatus(item._id,e)}
       >
-      Disapprove{' '}
+      
+      <i class='fas fa-window-close'></i>
        </button>
        </td>
       
@@ -117,7 +128,7 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
       
       onClick={(e) => setStatus(item._id,e)}
        >
-      Approve{' '}
+      <i className='fas fa-check'></i>
        </button>
        </td>
      
@@ -136,31 +147,31 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
         value={value}
         onChange={filterData}/>
       </div>
-
-      <table className='table'>
+      <button className='btn btn-success' onClick={pdfGenerate}><i className='fas fa-file-download'></i> PDF</button>
+      <table className='table' id='leavetable'>
         <thead>
           <tr>
             <th>Employee No</th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Employee Name
             </th>
            
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Date
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Start Time
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               End Time
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Message
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Number of Days
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Status
             </th>
             

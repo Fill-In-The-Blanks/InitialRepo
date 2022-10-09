@@ -2,10 +2,11 @@ import React, { Fragment,useState,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteLeave } from '../../actions/leaves';
 const LeaveItem = ({leave,deleteLeave}) => {
 
-  
+  const navigate = useNavigate();
     const [value,SetValue]=useState('');
     const [dataSource,SetdataSource]=useState(leave);
     const [tableFilter,SetTableFilter]=useState([]);
@@ -41,7 +42,7 @@ const LeaveItem = ({leave,deleteLeave}) => {
             {' '}
             <button
               className='btn btn-danger'
-            onClick={() => deleteLeave(item._id)}
+            onClick={() => deleteLeave(item._id,navigate)}
             >
               Delete{' '}
             </button>
@@ -67,7 +68,7 @@ const LeaveItem = ({leave,deleteLeave}) => {
       className='btn btn-danger'
       onClick={() => deleteLeave(item._id)}
        >
-      Delete{' '}
+       <i className='fas fa-trash'></i>
        </button>
        </td>
      
@@ -91,28 +92,28 @@ const LeaveItem = ({leave,deleteLeave}) => {
         <thead>
           <tr>
             <th>Employee No</th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Employee Name
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
              Cordinator Email
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Date
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Start Time
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               End Time
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Message
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Number of Days
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Status
             </th>
             

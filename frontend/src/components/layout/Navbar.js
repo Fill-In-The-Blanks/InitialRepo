@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
-
+import logo from './logosliit.png';
 const Navbar = ({
   auth: { isAuthenticated, loading, admin, instructor, isInstructor, isAdmin },
   logout,
@@ -13,15 +13,15 @@ const Navbar = ({
       <li>
         <div>
           {isAuthenticated && isAdmin ? (
-            <Link to={`Profile/${admin.ID}`} style={{ background: 'green' }}>
+            <Link to={`Profile/${admin.ID}`} style={{ background: '#CC9423' ,borderRadius:'10px'  }}>
               {' '}
               <i className='fas fa-user'></i>{' '}
-              <span className='hide-sm'>Profile</span>
+              <span className='hide-sm' >Profile</span>
             </Link>
           ) : (
             <Link
               to={`Profile/${instructor.ID}`}
-              style={{ background: 'green' }}
+              style={{ background: '#CC9423' ,borderRadius:'10px' }}
             >
               {' '}
               <i className='fas fa-user'></i>{' '}
@@ -33,12 +33,12 @@ const Navbar = ({
       <li>
         <div>
           {isAuthenticated && isAdmin ? (
-            <Link to='/adminDashboard' style={{ background: 'green' }}>
+            <Link to='/adminDashboard' style={{background: '#CC9423' ,borderRadius:'10px'  }}>
               <i className='fa fa-home'></i>{' '}
               <span className='hide-sm'>Dashboard</span>
             </Link>
           ) : (
-            <Link to='/instructorDashboard' style={{ background: 'green' }}>
+            <Link to='/instructorDashboard' style={{ background: '#CC9423' ,borderRadius:'10px' }}>
               <i className='fa fa-home'></i>{' '}
               <span className='hide-sm'>Dashboard</span>
             </Link>
@@ -50,7 +50,7 @@ const Navbar = ({
           <a
             onClick={logout}
             href='/'
-            style={{ /* color: '#fff',  */ background: 'red' }}
+            style={{ /* color: '#fff',  */ background: '#F74940' ,borderRadius:'10px'}}
           >
             <i className='fa fa-sign-out'></i>{' '}
             <span className='hide-sm'>Logout</span>
@@ -59,10 +59,10 @@ const Navbar = ({
           <a
             onClick={logout}
             href='/'
-            style={{ /* color: '#fff',  */ background: 'red' }}
+            style={{ /* color: '#fff',  */ background: '#F74940' ,borderRadius:'10px'}}
           >
             <i className='fa fa-sign-out'></i>{' '}
-            <span className='hide-sm'>Logoutss</span>
+            <span className='hide-sm'>Logout</span>
           </a>
         )}
       </li>
@@ -72,7 +72,7 @@ const Navbar = ({
   const guestLinks = (
     <ul>
       <li>
-        <Link to='/login' style={{ color: '#fff', background: '#17a2b8' }}>
+        <Link to='/login' style={{ color: '#fff', background: '#0B8390' , borderRadius:'8PX'}}>
           Admin Login
         </Link>
       </li>
@@ -83,9 +83,12 @@ const Navbar = ({
     <nav className='navbar bg-light'>
       <h1>
         <Link to='/'>
-          <p style={{ float: 'left', color: '#17a2b8' }}>
-            <i className='fas fa-file'></i> SLIIT IAS
-          </p>
+          <h1 style={{ float: 'left', color: '#1E2022' }}>
+            {/* <i className='fas fa-file'></i> SLIIT IAS */}
+           <img src={logo}
+           style={{ height:'62px', margin: 'auto', display: 'block' }}></img>
+           
+          </h1>
         </Link>
       </h1>
       <div>

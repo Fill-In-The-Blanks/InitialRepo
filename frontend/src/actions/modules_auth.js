@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 import { GET_MODULE, GET_MODULES, MODULE_ERROR } from './types';
-
+import { GET_TIMETABLES,GET_TIMETABLE,TIMETABLE_ERROR } from './types';
 
   
 
@@ -108,12 +108,12 @@ export const updateModuleByID = (ID, formData,navigate) => async (dispatch) => {
 
 export const getModuleByID = (ModuleID) => async (dispatch) => {
   try {
-      console.log('I reached here');
+      
 
       const res = await axios.get(`/api/module/${ModuleID}`);
 
       
-      console.log(res);
+    
 
       dispatch({
           type: GET_MODULE,
@@ -127,24 +127,41 @@ export const getModuleByID = (ModuleID) => async (dispatch) => {
   }
 }
 
-export const getModuleByName = (moduleName) => async (dispatch) => {
-  try {
-      console.log('I reached here');
+// export const getModuleByName = (moduleName) => async (dispatch) => {
+//   try {
+     
 
-      const res = await axios.get(`/api/module/search/${moduleName}`);
+//       const res = await axios.get(`/api/module/search/${moduleName}`);
 
       
-      console.log(res);
+      
+
+//       dispatch({
+//           type: GET_MODULE,
+//           payload: res.data
+//       });
+//   } catch (err) {
+//       dispatch({
+//           type: MODULE_ERROR,
+//           payload: { msg: err.response.statusText, status: err.response.status }
+//       });
+//   }
+// }
+    
+//get allocated module by name
+export const getallocatedmodule = name => async dispatch => {
+  try {
+      const res=await axios.get(`/api/timetable2/${name}`);
 
       dispatch({
-          type: GET_MODULE,
+          type: GET_TIMETABLES,
           payload: res.data
-      });
+      });  
+
   } catch (err) {
       dispatch({
-          type: MODULE_ERROR,
-          payload: { msg: err.response.statusText, status: err.response.status }
+          type: TIMETABLE_ERROR,
+          payload: { msg: err.response.statusText, status: err.response.status } 
       });
   }
-}
-    
+};

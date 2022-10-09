@@ -177,4 +177,24 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
+router.get('/empName', async (req, res) => {
+  try {
+  
+      const leave = await Leave.findOne({ empName:req.params.empName });
+
+      if(!leave) {
+          return res.status(404).json({ msg: 'leave not found' });
+      }
+
+      res.json(leave);
+  } catch (err) {
+      console.error(err.message);
+      if(err.kind === 'String') {
+          return res.status(404).json({ msg: 'leave not found' });
+      }
+      res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

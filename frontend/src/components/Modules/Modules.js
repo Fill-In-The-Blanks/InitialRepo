@@ -28,9 +28,7 @@ const List = ({
         ) : (
           <h4>No modules found</h4>
         )}
-        <Link to={`/addModules`}>
-          <button className='btn btn-success'>+</button>
-        </Link>
+       
       </div>
 
       <div>

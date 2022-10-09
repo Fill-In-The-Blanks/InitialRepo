@@ -1,23 +1,37 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
+import {getInstructorByID} from '../../actions/instructor';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getLeave } from '../../actions/leaves';
+import { getLeavebyName } from '../../actions/leaves';
 import LeaveItem from './LeaveItem';
-
+import Spinner from '../layout/Spinner';
+const initialState={
+  empNo:'' }
 const ListLeave = ({
-    getLeave,
-    leave: { leaves, loading },
-    auth: { instructor },
+    getLeavebyName,
+    getInstructorByID,
+    leave: { leaves},
+    instructor: {instructor,loading },
   }) => {
-    const {id }= useParams();
+    const {id}= useParams();
     useEffect(() => {
-      getLeave(id);
-    }, []);
+     if (!instructor) getInstructorByID(id);
+     if (!loading && instructor) {
+      const data = {...initialState};
+  
+      data.empNo = instructor.ID;
+      
+      console.log (getLeavebyName(data.empNo));
+     }
 
-    return (
+      
+    }, [loading,getInstructorByID,getLeavebyName,instructor]);
+
+    return  loading ? (
+      <Spinner />
+    ) : (
       <Fragment>
         <div>
           { leaves.length > 0 ? (
@@ -40,14 +54,17 @@ const ListLeave = ({
   };
   
   ListLeave.propTypes = {
-    getLeave: PropTypes.func.isRequired,
+    getLeavebyName: PropTypes.func.isRequired,
     leave: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired,
+
+    getInstructorByID:PropTypes.func.isRequired,
+   instructor:PropTypes.object.isRequired
   };
   
   const mapStateToProps = (state) => ({
     leave: state.leave,
-    auth: state.auth,
+    
+    instructor: state.instructor,
   });
 
-  export default connect(mapStateToProps, { getLeave })(ListLeave);
+  export default connect(mapStateToProps, { getInstructorByID,getLeavebyName })(ListLeave);

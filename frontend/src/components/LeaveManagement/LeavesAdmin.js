@@ -23,9 +23,7 @@ const ListLeaves = ({getLeaves,
           ):(
             <h4>No Leaves Found</h4>
           )}
-          <Link to={`/SendRequest`}>
-            <button className='btn btn-success'>+</button>
-          </Link>
+          
         </div>
   
         <div>
