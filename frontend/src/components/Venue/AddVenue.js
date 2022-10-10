@@ -112,8 +112,10 @@ const AddVenue = ({ Venue }) => {
                 </select>
               </div>
               <input type='submit' className='btn btn-primary' value='Confirm' />
-              
-                <input type='reset' className='btn btn-primary' value='Cancel' />
+              <Link to={`/ListVenues`}>
+              <button className='btn btn-success'>Cancel</button>
+        </Link>
+                
             
             </form>
           </section>

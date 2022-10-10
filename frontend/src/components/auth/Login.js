@@ -1,17 +1,17 @@
-import React, { Fragment, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { setAlert } from '../../actions/alert';
-import { loginAdmin } from '../../actions/auth';
-import PropTypes from 'prop-types';
+import React, { Fragment, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alert";
+import { loginAdmin } from "../../actions/auth";
+import PropTypes from "prop-types";
 
 // import connect to connect this component to redux. Use when you want the component to call an action or get a state
 
-const Login = ({ setAlert, loginAdmin, isAuthenticated }) => {
+const Login = ({ loginAdmin, isAuthenticated }) => {
   // formData is the object that holds our values and setFormData is the function to change the values
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const { email, password } = formData;
@@ -26,37 +26,38 @@ const Login = ({ setAlert, loginAdmin, isAuthenticated }) => {
 
   // Redirect if logged in
   if (isAuthenticated) {
-    return <Navigate to='/adminDashboard' />;
+    return <Navigate to="/adminDashboard" />;
   }
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Sign In as Admin</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Sign Into Your Account
-      </p>
-      <form className='form' onSubmit={(e) => onSubmit(e)}>
-        <div className='form-group'>
+
+      <h1 style={{marginTop: '30px'}} className="large">Sign In as Admin</h1>
+      {/* <p className="lead">
+        <i className="fas fa-user"></i> Sign Into Your Account
+      </p> */}
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
+        <div className="form-group">
           <input
-            type='email'
-            placeholder='Email Address'
-            name='email'
+            type="email"
+            placeholder="Email Address"
+            name="email"
             value={email}
             onChange={(e) => onChange(e)}
             required
           />
         </div>
-        <div className='form-group'>
+        <div className="form-group">
           <input
-            type='password'
-            placeholder='Password'
-            name='password'
+            type="password"
+            placeholder="Password"
+            name="password"
             value={password}
             onChange={(e) => onChange(e)}
-            minLength='6'
+            minLength="6"
           />
         </div>
-        <input type='submit' className='btn btn-primary' value='Login' />
+        <input type="submit" className="btn btn-primary" value="Login" />
       </form>
     </Fragment>
   );
