@@ -41,18 +41,19 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
               </button>
             </Link> */}
 
-          
+            <Link to={`/allocateSlot`}>
+              <button className='btn btn-primary'>Allocate Sots</button>
+            </Link>
 
-            {/* <Link to={`/timetableManagement`}>
+            <Link to={`/timetableManagement`}>
               <button className='btn btn-primary'>List Slots</button>
-            </Link> */}
+            </Link>
             <button
               className='btn btn-danger'
               style={{ float: 'right' }}
               onClick={() => setButtonStatus({ delete: !buttonStatus.delete })}
             >
-              <i className='fas fa-trash'></i> 
-             {''} Delete All Slots{' '}
+              Delete All Slots{' '}
             </button>
             {slots.length > 0 ? (
               <TimetableItem slots={slots} />
