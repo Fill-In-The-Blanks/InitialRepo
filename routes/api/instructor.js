@@ -195,4 +195,24 @@ router.put(
   }
 );
 
+
+
+router.get('/:id', async (req, res) => {
+  try {
+    const instructor = await Instructor.findById(req.params.id);
+
+    if (!instructor) {
+      return res.status(404).json({ msg: 'instructor not found' });
+    }
+
+    res.json(instructor);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'String') {
+      return res.status(404).json({ msg: 'instructor not found' });
+    }
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

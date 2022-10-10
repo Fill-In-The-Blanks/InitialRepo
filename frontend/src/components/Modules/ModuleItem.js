@@ -7,6 +7,7 @@ import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
 
+
 const pdfGenerate =(e)=>{
   var doc=new jsPDF('landscape','px','a4','false');
   doc.addImage(logo,'PNG',100,200,400,200);
@@ -49,7 +50,7 @@ const ModuleItem = ({ module, deleteModule }) => {
     
     <tr key={mod._id}>
       <td>{mod.moduleName}</td>
-      <td>{mod.ModuleID}</td>
+      {/* <td>{mod.ModuleID}</td> */}
       <td>{mod.specialization}</td>
       <td>{mod.year}</td>
       <td>{mod.semester}</td>
@@ -59,38 +60,53 @@ const ModuleItem = ({ module, deleteModule }) => {
           className='btn btn-danger'
           onClick={() => deleteModule(mod._id)}
         >
-          Delete{' '}
+          <i className='fas fa-trash'></i>
         </button>
       
       </td>
+      
+     
       <td>
         <Link to={`/EditModules/${mod._id}`}>
-          <button className='btn btn-success'>Edit</button>
+          <button className='btn btn-success'><i className='fas fa-edit'></i></button>
         </Link>
       </td>
+      <td>
+        <Link to={`/ListAlloc/${mod._id}`}>
+          <button className='btn btn-success'>
+<i className='fas fa-calendar'></i></button>
+        </Link>
+      </td>
+      
     </tr>
   )):  module.map((mod) => (
     
   <tr key={mod._id}>
    <td>{mod.moduleName}</td>
-  <td>{mod.ModuleID}</td>
+  {/* <td>{mod.ModuleID}</td> */}
    <td>{mod.specialization}</td>
   <td>{mod.year}</td>
   <td>{mod.semester}</td>
   <td>
   {' '}
   <button
-  className='btn btn-danger'
+  className='btn btn-danger btn-mini'
   onClick={() => deleteModule(mod._id)}
    >
-  Delete{' '}
+  <i className='fas fa-trash'></i>
    </button>
    </td>
   <td>
   <Link to={`/EditModules/${mod._id}`}>
-  <button className='btn btn-success'>Edit</button>
+  <button className='btn btn-success btn-mini'><i className='fas fa-edit'></i></button>
   </Link>
   
+  </td>
+  <td>
+  <Link to={`/ListAlloc/${mod._id}`}>
+          <button className='btn btn-success'>
+<i className='fas fa-calendar'></i></button>
+        </Link>
   </td>
   </tr>
   ))
@@ -101,49 +117,56 @@ const ModuleItem = ({ module, deleteModule }) => {
       <p className='lead'> Module Management</p>
      
             
-             
-      <div>
+    <div className='search'>         
+    
     <input type='text' 
     placeholder='Search'
+    
     value={value}
     onChange={filterData}/>
   </div>
   <div>
-       <h3>Filter by specialization</h3>
+       
        <button className=' btn btn-success'  onClick={()=>handleFilter("SE")}>SE</button>
        <button className=' btn btn-success'onClick={()=>handleFilter("IT")}>IT</button>
        <button className=' btn btn-success'onClick={()=>handleFilter("CSNE")}>CSNE</button>
        <button className='  btn btn-success'onClick={()=>handleFilter("ISE")}>ISE</button>
        <button className=' btn btn-success'onClick={()=>handleFilter("CS")}>CS</button>
        <button className='  btn btn-success'onClick={()=>handleFilter("IM")}>IM</button>
-       <button className='  btn btn-success'onClick={()=>handleFilter("DM")}>DM</button>
+       <button className='  btn btn-success'onClick={()=>handleFilter("DM")}>DM</button><br/>
+       
+       
   </div>
-  
+  <button className='btn btn-success' onClick={pdfGenerate}><i className='fas fa-file-download'></i> PDF</button>
+  <Link to={`/addModules`}>
+          <button className='btn btn-success'>+ Add New</button>
+        </Link>
   
       <table className='table' id='module-table'>
         <thead>
           <tr>
-            <th>Module Name</th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
-              Module code
+            {/* <th>Module Name</th> */}
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
+              Module Name
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
-              specialization
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
+              Specialization
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Year
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
-              semester
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
+              Semester
             </th>
             
             
             
-            <th>
-            <button className='btn btn-success' onClick={pdfGenerate}>Download PDF</button>
-            </th>
+            
+           
+            
             
           </tr>
+          
         </thead>
         <tbody>{modules}</tbody>
       </table>

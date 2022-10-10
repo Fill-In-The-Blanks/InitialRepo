@@ -20,20 +20,18 @@ const Employees = ({ getEmployees, employee: { employees, loading } }) => {
           {/* <i className='fas fa-user'></i> */} Employee Management
         </p>
 
-        <Link to={`/employeeManagement`}>
-          <button className="btn btn-primary" style={{ marginBottom: "5px" }}>
-            Add Employees
+      
+         {/* <Link to={`/employeeManagement`}>
+          <button className="btn btn-success" style={{ marginBottom: "5px" }}>
+            + Add New
           </button>
-        </Link>
-        <Link to={`/listEmployees`}>
-          <button className="btn btn-primary">List Employees</button>
-        </Link>
-
+        </Link> */}
         {employees.length > 0 ? (
           <EmployeeItem employees={employees} />
         ) : (
           <h4>No employees found</h4>
         )}
+       
       </section>
     </Fragment>
   );

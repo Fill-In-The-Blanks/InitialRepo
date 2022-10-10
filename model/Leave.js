@@ -15,7 +15,7 @@ const LeaveSchema = new mongoose.Schema({
       required: true,
     },
     date: {
-      type: Date,
+      type:String,
       required:true,
 
     },
@@ -38,7 +38,7 @@ const LeaveSchema = new mongoose.Schema({
 
     status: {
       type: String,
-      default: 'false',
+      
     },
   });
   

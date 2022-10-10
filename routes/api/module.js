@@ -13,7 +13,7 @@ router.post(
   '/',
   [
     check('moduleName', 'Module Name is required').not().isEmpty(), //route validation
-    check('ModuleID', 'Enter Valid module Code').not().isEmpty(),
+   
     check('specialization', 'specialization is required').not().isEmpty(),
     check('year', 'year of Study is required').not().isEmpty(),
     check('semester', 'Semester of Study is required').not().isEmpty(),
