@@ -14,11 +14,11 @@ const Landing = ({ isAuthenticated }) => {
     <section className='landing'>
       <div className='dark-overlay'>
         <div className='landing-inner'>
-          <h1 className='x-large'>Instructor Allocation System</h1>
+          <h1  style={{color:'#F69A16',fontSize:'60px'}}className='x-large lead'>Instructor Allocation System</h1>
           <p className='lead'></p>
           <div className='buttons'>
             {/* <a href="register.html" className="btn btn-primary">Sign Up</a> */}
-            <Link to='/login' className='btn btn-light'>
+            <Link to='/Instructorlogin' className='btn btn-primary'>
               Login
             </Link>
             {/* <Link to="/addEmployee" className="btn btn-light">Test</Link> */}

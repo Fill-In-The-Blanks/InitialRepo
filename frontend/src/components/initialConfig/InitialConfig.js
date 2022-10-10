@@ -80,34 +80,39 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
 
   return (
     <Fragment>
-      <h2>Inital Configuration</h2>
-      Upload Instructor File <br></br>
+      <p className='lead'>Inital Configuration</p>
+      <h1>Upload Instructor File </h1><br></br>
+      
       <input
         type='file'
+        
         onChange={(e) => {
           const file = e.target.files[0];
           readInstructorExcel(file);
         }}
       />
+
+      
+      
       <table className='table'>
         <thead>
           <tr>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Employee No.
             </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Employee Name
             </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Employee Email
             </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Phone
             </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Specialization
             </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Vacancy Status
             </th>
           </tr>
@@ -126,9 +131,10 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
         </tbody>
       </table>
       <br></br>
-      Upload Timetable File <br></br>
+      <h1>Upload Timetable File</h1> <br></br>
       <input
         type='file'
+        
         onChange={(e) => {
           const file = e.target.files[0];
           readTimetableExcel(file);
@@ -137,26 +143,20 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
       <table className='table'>
         <thead>
           <tr>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Time Slot
             </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Day
             </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Module
             </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Venue
             </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
+            <th scope='col' style={{ textAlign: 'left' }}>
               Group
-            </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
-              Session Type
-            </th>
-            <th scope='col' style={{ textAlign: 'center' }}>
-              Staff Requirement
             </th>
           </tr>
         </thead>
@@ -174,8 +174,6 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
               <td>{row.module}</td>
               <td>{row.venue}</td>
               <td>{row.group}</td>
-              <td>{row.sessionType}</td>
-              <td>{row.staffRequirement}</td>
             </tr>
           ))}
         </tbody>

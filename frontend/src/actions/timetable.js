@@ -21,6 +21,24 @@ export const addTimetableSheet = (formData) => async (dispatch) => {
   }
 };
 
+export const addTimetable = (formData) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    /* console.log(formData); */
+    const res = await axios.post('/api/timetable/createTimeTable', formData, config);
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    }
+  }
+};
+
 // @Desc  Retrieve all slots
 export const getSlots = () => async (dispatch) => {
   try {
