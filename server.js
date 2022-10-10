@@ -27,6 +27,7 @@ app.use('/api/venues', require('./routes/api/venues'));
 app.use('/api/instructor', require('./routes/api/instructor'));
 app.use('/api/notices', require('./routes/api/notices'));
 app.use('/api/email', require('./routes/api/email'));
+app.use('/api/timetable2', require('./routes/api/timetable2'));
 
 app.use('/api/leaves', require('./routes/api/leaves'));
 app.use('/api/leave', require('./routes/api/leaves2'));

@@ -26,13 +26,14 @@ import SlotsConfirmationDialog from './components/dialogBox/SlotsConfirmationDia
 import EditVenue from './components/Venue/EditVenue';
 import AddNotice from './components/Notices/AddNotice';
 import Notices from './components/Notices/Notices';
+import ListAllocTime from './components/InstructorTimetable/instructorTimetable';
 /* import { useNavigate } from 'react-router-dom'; */
 import setAuthToken from './utils/setAuthToken';
 import SendRequest from './components/LeaveManagement/SendRequest';
 import { loadAdmin } from './actions/auth';
 import ListLeave from './components/LeaveManagement/Leaves';
 import ListLeaves from './components/LeaveManagement/LeavesAdmin';
-import ListAllocModule  from './components/Modules/AllocatedModules'
+import ListAllocModule from './components/Modules/AllocatedModules';
 //Redux
 import { connect, Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
 import store from './store';
@@ -103,7 +104,9 @@ const App = () => {
               <Route path='/AddVenues' element={<AddVenue />} />
               <Route path='/UserManagement' element={<Home />} />
               <Route path='/Profile/:id' element={<Profile />} />
+              <Route path='/ListTime/:id' element={<ListAllocTime />} />
               <Route path='/EmailManagement' element={<EmailHome />} />
+
               <Route
                 path='/slotsConfirmation'
                 element={<SlotsConfirmationDialog />}
