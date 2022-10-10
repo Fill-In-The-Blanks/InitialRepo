@@ -1,17 +1,31 @@
-import React, { Fragment,useState,useEffect } from 'react';
+import React, { Fragment,useState,useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { deleteLeave } from '../../actions/leaves';
-const LeaveItem = ({leave,deleteLeave}) => {
+import { Link ,useNavigate} from 'react-router-dom';
+import { deleteLeave,updatestatusByID} from '../../actions/leaves';
+import  axios  from 'axios';
+import jsPDF from 'jspdf';
+import logo from '../../img/sllit logo.png'
+import autoTable from 'jspdf-autotable';
 
-  const navigate = useNavigate();
+
+const pdfGenerate =(e)=>{
+  var doc=new jsPDF('landscape','px','a4','false');
+  doc.addImage(logo,'PNG',100,200,400,200);
+  autoTable(doc, { html: '#leavetable' })
+  doc.save('Leave_List.pdf')
+}
+
+const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
+
+  
     const [value,SetValue]=useState('');
     const [dataSource,SetdataSource]=useState(leave);
     const [tableFilter,SetTableFilter]=useState([]);
-    //const [sortvalue,SetsortValue]=useState('');
     
+    
+    
+   
     const filterData=(e)=>{
       if(e.target.value!=""){
         SetValue(e.target.value);
@@ -23,7 +37,25 @@ const LeaveItem = ({leave,deleteLeave}) => {
       }
   
     }
+ 
 
+    // const onchange = (e) =>
+    // setFormData({ ...formData, [e.target.name]: e.target.value });
+    const setStatus = async (id, e) => {
+      try {
+        console.log(e.target.value);
+        console.log(id);
+      
+      updatestatusByID(id,e.target.value);
+      
+      } catch (error) {
+        console.log(error)
+      }
+  
+    }
+
+   
+   
 
 
     const leaves =  value.length > 0 ? tableFilter.map((item) => (
@@ -31,7 +63,6 @@ const LeaveItem = ({leave,deleteLeave}) => {
         <tr key={item._id}>
           <td>{item.empNo}</td>
           <td>{item.empName}</td>
-          <td>{item.CordinatorEmail}</td>
           <td>{item.date}</td>
           <td>{item.starttimeoff}</td>
           <td>{item.Endtimeoff}</td>
@@ -40,11 +71,25 @@ const LeaveItem = ({leave,deleteLeave}) => {
           <td>{item.status}</td>
           <td>
             {' '}
-            <button
+            <button 
+            name='status'
+            value={"Declined"}
               className='btn btn-danger'
-            onClick={() => deleteLeave(item._id,navigate)}
+            onClick={(e) => setStatus(item._id,e)}
+           >
+              <i class='fas fa-window-close'></i>
+            </button>
+          
+          </td>
+
+          <td>
+            {' '}
+            <button name='status'
+            value={"Approved"}
+            className='btn btn-success'
+            onClick={((e) => setStatus(item._id,e))}
             >
-              Delete{' '}
+            <i class='fas fa-check'></i>
             </button>
           
           </td>
@@ -55,20 +100,35 @@ const LeaveItem = ({leave,deleteLeave}) => {
         <tr key={item._id}>
         <td>{item.empNo}</td>
         <td>{item.empName}</td>
-        <td>{item.CordinatorEmail}</td>
+     
         <td>{item.date}</td>
         <td>{item.starttimeoff}</td>
         <td>{item.Endtimeoff}</td>
         <td>{item.Message}</td>
         <td>{item.NumberofDays}</td>
         <td>{item.status}</td>
+        <td>
+      {' '}
+      <button value={"Declined"}
+      name='status'
+      className='btn btn-danger'
+      onClick={ (e)=>setStatus(item._id,e)}
+      >
+      
+      <i class='fas fa-window-close'></i>
+       </button>
+       </td>
+      
+      
       <td>
       {' '}
-      <button
-      className='btn btn-danger'
-      onClick={() => deleteLeave(item._id)}
+      <button value={"Approved"}
+       name='status'
+      className='btn btn-success'
+      
+      onClick={(e) => setStatus(item._id,e)}
        >
-       <i className='fas fa-trash'></i>
+      <i className='fas fa-check'></i>
        </button>
        </td>
      
@@ -87,17 +147,15 @@ const LeaveItem = ({leave,deleteLeave}) => {
         value={value}
         onChange={filterData}/>
       </div>
-
-      <table className='table'>
+      <button className='btn btn-success' onClick={pdfGenerate}><i className='fas fa-file-download'></i> PDF</button>
+      <table className='table' id='leavetable'>
         <thead>
           <tr>
             <th>Employee No</th>
             <th className='hide-sm' style={{ textAlign: 'left' }}>
               Employee Name
             </th>
-            <th className='hide-sm' style={{ textAlign: 'left' }}>
-             Cordinator Email
-            </th>
+           
             <th className='hide-sm' style={{ textAlign: 'left' }}>
               Date
             </th>
@@ -130,10 +188,10 @@ const LeaveItem = ({leave,deleteLeave}) => {
   );
 };
 
-LeaveItem.propTypes = {
+LeaveItemAdmmin.propTypes = {
   leave: PropTypes.array.isRequired,
- deleteLeave: PropTypes.func.isRequired,
- 
+
+ updatestatusByID:PropTypes.func.isRequired
 };
 
-export default connect(null,{deleteLeave})(LeaveItem);
+export default connect(null,{updatestatusByID})(LeaveItemAdmmin);

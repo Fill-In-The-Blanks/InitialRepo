@@ -68,7 +68,7 @@ const onchange = (e) =>
               disabled
             />
           </div>
-          <div className='form-group'>
+          {/* <div className='form-group'>
             Module Code
             <small className='form-text'>
               Will be rejected if module already exists
@@ -81,7 +81,7 @@ const onchange = (e) =>
               onChange={(e) => onchange(e)}
              
             />
-          </div>
+          </div> */}
           <div className='form-group'>
           Specialization
             <small className='form-text'>Specialization in computing only</small>

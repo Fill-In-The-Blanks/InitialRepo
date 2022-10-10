@@ -29,12 +29,12 @@ const AddNotice = ({ Notices }) => {
     <Fragment>
       <section className='container container-margin-top-override'>
         <p className='lead'>Add Notices</p>
-        <Link to={`/AddNotice`}>
+        {/* <Link to={`/AddNotice`}>
           <button className='btn btn-primary'>AddNotice Notices</button>
         </Link>
         <Link to={`/notices`}>
           <button className='btn btn-primary'>List Notices</button>
-        </Link>
+        </Link> */}
 
         <form className='form' onSubmit={(e) => onsubmit(e)}>
           <div className='form-group'>
@@ -103,7 +103,7 @@ const AddNotice = ({ Notices }) => {
           </div>
 
           <input type='submit' className='btn btn-primary' value='Confirm' />
-          <Link to='#'>
+          <Link to={`/notices`}>
             <input type='reset' className='btn btn-primary' value='Cancel' />
           </Link>
         </form>

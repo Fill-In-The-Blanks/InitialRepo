@@ -25,9 +25,7 @@ const ListVenue = ({
         ) : (
           <h4>No Venues found</h4>
         )}
-        <Link to={`/addVenues`}>
-          <button className='btn btn-success'>+</button>
-        </Link>
+       
       </section>
     </Fragment>
   );
