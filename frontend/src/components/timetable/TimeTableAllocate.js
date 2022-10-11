@@ -15,22 +15,36 @@ const TimeTableAllocate = ({
   timetable: { slots },
   getEmployees,
   employee: { employees },
+  auth: { admin }
 }) => {
+  const [value, setvalue] = useState('');
+  const [batch, setBatch] = useState([]);
+  const [day, setDay] = useState([]);
   const [module, setModule] = useState('');
   const [modules, setModules] = useState([]);
   const [timetable, setTimeTable] = useState([]);
+  const [batches, setBatches] = useState([]);
+  const [TimeTable2, setTimeTable2] = useState([]);
   useEffect(() => {
     getSlots();
     getEmployees();
   }, []);
-
+  let i = 0
   //submit the generated slots to the db
   const SubmitData = () => {
+
     axios
       .post('/api/timetable/createTimeTable', { timetable: timetable })
       .then(document.location.reload())
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    axios
+      .get('/api/timetable/getTimeTable')
+      .then((body) => setTimeTable2(body.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   const convertToTime = (item) => {
     return (
@@ -43,6 +57,33 @@ const TimeTableAllocate = ({
     return Number(item.split(':')[0]) + Number(item.split(':')[1] / 60);
   };
 
+
+  const [emphour, setemphours] = useState([]);
+  
+
+useEffect(() => {
+  TimeTable2.forEach((item) => {
+    let hours = 0;
+    hours = item.hours
+    let index = emphour.findIndex((item2) => item2.empNo === item.empNo)
+    if (index === -1) {
+      if (hours > 1) {
+        hours = 1;
+      }
+      emphour.push({ empNo: item.empNo, hours: item.hours })
+    }
+    else {
+      if (hours > 1) {
+        hours = 1;
+      }
+      let new_hours = emphour[index].hours + hours
+      emphour[index] = {
+        empNo: item.empNo,
+        hours: new_hours
+      }
+    }
+  })
+}, [TimeTable2, emphour])
   //main function for the logic
   const handleEvent = (item, item2) => {
     const heading = document.getElementById(item._id);
@@ -124,6 +165,7 @@ const TimeTableAllocate = ({
           ) {
             disable(item3);
           } else {
+            i++;
             //if the slots don' clash
           }
         }
@@ -137,14 +179,16 @@ const TimeTableAllocate = ({
           (timetable) =>
             timetable.startTime === item.startTime && timetable._id === item._id
         ).length ===
-        slots.find(
+        (slots.find(
           (timeSlot) =>
             timeSlot.startTime === item.startTime && timeSlot._id === item._id
         ).staffRequirement -
-          1
+        1) - TimeTable2.filter((item9) => {
+          return item9.slotID === item._id
+        }).length
       ) {
-        heading.style.background = 'yellow';
-        name.style.background = 'yellow';
+        heading.style.background = 'grey';
+        name.style.background = 'grey';
         employees.forEach((item4) => {
           if (
             !document.getElementById(
@@ -154,8 +198,9 @@ const TimeTableAllocate = ({
             document.getElementById(
               item.startTime + '-' + item4.empNo + item._id
             ).disabled = true;
+
           } else {
-            document.getElementById(item4.empNo).style.background = 'yellow';
+            document.getElementById(item4.empNo).style.background = 'grey';
           }
         });
       }
@@ -175,7 +220,7 @@ const TimeTableAllocate = ({
       ]);
 
       name.style.background = 'white';
-      heading.style.background = '#5cdc3c';
+      heading.style.background = '#5CD197';
 
       //enabling the other options
       //when the box is unchecked
@@ -232,16 +277,121 @@ const TimeTableAllocate = ({
       });
     }
   };
+  const [test, settest] = useState([])
+  const [sortDay, setsortDay] = useState([]);
+  const [emp, setemp] = useState([null])
+  const [cond, setCond] = useState(true);
+
+  let fls = true;
+  const selectBatch = (e) => {
+    setsortDay([]);
+    setModules([]);
+    setModule('');
+    setBatch(e.target.value);
+    //console.log(batch);
+   
+    //document.getElementById("day").disabled = false;
+  }
+  const selectDay = (e) => {
+    setModules([]);
+    setModule('');
+    setDay(e.target.value);
+    //console.log(day);
+    
+    
+
+  }
+  const empSearch = (e) => {
+    setemp(e.target.value)
+    console.log(emp);
+  }
+
+
+  const handleChange = (e) => {
+    setvalue(e.target.value);
+
+  }
+
+  const onSearch = (search) => {
+    setvalue(search);
+    console.log("Search", search)
+    setemp(search);
+    setCond(false);
+
+  }
+  
+  let a = 0;
 
   return (
     <>
+
+      {
+        slots.forEach((item) => {
+          if (test.indexOf(item.group) === -1) {
+            //console.log(test);
+            test.push(item.group);
+          }
+        })
+      }
+
+      {
+        slots.forEach((item) => {
+          if (item.group === batch && sortDay.indexOf(item.dayOfTheWeek) === -1) {
+            //console.log(sortDay);
+            sortDay.push(item.dayOfTheWeek);
+          }
+        })
+      }
+
       {slots.forEach((item) => {
-        if (modules.indexOf(item.module) === -1) {
-          modules.push(item.module);
+        if (day === 'all') {
+          if (item.group === batch && modules.indexOf(item.module) === -1) {
+            modules.push(item.module);
+          }
+        }
+        else if (item.dayOfTheWeek === day) {
+          if (item.group === batch && item.dayOfTheWeek === day && modules.indexOf(item.module) === -1) {
+            modules.push(item.module);
+          }
         }
       })}
+
+      {modules && <div style={{ display: "flex" }}>
+        <div className="custom-select" style={{ width: '930px' }}>
+          <select id="batch" onChange={(e) => { selectBatch(e) }}>
+            <option>Select Batch:</option>
+            {test.map((item) => {
+               //Barrak - add ur if-else for admin access level
+                return (
+                  <option value={item}>{item}</option>
+                )
+            })}
+
+          </select>
+        </div>
+        <div className="custom-select" style={{ width: '150px' }}>
+          <select id="day" onChange={(e) => { selectDay(e) }}>
+            <option value ='all'>Select Day:</option>
+            <option value='all'>All</option>
+            {sortDay.map((item) => {
+              //console.log(item.group);
+              //if (item.group === batch) 
+              return (
+                <option value={item}>{item}</option>
+              )
+
+
+            })
+            }
+
+          </select>
+        </div>
+      </div>}
+
+
       {modules &&
         modules.map((item) => {
+          
           return (
             <button
               className='btn btn-primary'
@@ -253,83 +403,268 @@ const TimeTableAllocate = ({
             </button>
           );
         })}
-      {module && (
+
+
+      {
+
+        slots.forEach(function loop(item) {
+          if (item.group === batch && item.module === module) {
+
+            if (loop.stop) { return; }
+            if (item.staffRequirement > TimeTable2.filter((yakki) => {
+              return yakki.slotID === item._id
+            }).length) {
+              fls = false;
+            }
+            
+          }
+        })
+
+      }
+
+
+
+      {module && !(fls)? (
         <table className='table'>
           <thead>
             <tr>
-              <th scope='col'>Name</th>
-              <th scope='col'>No. of Modules</th>
-              <th scope='col'>Hours</th>
+              <th scope='col'>
+              <div className="search-container">
+
+                <div className="search-inner">
+                <label>Search Name:</label>
+                <input type="text" value={value} onChange={handleChange} />
+               
+              </div>
+              <div className="dropdown">
+                {employees.filter(
+                  item => {
+                    const searchTerm = value.toLowerCase();
+                    const empName = item.empName.toLowerCase();
+
+                    return searchTerm && empName.startsWith(searchTerm) && empName !== searchTerm
+                  }
+                ).map((item3) => {
+                  return (
+                    <div className="dropdown-row" onClick={() => {
+                      onSearch(item3.empName)
+                    }}>
+                      {item3.empName}
+                    </div>)
+
+
+                })
+                }
+              </div>
+              </div>
+              </th>
+              <th scope='col'>Total Allocated Hours</th>
+              <th scope='col'>Currently Allocated Hours</th>
               {/* {displaying the available slots on the table head} */}
               {slots.map((item) => {
-                if (item.module === module && item.assigned === false)
-                  return (
-                    <th
-                      style={{ background: '#5cdc3c', color: 'white' }}
-                      id={item._id}
-                    >
-                      <tr className='d-flex justify-content-center'>
-                        {item.startTime}-{item.endTime}
-                      </tr>
-                      <tr className='d-flex justify-content-center'>
-                        {item.dayOfTheWeek}
-                      </tr>
-                      <tr className='d-flex justify-content-center'>
-                        {item.venue}
-                      </tr>
-                      <tr className='d-flex justify-content-center'>
-                        {item.module}
-                      </tr>
-                      <tr className='d-flex justify-content-center'>
-                        {item.group}
-                      </tr>
-                      <tr className='d-flex justify-content-center'>
-                        <p>Max: </p>
-                        {item.staffRequirement}
-                      </tr>
-                    </th>
-                  );
+                if (day === 'all') {
+                  if (item.module === module && item.staffRequirement > TimeTable2.filter((yakki) => {
+
+                    return yakki.slotID === item._id
+                  }).length && item.group === batch) {
+                    return (
+                      <th
+                        style={{ background: '#5CD197', color: 'white'}}
+                        id={item._id}
+                        key={item._id}
+                      >
+                        <tr style={{ background: '#5CD197', color: 'white'}} className='d-flex justify-content-center'>
+                          {item.startTime}-{item.endTime}
+                        </tr>
+                        <tr  style={{ background: '#5CD197', color: 'white'}} className='d-flex justify-content-center'>
+                          {item.dayOfTheWeek}
+                        </tr>
+                        <tr style={{ background: '#5CD197', color: 'white'}} className='d-flex justify-content-center'>
+                          {item.venue}
+                        </tr>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
+                          {item.module}
+                        </tr>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
+                          {item.group}
+                        </tr>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
+                          <p>Max: </p>
+                          {item.staffRequirement}
+                        </tr>
+                      </th>
+                    );
+                  }
+                }
+                else if (item.dayOfTheWeek === day)
+                  if (item.module === module && item.staffRequirement > TimeTable2.filter((yakki) => {
+
+                    return yakki.slotID === item._id
+                  }).length && item.group === batch) {
+                    return (
+                      <th
+                        style={{ background: '#5CD197', color: 'white' }}
+                        id={item._id}
+                        key={item._id}
+                      >
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
+                          {item.startTime}-{item.endTime}
+                        </tr>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
+                          {item.dayOfTheWeek}
+                        </tr>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
+                          {item.venue}
+                        </tr>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
+                          {item.module}
+                        </tr>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
+                          {item.group}
+                        </tr>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
+                          <p>Max: </p>
+                          {item.staffRequirement}
+                        </tr>
+                      </th>
+                    );
+                  }
               })}
             </tr>
           </thead>
           <tbody>
             {employees.map((item2) => {
-              return (
-                <tr>
-                  <td id={item2.empNo} style={{ background: 'white' }}>
-                    {item2.empName}
-                  </td>
-                  <td>2</td>
-                  <td>
-                    {timetable.find((teacher) => teacher.empNo === item2.empNo)
-                      ? timetable.find(
-                          (teacher) => teacher.empNo === item2.empNo
-                        ).hours
-                      : '0'}
-                  </td>
-                  {slots.map((item) => {
-                    if (item.module === module && item.assigned === false)
-                      return (
-                        <td className='flex-row justify-content-center'>
-                          <input
-                            className={'form' + '-check' + '-input'}
-                            type='checkbox'
-                            value=''
-                            id={item.startTime + '-' + item2.empNo + item._id}
-                            onInput={() => {
-                              handleEvent(item, item2);
-                            }}
-                          ></input>
-                        </td>
-                      );
-                  })}
-                </tr>
-              );
+
+              if (item2.empName === emp && cond === false) {
+                return (
+                  <tr key={item2.empNo}>
+                    <td id={item2.empNo} style={{ background: 'white' }}>
+                      {item2.empName}
+                    </td>
+                    <td>
+                      {
+                        emphour.map((item3) => {
+                          if (item2.empNo === item3.empNo) {
+                            return (<p>
+                              {item3.hours}
+                            </p>)
+                          }
+                        })
+                      }
+                    </td>
+                    <td>
+                     {/* Adhil - insert ur part here*/}
+                    </td>
+                    {slots.map((item) => {
+                      if (day === 'all') {
+                        if (item.module === module && item.staffRequirement > TimeTable2.filter((yakki) => {
+                          return yakki.slotID === item._id
+                        }).length && item.group === batch)
+                          return (
+                            <td className='flex-row justify-content-center'>
+                              <input
+                                className={'form' + '-check' + '-input'}
+                                type='checkbox'
+                                value=''
+                                id={item.startTime + '-' + item2.empNo + item._id}
+                                onInput={() => {
+                                  handleEvent(item, item2);
+                                }}
+                              ></input>
+                            </td>
+                          );
+                      }
+                      else if (item.dayOfTheWeek === day)
+                        if (item.module === module && item.staffRequirement > TimeTable2.filter((yakki) => {
+                          return yakki.slotID === item._id
+                        }).length && item.group === batch)
+                          return (
+                            <td className='flex-row justify-content-center'>
+                              <input
+                                className={'form' + '-check' + '-input'}
+                                type='checkbox'
+                                value=''
+                                id={item.startTime + '-' + item2.empNo + item._id}
+                                onInput={() => {
+                                  handleEvent(item, item2);
+                                }}
+                              ></input>
+                            </td>
+                          );
+                    })}
+                  </tr>
+                );
+              }
+              else if (cond === true) {
+                return (
+                  <tr key={item2.empNo}>
+                    <td id={item2.empNo} style={{ background: 'white' }}>
+                      {item2.empName}
+                    </td>
+                    <td>
+                      {
+                        emphour.map((item3) => {
+                          if (item2.empNo === item3.empNo) {
+                            return (<p>
+                              {item3.hours}
+                            </p>)
+                          }
+                        })
+                      }
+                    </td>
+                    <td>
+                      {/*Adhil - insert ur part*/}
+                    </td>
+                    {slots.map((item) => {
+                      if (day == 'all') {
+                        if (item.module === module && item.staffRequirement > TimeTable2.filter((yakki) => {
+                          return yakki.slotID === item._id
+                        }).length && item.group === batch)
+                          return (
+                            <td className='flex-row justify-content-center'>
+                              <input
+                                className={'form' + '-check' + '-input'}
+                                type='checkbox'
+                                value=''
+                                id={item.startTime + '-' + item2.empNo + item._id}
+                                onInput={() => {
+                                  handleEvent(item, item2);
+                                }}
+                              ></input>
+                            </td>
+                          );
+
+                      } else if (item.dayOfTheWeek === day)
+                        if (item.module === module && item.staffRequirement > TimeTable2.filter((yakki) => {
+                          return yakki.slotID === item._id
+                        }).length && item.group === batch && item.dayOfTheWeek === day)
+                          return (
+                            <td className='flex-row justify-content-center'>
+                              <input
+                                className={'form' + '-check' + '-input'}
+                                type='checkbox'
+                                value=''
+                                id={item.startTime + '-' + item2.empNo + item._id}
+                                onInput={() => {
+                                  handleEvent(item, item2);
+                                }}
+                              ></input>
+                            </td>
+                          );
+                    })}
+                  </tr>
+                );
+              }
             })}
           </tbody>
         </table>
-      )}
-      <button
+      ) : module &&
+
+      <div className="slots-allocated">
+        <p><strong>All Slots are Allocated!!</strong></p>
+      </div>
+      }
+      {module && (<button
         className='btn btn-success'
         onClick={() => {
           SubmitData();
@@ -337,17 +672,18 @@ const TimeTableAllocate = ({
       >
         Generate
       </button>
+      )}
       <Link to='/allocatedSlot'>
-        <button className='btn btn-success'>Allocated Slots</button>
+        {module && (<button className='btn btn-success'>Allocated Slots</button>)}
       </Link>
 
       <h2 className='d-flex justify-content-center m-1'>Selected Slots</h2>
       <table className='table'>
         <thead>
           <tr>
-            <th>startTiming</th>
-            <th>endTiming</th>
-            <th>Teacher Name</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Instructor Name</th>
             <th>Hours</th>
             <th>Subject</th>
           </tr>
@@ -355,16 +691,16 @@ const TimeTableAllocate = ({
         <tbody>
           {timetable
             ? timetable.map((item) => {
-                return (
-                  <tr>
-                    <td>{item.startTime}</td>
-                    <td>{item.endTime}</td>
-                    <td>{item.empName}</td>
-                    <td>{item.hours}</td>
-                    <td>{item.module}</td>
-                  </tr>
-                );
-              })
+              return (
+                <tr key={item.emp}>
+                  <td>{item.startTime}</td>
+                  <td>{item.endTime}</td>
+                  <td>{item.empName}</td>
+                  <td>{item.hours}</td>
+                  <td>{item.module}</td>
+                </tr>
+              );
+            })
             : 'hello'}
         </tbody>
       </table>
