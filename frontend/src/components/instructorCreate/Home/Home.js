@@ -32,6 +32,7 @@ const Home = () => {
     {
       id: 3,
       tabTitle: "Admin",
+      
       title: "Create Admin",
       content: (
         <div>
@@ -81,7 +82,7 @@ const Home = () => {
         <div className="tabs">
           {tabs.map((tab, i) => (
             <button
-              className="Tabsbutton"
+              className="btn btn-primary"
               key={i}
               id={tab.id}
               disabled={currentTab === `${tab.id}`}

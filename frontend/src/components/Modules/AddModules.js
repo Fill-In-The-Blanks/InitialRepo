@@ -44,7 +44,7 @@ const AddModule = ({ Modules }) => {
               
             />
           </div>
-          <div className='form-group'>
+          {/* <div className='form-group'>
             Module Code
             <small className='form-text'>
               Will be rejected if module already exists
@@ -55,8 +55,8 @@ const AddModule = ({ Modules }) => {
               name='ModuleID'
               value={ModuleID}
               onChange={(e) => onchange(e)}
-            />
-          </div>
+            /> */}
+          
           <div className='form-group'>
             Specialization
           

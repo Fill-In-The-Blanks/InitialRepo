@@ -31,10 +31,11 @@ const Login = ({ loginAdmin, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Sign In as Admin</h1>
-      <p className="lead">
+
+      <h1 style={{marginTop: '30px'}} className="large">Sign In as Admin</h1>
+      {/* <p className="lead">
         <i className="fas fa-user"></i> Sign Into Your Account
-      </p>
+      </p> */}
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input

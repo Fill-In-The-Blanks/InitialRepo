@@ -52,3 +52,7 @@ export const NOTICE_ERROR = 'NOTICE_ERROR';
 export const GET_LEAVE = 'GET_LEAVE';
 export const GET_LEAVES = 'GET_LEAVES';
 export const LEAVE_ERROR = 'LEAVE_ERROR';
+
+export const GET_TIMETABLE = 'GET_TIMETABLE';
+export const GET_TIMETABLES = 'GET_TIMETABLES';
+export const TIMETABLE_ERROR = 'TIMETABLE_ERROR';

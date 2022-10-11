@@ -22,12 +22,15 @@ app.use('/api/instructorauth', require('./routes/api/instructorauth'));
 app.use('/api/employee', require('./routes/api/employee'));
 app.use('/api/module', require('./routes/api/module'));
 app.use('/api/timetable', require('./routes/api/timetable'));
+app.use('/api/timetable2', require('./routes/api/timetable2'));
 app.use('/api/venues', require('./routes/api/venues'));
 app.use('/api/instructor', require('./routes/api/instructor'));
 app.use('/api/notices', require('./routes/api/notices'));
 app.use('/api/email', require('./routes/api/email'));
+app.use('/api/timetable2', require('./routes/api/timetable2'));
 
 app.use('/api/leaves', require('./routes/api/leaves'));
+app.use('/api/leave', require('./routes/api/leaves2'));
 // server static assets in production
 if (process.env.NODE_ENV === 'production') {
   // set static folder

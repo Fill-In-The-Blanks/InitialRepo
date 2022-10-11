@@ -15,13 +15,13 @@ const SlotsConfirmationDialog = ({ status, setStatus, deleteSlots }) => {
             deleteSlots();
           }}
         >
-          Delete
+         <i className='fas fa-trash'></i>{''}  Delete
         </button>
         <button
           className='btn btn-success'
           onClick={() => setStatus({ delete: !status.delete })}
         >
-          Cancel{' '}
+         <i class='fas fa-window-close'></i>{''} Cancel{' '}
         </button>
       </div>
     </Fragment>

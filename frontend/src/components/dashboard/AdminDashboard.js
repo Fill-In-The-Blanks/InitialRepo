@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 const AdminDashboard = ({ auth: { admin } }) => {
   return (
     <Fragment>
-      <h1 className='large text-primary center-text'>
+      <h1 style={{marginTop: '30px'}}className='large  center-text'>
         Hello {admin && admin.userName}
       </h1>
       <p className='lead center-text'>
@@ -15,7 +15,7 @@ const AdminDashboard = ({ auth: { admin } }) => {
         <i className='fas fa-user'></i> Managements
       </p>
 
-      <Link className='btn empManagement' to='/employeeManagement'></Link>
+      <Link className='btn empManagement' to='/listEmployees'></Link>
       <Link className='btn moduleManagement' to='/ListModules'></Link>
       <Link
         className='btn timeTableManagement'
@@ -23,8 +23,10 @@ const AdminDashboard = ({ auth: { admin } }) => {
       ></Link>
       <Link className='btn initialConfig' to='/initialConfig'></Link>
       <Link className='btn VenueManagement' to='/ListVenues'></Link>
-      <Link className='btn NoticesManagement' to='/AddNotice'></Link>
-      <Link className='btn NoticesManagement' to='/ListLeave'></Link>
+      <Link className='btn NoticesManagement' to= '/notices'></Link>
+      
+      <Link className='btn adminleaveManagement' to='/ListLeaves'></Link>
+     
       <Link className='btn InstructorManagement' to='/UserManagement'></Link>
       <Link className='btn EmailManagement' to='/EmailManagement'></Link>
     </Fragment>

@@ -26,12 +26,14 @@ import SlotsConfirmationDialog from './components/dialogBox/SlotsConfirmationDia
 import EditVenue from './components/Venue/EditVenue';
 import AddNotice from './components/Notices/AddNotice';
 import Notices from './components/Notices/Notices';
+import ListAllocTime from './components/InstructorTimetable/instructorTimetable';
 /* import { useNavigate } from 'react-router-dom'; */
 import setAuthToken from './utils/setAuthToken';
 import SendRequest from './components/LeaveManagement/SendRequest';
 import { loadAdmin } from './actions/auth';
 import ListLeave from './components/LeaveManagement/Leaves';
-
+import ListLeaves from './components/LeaveManagement/LeavesAdmin';
+import ListAllocModule from './components/Modules/AllocatedModules';
 //Redux
 import { connect, Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
 import store from './store';
@@ -92,6 +94,7 @@ const App = () => {
                 element={<InstructorDashboard />}
               />
               <Route path='/addModules' element={<AddModule />} />
+              <Route path='/ListAlloc/:id' element={<ListAllocModule />} />
               <Route path='/ListModules' element={<List />} />
               <Route path='/EditModules' element={<EditModule />} />
               <Route path='/EditModules/:id' element={<EditModule />} />
@@ -101,7 +104,9 @@ const App = () => {
               <Route path='/AddVenues' element={<AddVenue />} />
               <Route path='/UserManagement' element={<Home />} />
               <Route path='/Profile/:id' element={<Profile />} />
+              <Route path='/ListTime/:id' element={<ListAllocTime />} />
               <Route path='/EmailManagement' element={<EmailHome />} />
+
               <Route
                 path='/slotsConfirmation'
                 element={<SlotsConfirmationDialog />}
@@ -109,8 +114,9 @@ const App = () => {
               <Route path='/allocateSlot' element={<TimeTableAllocate />} />
               <Route path='/ListVenues' element={<ListVenue />} />
               <Route path='/EditVenues' element={<EditVenue />} />
-              <Route path='/ListLeave' element={<ListLeave />} />
-              <Route path='/SendRequest' element={<SendRequest />} />
+              <Route path='/ListLeave/:id' element={<ListLeave />} />
+              <Route path='/ListLeaves' element={<ListLeaves />} />
+              <Route path='/SendRequest/:id' element={<SendRequest />} />
               <Route path='/allocatedSlot' element={<AllocatedTime />} />
               <Route path='/ListVenues' element={<ListVenue />} />
               <Route path='/EditVenues' element={<EditVenue />} />
