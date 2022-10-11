@@ -329,7 +329,7 @@ const TimeTableAllocate = ({
       })}
 
       {modules && <div style={{ display: "flex" }}>
-        <div className="custom-select" style={{ width: '450px' }}>
+        <div className="custom-select" style={{ width: '930px' }}>
           <select id="batch" onChange={(e) => { selectBatch(e) }}>
             <option>Select Batch:</option>
             {test.map((item) => {
@@ -498,7 +498,11 @@ const TimeTableAllocate = ({
                       }
                     </td>
                     <td>
-                     {/* Adhil - insert ur part here*/}
+                    {timetable.find((teacher) => teacher.empNo === item2.empNo)
+                        ? timetable.find(
+                          (teacher) => teacher.empNo === item2.empNo
+                        ).hours
+                        : '0'}
                     </td>
                     {slots.map((item) => {
                       if (day === 'all') {
@@ -558,7 +562,11 @@ const TimeTableAllocate = ({
                       }
                     </td>
                     <td>
-                      {/*Adhil - insert ur part*/}
+                    {timetable.find((teacher) => teacher.empNo === item2.empNo)
+                        ? timetable.find(
+                          (teacher) => teacher.empNo === item2.empNo
+                        ).hours
+                        : '0'}
                     </td>
                     {slots.map((item) => {
                       if (day == 'all') {

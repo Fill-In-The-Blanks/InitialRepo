@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment,useState } from 'react';
+
 import  axios  from 'axios';
 import PropTypes from 'prop-types';
 import { connect, shallowEqual } from 'react-redux';
@@ -27,8 +28,9 @@ const TimetableItem = ({ slots, deleteSlot }) => {
       SetValue(e.target.value);
       SetdataSource([...dataSource]);
     }
+
   }
-  const selectStaffRequirement = async (slot, e) => {
+   const selectStaffRequirement = async (slot, e) => {
     try {
       console.log(e.target.value);
       console.log(slot);
@@ -40,13 +42,14 @@ const TimetableItem = ({ slots, deleteSlot }) => {
 
   }
 
-/*const slotsMapped = slots.map((slot, index) => (
-    <tr key={index}> */
-    
-  const slotsMapped = value.length > 0 ? tableFilter.map((slot, index) => (
-    <tr key={slot._id}>
+  {/* const slotsMapped = slots.map((slot, index) => (
+    <tr key={index}> */}
 
-    
+ 
+
+
+  const slotsMapped = slots.map((slot, index) => (
+    <tr key={index}>
       <td>{index + 1}</td>
       <td>
         {slot.startTime} - {slot.endTime}
@@ -56,26 +59,20 @@ const TimetableItem = ({ slots, deleteSlot }) => {
       <td>{slot.venue}</td>
       <td>{slot.group}</td>
       <td>
-        {/*Adhil - add ur part*/}
+        <div className="custom-select-1" style={{width:'200px'}}>
+          <select onChange={(e) => {
+          selectStaffRequirement(slot._id, e)
+          window.location.reload()
+        }}>
+            <option value="0" style = {{display : "none"}}>{slot.staffRequirement}</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
       </td>
-      <td>
-        {' '}
-        <button className='btn btn-danger' onClick={() => deleteSlot(slot._id)}>
-        <i className='fas fa-trash'></i>
-        </button>
-      </td>
-    </tr>
-  )):slots.map((slot, index) => (
-    <tr key={slot._id}>
-      <td>{index + 1}</td>
-      <td>
-        {slot.startTime} - {slot.endTime}
-      </td>
-      <td>{slot.dayOfTheWeek}</td>
-      <td>{slot.module}</td>
-      <td>{slot.venue}</td>
-      <td>{slot.group}</td>
-      <td>{slot.staffRequirement}</td>
       <td>
         {' '}
         <button className='btn btn-danger' onClick={() => deleteSlot(slot._id)}>
