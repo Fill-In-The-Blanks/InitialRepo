@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteNotice } from '../../actions/notices';
 import EmployeeItem from '../employee/EmployeeItem';
+import axios from 'axios';
 import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
@@ -18,6 +19,12 @@ const pdfGenerate =(e)=>{
 
 
 const NoticeItem = ({notices, deleteNotice}) => {
+  const sendReminder = (notice)=>{
+    axios.post("/api/notices/sendreminder", notice)
+    .then(body=>console.log(body))
+    .catch(err=>console.log(err))
+  }
+
 
   const [value,SetValue]=useState('');
   const [dataSource,SetdataSource]=useState(notices);
@@ -52,6 +59,8 @@ const NoticeItem = ({notices, deleteNotice}) => {
         <i className='fas fa-trash'></i>
           </button>
       </td>
+      
+
 
     </tr>
   )):notices.map((notice) => (
@@ -66,6 +75,12 @@ const NoticeItem = ({notices, deleteNotice}) => {
         {' '}
         <button className='btn btn-danger' onClick={()=> deleteNotice(notice._id)}>
         <i className='fas fa-trash'></i>
+          </button>
+      </td>
+      <td>
+        {' '}
+        <button className='btn btn-success' onClick={()=> sendReminder(notice)}>
+          Reminder{' '}
           </button>
       </td>
 
