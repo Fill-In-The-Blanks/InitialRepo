@@ -27,7 +27,16 @@ function AllocatedTime() {
     document.location.reload();
   };
 
-  /* Adhil - add ur excel generation part here */
+  const excelGenerate = async () => {
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.xlsx';
+    const ws = XLSX.utils.json_to_sheet(timeTable);
+    const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "Allocated_Slots" + fileExtension);
+  };
+
 
   /* Nuzha - add ur pdf generation part here*/
 
@@ -98,7 +107,9 @@ function AllocatedTime() {
           </table>
         )}
         {/* Nuzha - add pdf generation button here */}
-        {/* Adhil - add excel generation button here */}
+        <button className='btn btn-success ' onClick={excelGenerate}>
+          Excel
+        </button>
       </div>
     );
 

@@ -3,10 +3,38 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const Timetable = require('../../model/TimeTable');
 const { check, validationResult } = require('express-validator');
-
+const Employee = require('../../model/Employee.js');
 const Slot = require('../../model/Slot');
 const Module = require('../../model/modules');
 const Venues = require('../../model/Venues');
+const transporter = require('../../mailConfig.js')
+
+const template = require('../../emailTemplate')
+const getMail = async (id) => {
+  let user = await Employee.findOne({ empNo: id })
+  // console.log(user)
+  if (user)
+    return user.sliitEmail
+}
+
+const sendMail = (email , slot) => {
+
+  let mailOptions = {
+    from: "testreceiver234@gmail.com",
+    to: "testmailer234@gmail.com",
+    subject: "Slot registeration email",
+    html: template(slot)
+  }
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      res.json(err)
+    }
+    else {
+      res.json(info)
+    }
+  })
+
+}
 
 // @route   GET api/timetable
 // @desc    Get all slots
@@ -155,7 +183,7 @@ router.post('/createTimeTable', async (req, res) => {
         day: item.dayOfTheWeek,
         slotID: item._id,
       }).save();
-      
+      sendMail(await getMail(item.empNo) , item)
       let result2 = await Slot.updateOne({ _id: item._id }, { assigned: true });
       
     } catch (error) {
@@ -183,4 +211,30 @@ router.get('/getTimeTable', async (req, res) => {
     res.status(200).send(result);
   } catch (error) {}
 });
+
+router.get('/getEmployeeTimeTable/:empNo' , async (req, res)=>{
+  let time = {
+    Monday : 0, 
+    Tuesday : 0, 
+    Wednesday : 0, 
+    Thursday : 0 , 
+    Friday : 0,
+  }
+  try {
+    const {empNo} = req.params
+    const slots = await Timetable.find({empNo : empNo})
+    slots.forEach((item)=>{
+
+      time[item.day] +=  item.hours 
+      console.log(item.hours)
+    })
+    let hours = [time.Monday , time.Tuesday, time.Wednesday , time.Thursday , time.Friday]
+    console.log(hours)
+    res.status(200).json({hours : hours})
+  } catch (error) {
+    return res.status(500).json({msg : "Internal Server Error"})
+  }
+})
+
 module.exports = router;
+
