@@ -33,7 +33,7 @@ import SendRequest from './components/LeaveManagement/SendRequest';
 import { loadAdmin } from './actions/auth';
 import ListLeave from './components/LeaveManagement/Leaves';
 import ListLeaves from './components/LeaveManagement/LeavesAdmin';
-import ListAllocModule from './components/Modules/AllocatedModules';
+import ListAllocModule  from './components/Modules/AllocatedModules'
 //Redux
 import { connect, Provider } from 'react-redux'; // the providers connects react and redux since they are not the same thing
 import store from './store';
@@ -115,6 +115,7 @@ const App = () => {
               <Route path='/ListVenues' element={<ListVenue />} />
               <Route path='/EditVenues' element={<EditVenue />} />
               <Route path='/ListLeave/:id' element={<ListLeave />} />
+              <Route path='/ListTime/:id' element={<ListAllocTime />} />
               <Route path='/ListLeaves' element={<ListLeaves />} />
               <Route path='/SendRequest/:id' element={<SendRequest />} />
               <Route path='/allocatedSlot' element={<AllocatedTime />} />

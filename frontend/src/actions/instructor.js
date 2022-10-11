@@ -198,18 +198,19 @@ export const updateAdminByID = (id, formData, navigate) => async (dispatch) => {
   }
 };
 
-export const getallocatedTimetable = (number) => async (dispatch) => {
+export const getallocatedTimetable = number => async dispatch => {
   try {
-    const res = await axios.get(`/api/instructor2/${number}`);
+      const res=await axios.get(`/api/instructor2/${number}`);
 
-    dispatch({
-      type: GET_TIMETABLES,
-      payload: res.data,
-    });
+      dispatch({
+          type: GET_TIMETABLES,
+          payload: res.data
+      });  
+
   } catch (err) {
-    dispatch({
-      type: TIMETABLE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      dispatch({
+          type: TIMETABLE_ERROR,
+          payload: { msg: err.response.statusText, status: err.response.status } 
+      });
   }
 };
