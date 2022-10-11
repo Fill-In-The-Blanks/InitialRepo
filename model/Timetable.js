@@ -22,6 +22,9 @@ const TimeTableSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  hours :{
+    type:Number
+  },
 
   /*   sessionType: {
     type: String,

@@ -52,6 +52,7 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
   }
 
   const employeesMapped =  value.length > 0 ? tableFilter.map((employee,index) => (
+
     <tr key={employee._id}>
       <td>{employee.empNo}</td>
       <td>{employee.empName}</td>
@@ -77,6 +78,7 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
         </Link>
       </td>
     </tr>
+
   )): employees.map((employee,index) => (
    <> <tr key={employee._id}>
       <td>{employee.empNo}</td>

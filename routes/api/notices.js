@@ -17,7 +17,7 @@ const sendMail =async (notice)=>
     emails.forEach(async (item)=>{
       //to send emails to the real user add sliitEmail instead of mail
       // let mailOptions = {
-      //   from: "muhammadrohan461@gmail.com",
+      //   from: "adhilajmal123@gmail.com",
       //   to: item.slittEmail,
       //   subject: "Slot registeration email",
       //   html: tempelate2(notice)
