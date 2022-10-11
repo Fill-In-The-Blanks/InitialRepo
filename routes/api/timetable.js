@@ -51,6 +51,23 @@ router.delete('/', async (req, res) => {
   }
 });
 
+
+router.post('/slot', async (req, res) => {
+  try {
+    console.log(req.body);
+    const test3 = await Slot.findByIdAndUpdate(req.body.slotID, {
+      $set: { staffRequirement: req.body.staffRequirement },
+    });
+    const test4 = await Slot.find({_id : req.body.slotID})
+    console.log(test4)
+    res.status(200).send('staff requirement update');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+
 // @route   POST api/timetable/slots v1 [Has try catch in and outside the map]. v2 in employee api
 // @desc    Add slots
 // @access  private
@@ -131,13 +148,16 @@ router.post('/createTimeTable', async (req, res) => {
         module: item.module,
         startTime: item.startTime,
         endTime: item.endTime,
+        hours: item.hours,
         empName: item.empName,
         empNo: item.empNo,
         venue: item.venue,
         day: item.dayOfTheWeek,
         slotID: item._id,
       }).save();
+      
       let result2 = await Slot.updateOne({ _id: item._id }, { assigned: true });
+      
     } catch (error) {
       console.log(error);
     }
@@ -147,7 +167,7 @@ router.post('/createTimeTable', async (req, res) => {
 
 router.post('/deleteSlots', async (req, res) => {
   try {
-    await Timetable.deleteMany({ slotID: req.body.slotID });
+    await Timetable.deleteMany({ slotID: req.body.slotID,empNo:req.body.empNo });
     const test3 = await Slot.findByIdAndUpdate(req.body.slotID, {
       $set: { assigned: false },
     });

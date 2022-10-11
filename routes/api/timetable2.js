@@ -4,7 +4,6 @@ const auth = require('../../middleware/auth');
 const Timetable = require('../../model/Timetable');
 const { check, validationResult } = require('express-validator');
 
-//This page is to recongnize the module else it identifies as get by id
 
 
 router.get('/:module', async (req, res) => {

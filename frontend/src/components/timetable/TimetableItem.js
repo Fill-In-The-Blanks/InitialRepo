@@ -1,4 +1,5 @@
 import React, { Fragment,useState } from 'react';
+import  axios  from 'axios';
 import PropTypes from 'prop-types';
 import { connect, shallowEqual } from 'react-redux';
 import { deleteSlot } from '../../actions/timetable';
@@ -59,14 +60,16 @@ const TimetableItem = ({ slots, deleteSlot }) => {
       <td>{slot.module}</td>
       <td>{slot.venue}</td>
       <td>{slot.group}</td>
-      <td>{slot.staffRequirement}</td>
+      <td>
+        {/*Adhil - add ur part*/}
+      </td>
       <td>
         {' '}
         <button className='btn btn-danger' onClick={() => deleteSlot(slot._id)}>
-        <i className='fas fa-trash'></i>
+          Delete{' '}
         </button>
       </td>
-    </tr>
+    </tr >
   ))
   return (
     <Fragment>
