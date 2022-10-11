@@ -16,7 +16,7 @@ const InstructorDashboard = ({ auth: { instructor } }) => {
       </p>
 
       <Link className='btn leaveManagement ' to={`/ListLeave/${instructor._id}`}></Link>
-      <Link className='btn personalTimetable ' to='/ListLeave'></Link>
+      <Link className='btn personalTimetable ' to={`/ListTime/${instructor._id}`}> </Link>
     </Fragment>
   );
 };
