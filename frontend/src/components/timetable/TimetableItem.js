@@ -1,4 +1,5 @@
-import React, { Fragment,useState } from 'react';
+import React, { Fragment, useState } from 'react';
+import  axios  from 'axios';
 import PropTypes from 'prop-types';
 import { connect, shallowEqual } from 'react-redux';
 import { deleteSlot } from '../../actions/timetable';
@@ -26,13 +27,26 @@ const TimetableItem = ({ slots, deleteSlot }) => {
       SetValue(e.target.value);
       SetdataSource([...dataSource]);
     }
+  }
+  const selectStaffRequirement = async (slot, e) => {
+    try {
+      console.log(e.target.value);
+      console.log(slot);
+      await axios.post('/api/timetable/slot', { slotID : slot, staffRequirement: e.target.value });
+      
+    } catch (error) {
+      console.log(error)
+    }
 
   }
 
-
-
+/*const slotsMapped = slots.map((slot, index) => (
+    <tr key={index}> */
+    
   const slotsMapped = value.length > 0 ? tableFilter.map((slot, index) => (
     <tr key={slot._id}>
+
+    
       <td>{index + 1}</td>
       <td>
         {slot.startTime} - {slot.endTime}
@@ -41,7 +55,9 @@ const TimetableItem = ({ slots, deleteSlot }) => {
       <td>{slot.module}</td>
       <td>{slot.venue}</td>
       <td>{slot.group}</td>
-      <td>{slot.staffRequirement}</td>
+      <td>
+        {/*Adhil - add ur part*/}
+      </td>
       <td>
         {' '}
         <button className='btn btn-danger' onClick={() => deleteSlot(slot._id)}>

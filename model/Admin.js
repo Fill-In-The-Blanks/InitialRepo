@@ -28,6 +28,10 @@ const AdminSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  userType : {
+    type : String, 
+    required : true,
+}, 
 });
 
 module.exports = Admin = mongoose.model("admin", AdminSchema); // Admin is the variable, admin is the name of the model, AdminSchema is the model schema
