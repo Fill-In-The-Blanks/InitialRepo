@@ -10,6 +10,7 @@ import "../Home/Home.css";
 const InstructorCreate = ({ addInstructor, instructor: { instructors } }) => {
   const [ID, setUserID] = useState("");
   const [email, setemail] = useState("");
+  const [department, setDepartment] = useState("");
   const [userName, setusername] = useState("");
   const [password, setpassword] = useState("");
   const initialLogin = true;
@@ -27,16 +28,18 @@ const InstructorCreate = ({ addInstructor, instructor: { instructors } }) => {
       ID,
       email,
       userName,
+      department,
       password,
       initialLogin,
     };
+    console.log(formValue);
     addInstructor(formValue);
     emailjs
       .sendForm(
-        "service_1v0gpp4",
-        "template_g8cmxq6",
+        "service_2yi5441",
+        "template_3uq9jb9",
         instructorform.current,
-        "3FDPgQ1v2eRuz7fwJ"
+        "3yiSsWex126MEwSd2"
       )
       .then(
         (result) => {
@@ -80,6 +83,22 @@ const InstructorCreate = ({ addInstructor, instructor: { instructors } }) => {
             onChange={(e) => setusername(e.target.value)}
           ></input>
           <p>{errors.userName?.message}</p>
+          <br />
+          <label>Department</label>
+          <select
+            name="department"
+            id="department"
+            style={{ width: "100%" }}
+            onChange={(e) => setDepartment(e.target.value)}
+          >
+            <option value=""></option>
+            <option value='C'>Computer Science & Software Engineering (CSSE)</option>
+            <option value='IT'>Information Technology (IT)</option>
+            <option value='CSNE'>
+              Computer Systems Engineering (CSE)
+            </option>
+          </select>
+          <p>{errors.department?.message}</p>
           <br />
           <label>Password</label>
           <input
