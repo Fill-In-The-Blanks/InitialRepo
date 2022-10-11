@@ -20,8 +20,8 @@ const getMail = async (id) => {
 const sendMail = (email , slot) => {
 
   let mailOptions = {
-    from: "adhilajmal123@gmail.com",
-    to: "sd13.fillintheblanks@gmail.com",
+    from: "testreceiver234@gmail.com",
+    to: "testmailer234@gmail.com",
     subject: "Slot registeration email",
     html: template(slot)
   }
