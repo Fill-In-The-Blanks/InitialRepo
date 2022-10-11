@@ -4,23 +4,22 @@ const auth = require('../../middleware/auth');
 const Timetable = require('../../model/Timetable');
 const { check, validationResult } = require('express-validator');
 
-//This page is to recongnize the module else it identifies as get by id
+//This page is to recongnize the empno else it identifies as get by id
 
-
-router.get('/:module', async (req, res) => {
+router.get('/:empNo', async (req, res) => {
     try {
     
-        const module = await Timetable.find({ module:req.params.module });
+        const name = await Timetable.find({ empNo:req.params.empNo });
   
-        if(!module) {
-            return res.status(404).json({ msg: 'Module not Allocated' });
+        if(!name) {
+            return res.status(404).json({ msg: 'Employee not Allocated' });
         }
   
-        res.json(module);
+        res.json(name);
     } catch (err) {
         console.error(err.message);
         if(err.kind === 'String') {
-            return res.status(404).json({ msg: 'module not found' });
+            return res.status(404).json({ msg: 'employee not found' });
         }
         res.status(500).send('Server error');
     }

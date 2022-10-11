@@ -8,6 +8,7 @@ import {
   GET_ADMINS,
   ADMIN_ERROR,
 } from "./types";
+import { GET_TIMETABLES,GET_TIMETABLE,TIMETABLE_ERROR } from './types';
 
 export const addInstructor = (formData) => (dispatch) => {
   try {
@@ -194,5 +195,22 @@ export const updateAdminByID = (id, formData, navigate) => async (dispatch) => {
       type: ADMIN_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+  }
+};
+
+export const getallocatedTimetable = number => async dispatch => {
+  try {
+      const res=await axios.get(`/api/instructor2/${number}`);
+
+      dispatch({
+          type: GET_TIMETABLES,
+          payload: res.data
+      });  
+
+  } catch (err) {
+      dispatch({
+          type: TIMETABLE_ERROR,
+          payload: { msg: err.response.statusText, status: err.response.status } 
+      });
   }
 };
