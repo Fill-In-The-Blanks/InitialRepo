@@ -30,12 +30,7 @@ const TimetableItem = ({ slots, deleteSlot }) => {
     }
 
   }
-
-
-
- 
-
-  const selectStaffRequirement = async (slot, e) => {
+   const selectStaffRequirement = async (slot, e) => {
     try {
       console.log(e.target.value);
       console.log(slot);
@@ -46,6 +41,13 @@ const TimetableItem = ({ slots, deleteSlot }) => {
     }
 
   }
+
+  {/* const slotsMapped = slots.map((slot, index) => (
+    <tr key={index}> */}
+
+ 
+
+
   const slotsMapped = slots.map((slot, index) => (
     <tr key={index}>
       <td>{index + 1}</td>
