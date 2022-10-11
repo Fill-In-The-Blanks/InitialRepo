@@ -1,40 +1,36 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
-const Timetable = require('../../model/TimeTable');
+const Timetable = require('../../model/Timetable');
 const { check, validationResult } = require('express-validator');
 const Employee = require('../../model/Employee.js');
 const Slot = require('../../model/Slot');
 const Module = require('../../model/modules');
 const Venues = require('../../model/Venues');
-const transporter = require('../../mailConfig.js')
+const transporter = require('../../mailConfig.js');
 
-const template = require('../../emailTemplate')
+const template = require('../../emailTemplate');
 const getMail = async (id) => {
-  let user = await Employee.findOne({ empNo: id })
+  let user = await Employee.findOne({ empNo: id });
   // console.log(user)
-  if (user)
-    return user.sliitEmail
-}
+  if (user) return user.sliitEmail;
+};
 
-const sendMail = (email , slot) => {
-
+const sendMail = (email, slot) => {
   let mailOptions = {
-    from: "testreceiver234@gmail.com",
-    to: "testmailer234@gmail.com",
-    subject: "Slot registeration email",
-    html: template(slot)
-  }
+    from: 'testreceiver234@gmail.com',
+    to: 'testmailer234@gmail.com',
+    subject: 'Slot registeration email',
+    html: template(slot),
+  };
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
-      res.json(err)
+      res.json(err);
+    } else {
+      res.json(info);
     }
-    else {
-      res.json(info)
-    }
-  })
-
-}
+  });
+};
 
 // @route   GET api/timetable
 // @desc    Get all slots
@@ -79,22 +75,20 @@ router.delete('/', async (req, res) => {
   }
 });
 
-
 router.post('/slot', async (req, res) => {
   try {
     console.log(req.body);
     const test3 = await Slot.findByIdAndUpdate(req.body.slotID, {
       $set: { staffRequirement: req.body.staffRequirement },
     });
-    const test4 = await Slot.find({_id : req.body.slotID})
-    console.log(test4)
+    const test4 = await Slot.find({ _id: req.body.slotID });
+    console.log(test4);
     res.status(200).send('staff requirement update');
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 });
-
 
 // @route   POST api/timetable/slots v1 [Has try catch in and outside the map]. v2 in employee api
 // @desc    Add slots
@@ -183,9 +177,8 @@ router.post('/createTimeTable', async (req, res) => {
         day: item.dayOfTheWeek,
         slotID: item._id,
       }).save();
-      sendMail(await getMail(item.empNo) , item)
+      sendMail(await getMail(item.empNo), item);
       let result2 = await Slot.updateOne({ _id: item._id }, { assigned: true });
-      
     } catch (error) {
       console.log(error);
     }
@@ -195,7 +188,10 @@ router.post('/createTimeTable', async (req, res) => {
 
 router.post('/deleteSlots', async (req, res) => {
   try {
-    await Timetable.deleteMany({ slotID: req.body.slotID,empNo:req.body.empNo });
+    await Timetable.deleteMany({
+      slotID: req.body.slotID,
+      empNo: req.body.empNo,
+    });
     const test3 = await Slot.findByIdAndUpdate(req.body.slotID, {
       $set: { assigned: false },
     });
@@ -212,29 +208,33 @@ router.get('/getTimeTable', async (req, res) => {
   } catch (error) {}
 });
 
-router.get('/getEmployeeTimeTable/:empNo' , async (req, res)=>{
+router.get('/getEmployeeTimeTable/:empNo', async (req, res) => {
   let time = {
-    Monday : 0, 
-    Tuesday : 0, 
-    Wednesday : 0, 
-    Thursday : 0 , 
-    Friday : 0,
-  }
+    Monday: 0,
+    Tuesday: 0,
+    Wednesday: 0,
+    Thursday: 0,
+    Friday: 0,
+  };
   try {
-    const {empNo} = req.params
-    const slots = await Timetable.find({empNo : empNo})
-    slots.forEach((item)=>{
-
-      time[item.day] +=  item.hours 
-      console.log(item.hours)
-    })
-    let hours = [time.Monday , time.Tuesday, time.Wednesday , time.Thursday , time.Friday]
-    console.log(hours)
-    res.status(200).json({hours : hours})
+    const { empNo } = req.params;
+    const slots = await Timetable.find({ empNo: empNo });
+    slots.forEach((item) => {
+      time[item.day] += item.hours;
+      console.log(item.hours);
+    });
+    let hours = [
+      time.Monday,
+      time.Tuesday,
+      time.Wednesday,
+      time.Thursday,
+      time.Friday,
+    ];
+    console.log(hours);
+    res.status(200).json({ hours: hours });
   } catch (error) {
-    return res.status(500).json({msg : "Internal Server Error"})
+    return res.status(500).json({ msg: 'Internal Server Error' });
   }
-})
+});
 
 module.exports = router;
-
