@@ -17,7 +17,8 @@ body {
   font-family: 'Raleway', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: white;
+  background-color: #fff;
+  color: #333;
 }
 
 a {
@@ -282,6 +283,23 @@ img {
   padding: 5.4rem 5.3rem;
 }
 
+.InstructorManagement {
+  background: url('./img/Account.PNG') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
+}
+.leaveManagement {
+  background: url('./img/leaves.png') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
+}
+.adminleaveManagement {
+  background: url('./img/adminleave.PNG') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
+}
+.personalTimetable {
+  background: url('./img/instructorTimetable.PNG') no-repeat center center/cover;
+  padding: 5.4rem 5.3rem;
+}
+
 .bg-light,
 .badge-light {
   border: #ccc solid 1px;
@@ -395,8 +413,9 @@ tr:nth-child(even) {
   background: #fce8d9;
   color: black;
 }
+
 tr:hover {
-  background-color: #d9eaf7c9;
+  background-color: #d6effa73;
 }
 
 /* Navbar */

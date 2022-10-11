@@ -38,7 +38,15 @@ function AllocatedTime() {
   };
 
 
-  /* Nuzha - add ur pdf generation part here*/
+ 
+  const pdfGenerate = (e) => {
+    var doc = new jsPDF('landscape', 'px', 'a4', 'false');
+
+    doc.addImage(logo, 'PNG', 100, 200, 400, 200);
+    autoTable(doc, { html: '#allocatedSlots' });
+
+    doc.save('Allocated_Slots.pdf');
+  };
 
     useEffect(() => {
       timeTable.forEach((item) => {
@@ -87,7 +95,15 @@ function AllocatedTime() {
                       <td>{item.day}</td>
                       <td>{item.group}</td>
                       <td>{item.empName}</td>
-                      <td>{/* Nuzha - add ur part here*/}</td>
+                      <td>{
+                        emphour.map((item3) => {
+                          if (item.empNo === item3.empNo) {
+                            return (<p>
+                              {item3.hours}
+                            </p>)
+                          }
+                        })
+                      }</td>
                       <td>{item.module}</td>
                       <td>
                         <button
@@ -106,6 +122,10 @@ function AllocatedTime() {
             </tbody>
           </table>
         )}
+        <button className='btn btn-success ' onClick={pdfGenerate}>
+        <i className='fas fa-file-download'></i>PDF
+        </button>
+        {/* Adhil - add excel generation button here */}
         {/* Nuzha - add pdf generation button here */}
         <button className='btn btn-success ' onClick={excelGenerate}>
           Excel
