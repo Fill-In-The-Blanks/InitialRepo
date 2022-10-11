@@ -412,7 +412,10 @@ tr:nth-child(even) {background-color: #fffcff;}
   color:black;
 
 
+
 }
+
+tr:hover {background-color:#d6effa73;}
 
 /* Navbar */
 .navbar {
@@ -729,6 +732,7 @@ tr:nth-child(even) {background-color: #fffcff;}
   color:white;
   background-color: var(--primary-color);
   padding:10px;
+  margin-top: 12px;
   margin-bottom:10px ;
   font-size: 1rem;
 }

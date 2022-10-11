@@ -220,7 +220,7 @@ useEffect(() => {
       ]);
 
       name.style.background = 'white';
-      heading.style.background = '#5cdc3c';
+      heading.style.background = '#5CD197';
 
       //enabling the other options
       //when the box is unchecked
@@ -357,7 +357,7 @@ useEffect(() => {
       })}
 
       {modules && <div style={{ display: "flex" }}>
-        <div className="custom-select" style={{ width: '450px' }}>
+        <div className="custom-select" style={{ width: '930px' }}>
           <select id="batch" onChange={(e) => { selectBatch(e) }}>
             <option>Select Batch:</option>
             {test.map((item) => {
@@ -469,26 +469,26 @@ useEffect(() => {
                   }).length && item.group === batch) {
                     return (
                       <th
-                        style={{ background: '#5cdc3c', color: 'white' }}
+                        style={{ background: '#5CD197', color: 'white'}}
                         id={item._id}
                         key={item._id}
                       >
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}} className='d-flex justify-content-center'>
                           {item.startTime}-{item.endTime}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr  style={{ background: '#5CD197', color: 'white'}} className='d-flex justify-content-center'>
                           {item.dayOfTheWeek}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}} className='d-flex justify-content-center'>
                           {item.venue}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.module}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.group}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           <p>Max: </p>
                           {item.staffRequirement}
                         </tr>
@@ -503,26 +503,26 @@ useEffect(() => {
                   }).length && item.group === batch) {
                     return (
                       <th
-                        style={{ background: '#5cdc3c', color: 'white' }}
+                        style={{ background: '#5CD197', color: 'white' }}
                         id={item._id}
                         key={item._id}
                       >
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.startTime}-{item.endTime}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.dayOfTheWeek}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.venue}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.module}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.group}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           <p>Max: </p>
                           {item.staffRequirement}
                         </tr>
