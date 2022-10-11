@@ -2,7 +2,50 @@ const express = require("express");
 const router = express.Router();
 
 const { check, validationResult } = require("express-validator");
-
+const tempelate2 = require('../../emailTemplate2')
+const Employee = require('../../model/Employee.js');
+const transporter = require("../../mailConfig")
+const getMail = async (id) => {
+  let user = await Employee.find()
+  // console.log(user)
+  if (user)
+    return user
+}
+const sendMail =async (notice)=>
+{
+    let emails = await getMail()
+    emails.forEach(async (item)=>{
+      //to send emails to the real user add sliitEmail instead of mail
+      // let mailOptions = {
+      //   from: "muhammadrohan461@gmail.com",
+      //   to: item.slittEmail,
+      //   subject: "Slot registeration email",
+      //   html: tempelate2(notice)
+      // }
+      // await transporter.sendMail(mailOptions, (err, info) => {
+      //   if (err) {
+      //     return console.log(err)
+      //   }
+      //   else {
+      //     return info
+      //   }
+      // })
+    })
+    let mailOptions = {
+      from: "adhilajmal123@gmail.com",
+      to: "sd13.fillintheblanks@gmail.com",
+      subject: "Slot registeration email",
+      html: tempelate2(notice)
+    }
+    await transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        return console.log(err)
+      }
+      else {
+        return info
+      }
+    })
+}
 const Notice = require("../../model/Notices"); //importing Module model for line 24
 
 // @route   POST api/module
@@ -66,6 +109,16 @@ router.get('/', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+router.post("/sendreminder" , (req , res)=>{
+  const notice =req.body
+  try {
+    sendMail(notice)
+    res.status(200).json({msg : "message sent successfully"})
+  } catch (error) {
+    return res.status(500).json({msg : error.message})
+  }
+})
+
 
 
 

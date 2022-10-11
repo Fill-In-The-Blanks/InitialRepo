@@ -27,7 +27,7 @@ const TimeTableSchema = new mongoose.Schema({
     type: String,
     required: true,
   }, */
-
+hours : {type : Number , default : 0 },
   empName: {
     type: String,
     required: true,

@@ -6,6 +6,7 @@ import { deleteEmployee } from '../../actions/employee';
 import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
+import MyChart from '../Mychart';
 
 
 const pdfGenerate =(e)=>{
@@ -20,6 +21,8 @@ const pdfGenerate =(e)=>{
   
 
 const EmployeeItem = ({ employees, deleteEmployee }) => {
+  
+  
   const [value,SetValue]=useState('');
   const [dataSource,SetdataSource]=useState(employees);
   const [tableFilter,SetTableFilter]=useState([]);
@@ -35,9 +38,20 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
     }
 
   }
+  const handleGraph = (index)=>{
+    console.log(index)
+    let chart = document.getElementById(`chart-${index}`)
+    if(chart.style.display === "")
+    {
+      chart.style.display = 'none'
+    }
+    else{
+      chart.style.display = ""
+    }
 
+  }
 
-  const employeesMapped =  value.length > 0 ? tableFilter.map((employee) => (
+  const employeesMapped =  value.length > 0 ? tableFilter.map((employee,index) => (
     <tr key={employee._id}>
       <td>{employee.empNo}</td>
       <td>{employee.empName}</td>
@@ -63,8 +77,8 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
         </Link>
       </td>
     </tr>
-  )): employees.map((employee) => (
-    <tr key={employee._id}>
+  )): employees.map((employee,index) => (
+   <> <tr key={employee._id}>
       <td>{employee.empNo}</td>
       <td>{employee.empName}</td>
       <td>{employee.sliitEmail}</td>
@@ -88,7 +102,15 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
           <i className='fas fa-edit'></i>
         </Link>
       </td>
+      <td>
+        <button className='btn btn-primary' onClick = {()=>{
+      console.log(index)
+      handleGraph(index)}}>
+          Hours
+        </button>
+      </td>
     </tr>
+      <tr ><td colSpan={8} id={`chart-${index}`} style = {{display : "none" }} ><MyChart empNo = {employee.empNo} /></td></tr></>
   ))
   return (
     <Fragment>
@@ -142,4 +164,4 @@ EmployeeItem.propTypes = {
   deleteEmployee: PropTypes.func.isRequired,
 };
 
-export default connect(null, { deleteEmployee })(EmployeeItem);
+export default connect(null, { deleteEmployee })(EmployeeItem); 
