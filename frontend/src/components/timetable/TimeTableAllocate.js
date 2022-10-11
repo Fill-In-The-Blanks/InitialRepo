@@ -60,8 +60,30 @@ const TimeTableAllocate = ({
 
   const [emphour, setemphours] = useState([]);
   
-//Nuzha - Add the whole useEffect()
 
+useEffect(() => {
+  TimeTable2.forEach((item) => {
+    let hours = 0;
+    hours = item.hours
+    let index = emphour.findIndex((item2) => item2.empNo === item.empNo)
+    if (index === -1) {
+      if (hours > 1) {
+        hours = 1;
+      }
+      emphour.push({ empNo: item.empNo, hours: item.hours })
+    }
+    else {
+      if (hours > 1) {
+        hours = 1;
+      }
+      let new_hours = emphour[index].hours + hours
+      emphour[index] = {
+        empNo: item.empNo,
+        hours: new_hours
+      }
+    }
+  })
+}, [TimeTable2, emphour])
   //main function for the logic
   const handleEvent = (item, item2) => {
     const heading = document.getElementById(item._id);
@@ -198,7 +220,7 @@ const TimeTableAllocate = ({
       ]);
 
       name.style.background = 'white';
-      heading.style.background = '#5cdc3c';
+      heading.style.background = '#5CD197';
 
       //enabling the other options
       //when the box is unchecked
@@ -290,7 +312,13 @@ const TimeTableAllocate = ({
 
   }
 
-  {/*Nuzha - add onSearch code here */}
+  const onSearch = (search) => {
+    setvalue(search);
+    console.log("Search", search)
+    setemp(search);
+    setCond(false);
+
+  }
   
   let a = 0;
 
@@ -401,7 +429,34 @@ const TimeTableAllocate = ({
           <thead>
             <tr>
               <th scope='col'>
-                {/*Nuzha - Add <div> search-container. search-container has "search-inner", "dropdown" div tags (441 - 468)*/}
+              <div className="search-container">
+
+                <div className="search-inner">
+                <label>Search Name:</label>
+                <input type="text" value={value} onChange={handleChange} />
+               
+              </div>
+              <div className="dropdown">
+                {employees.filter(
+                  item => {
+                    const searchTerm = value.toLowerCase();
+                    const empName = item.empName.toLowerCase();
+
+                    return searchTerm && empName.startsWith(searchTerm) && empName !== searchTerm
+                  }
+                ).map((item3) => {
+                  return (
+                    <div className="dropdown-row" onClick={() => {
+                      onSearch(item3.empName)
+                    }}>
+                      {item3.empName}
+                    </div>)
+
+
+                })
+                }
+              </div>
+              </div>
               </th>
               <th scope='col'>Total Allocated Hours</th>
               <th scope='col'>Currently Allocated Hours</th>
@@ -414,26 +469,26 @@ const TimeTableAllocate = ({
                   }).length && item.group === batch) {
                     return (
                       <th
-                        style={{ background: '#5cdc3c', color: 'white' }}
+                        style={{ background: '#5CD197', color: 'white'}}
                         id={item._id}
                         key={item._id}
                       >
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}} className='d-flex justify-content-center'>
                           {item.startTime}-{item.endTime}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr  style={{ background: '#5CD197', color: 'white'}} className='d-flex justify-content-center'>
                           {item.dayOfTheWeek}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}} className='d-flex justify-content-center'>
                           {item.venue}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.module}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.group}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           <p>Max: </p>
                           {item.staffRequirement}
                         </tr>
@@ -448,26 +503,26 @@ const TimeTableAllocate = ({
                   }).length && item.group === batch) {
                     return (
                       <th
-                        style={{ background: '#5cdc3c', color: 'white' }}
+                        style={{ background: '#5CD197', color: 'white' }}
                         id={item._id}
                         key={item._id}
                       >
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.startTime}-{item.endTime}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.dayOfTheWeek}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.venue}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.module}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           {item.group}
                         </tr>
-                        <tr className='d-flex justify-content-center'>
+                        <tr style={{ background: '#5CD197', color: 'white'}}className='d-flex justify-content-center'>
                           <p>Max: </p>
                           {item.staffRequirement}
                         </tr>

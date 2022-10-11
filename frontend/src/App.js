@@ -115,6 +115,7 @@ const App = () => {
               <Route path='/ListVenues' element={<ListVenue />} />
               <Route path='/EditVenues' element={<EditVenue />} />
               <Route path='/ListLeave/:id' element={<ListLeave />} />
+              <Route path='/ListTime/:id' element={<ListAllocTime />} />
               <Route path='/ListLeaves' element={<ListLeaves />} />
               <Route path='/SendRequest/:id' element={<SendRequest />} />
               <Route path='/allocatedSlot' element={<AllocatedTime />} />

@@ -112,7 +112,7 @@ const AllocatedIModitem = ({timetable1}) => {
       </table>
       <button className='btn btn-success' onClick={pdfGenerate}><i className='fas fa-file-download'></i> PDF</button>
       <Link to='/ListModules'>
-      <button className='btn btn-success' ><i class='fas fa-backspace'></i> Back</button>
+      <button className='btn btn-success' ><i className='fas fa-backspace'></i> Back</button>
       </Link>
     </Fragment>
   );

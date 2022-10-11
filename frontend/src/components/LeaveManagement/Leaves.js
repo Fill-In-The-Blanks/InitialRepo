@@ -23,7 +23,7 @@ const ListLeave = ({
   
       data.empNo = instructor.ID;
       
-      console.log (getLeavebyName(data.empNo));
+      getLeavebyName(data.empNo);
      }
 
       

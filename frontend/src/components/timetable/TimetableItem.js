@@ -76,7 +76,7 @@ const TimetableItem = ({ slots, deleteSlot }) => {
       <td>
         {' '}
         <button className='btn btn-danger' onClick={() => deleteSlot(slot._id)}>
-        <i className='fas fa-trash'></i>
+          Delete{' '}
         </button>
       </td>
     </tr>
