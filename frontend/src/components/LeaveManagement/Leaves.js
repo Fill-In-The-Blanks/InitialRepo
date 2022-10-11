@@ -1,22 +1,37 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
-
+import {getInstructorByID} from '../../actions/instructor';
+import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getLeaves } from '../../actions/leaves';
+import { getLeavebyName } from '../../actions/leaves';
 import LeaveItem from './LeaveItem';
-
+import Spinner from '../layout/Spinner';
+const initialState={
+  empNo:'' }
 const ListLeave = ({
-    getLeaves,
-    leave: { leaves, loading },
-    auth: { admin },
+    getLeavebyName,
+    getInstructorByID,
+    leave: { leaves},
+    instructor: {instructor,loading },
   }) => {
+    const {id}= useParams();
     useEffect(() => {
-      getLeaves();
-    }, []);
+     if (!instructor) getInstructorByID(id);
+     if (!loading && instructor) {
+      const data = {...initialState};
   
-    return (
+      data.empNo = instructor.ID;
+      
+      getLeavebyName(data.empNo);
+     }
+
+      
+    }, [loading,getInstructorByID,getLeavebyName,instructor]);
+
+    return  loading ? (
+      <Spinner />
+    ) : (
       <Fragment>
         <div>
           { leaves.length > 0 ? (
@@ -24,7 +39,7 @@ const ListLeave = ({
           ):(
             <h4>No Leaves Found</h4>
           )}
-          <Link to={`/SendRequest`}>
+          <Link to={`/SendRequest/${id}`}>
             <button className='btn btn-success'>+</button>
           </Link>
         </div>
@@ -39,14 +54,17 @@ const ListLeave = ({
   };
   
   ListLeave.propTypes = {
-    getLeaves: PropTypes.func.isRequired,
+    getLeavebyName: PropTypes.func.isRequired,
     leave: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired,
+
+    getInstructorByID:PropTypes.func.isRequired,
+   instructor:PropTypes.object.isRequired
   };
   
   const mapStateToProps = (state) => ({
     leave: state.leave,
-    auth: state.auth,
+    
+    instructor: state.instructor,
   });
 
-  export default connect(mapStateToProps, { getLeaves })(ListLeave);
+  export default connect(mapStateToProps, { getInstructorByID,getLeavebyName })(ListLeave);

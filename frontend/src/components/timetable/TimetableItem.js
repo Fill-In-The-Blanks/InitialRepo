@@ -1,11 +1,55 @@
-import React, { Fragment } from 'react';
+import React, { Fragment,useState } from 'react';
+
+import  axios  from 'axios';
 import PropTypes from 'prop-types';
 import { connect, shallowEqual } from 'react-redux';
 import { deleteSlot } from '../../actions/timetable';
+import jsPDF from 'jspdf';
+import logo from '../../img/sllit logo.png'
+import autoTable from 'jspdf-autotable';
+import { Link } from 'react-router-dom';
 
+const pdfGenerate =(e)=>{
+  var doc=new jsPDF('landscape','px','a4','false');
+  doc.addImage(logo,'PNG',100,200,400,200);
+  autoTable(doc, { html: '#timelist' })
+  doc.save('TimeTable_List.pdf')
+}
 const TimetableItem = ({ slots, deleteSlot }) => {
+  const [value,SetValue]=useState('');
+  const [dataSource,SetdataSource]=useState(slots);
+  const [tableFilter,SetTableFilter]=useState([]);
+  const filterData=(e)=>{
+    if(e.target.value!=""){
+      SetValue(e.target.value);
+      const filter=dataSource.filter(o=>Object.keys(o).some(k=>String(o[k]).toLowerCase().includes(e.target.value.toLowerCase())));
+      SetTableFilter([...filter]);
+    }else{
+      SetValue(e.target.value);
+      SetdataSource([...dataSource]);
+    }
+
+  }
+   const selectStaffRequirement = async (slot, e) => {
+    try {
+      console.log(e.target.value);
+      console.log(slot);
+      await axios.post('/api/timetable/slot', { slotID : slot, staffRequirement: e.target.value });
+      
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+  {/* const slotsMapped = slots.map((slot, index) => (
+    <tr key={index}> */}
+
+ 
+
+
   const slotsMapped = slots.map((slot, index) => (
-    <tr key={slot._id}>
+    <tr key={index}>
       <td>{index + 1}</td>
       <td>
         {slot.startTime} - {slot.endTime}
@@ -14,7 +58,21 @@ const TimetableItem = ({ slots, deleteSlot }) => {
       <td>{slot.module}</td>
       <td>{slot.venue}</td>
       <td>{slot.group}</td>
-      <td>{slot.staffRequirement}</td>
+      <td>
+        <div className="custom-select-1" style={{width:'200px'}}>
+          <select onChange={(e) => {
+          selectStaffRequirement(slot._id, e)
+          window.location.reload()
+        }}>
+            <option value="0" style = {{display : "none"}}>{slot.staffRequirement}</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+      </td>
       <td>
         {' '}
         <button className='btn btn-danger' onClick={() => deleteSlot(slot._id)}>
@@ -22,31 +80,43 @@ const TimetableItem = ({ slots, deleteSlot }) => {
         </button>
       </td>
     </tr>
-  ));
+  ))
   return (
     <Fragment>
-      <table className='table'>
+        <div className='search'>         
+    
+    <input type='text' 
+    placeholder='Search'
+    
+    value={value}
+    onChange={filterData}/>
+  </div>
+  <Link to={`/allocateSlot`}>
+              <button className='btn btn-primary'> <i className='fa-solid fa-list-check'></i>Allocate Sots</button>
+            </Link>
+       <button className='btn btn-success' onClick={pdfGenerate}><i className='fas fa-file-download'></i> PDF</button>
+      <table className='table' id='timelist'>
         <thead>
           <tr>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               No.
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' ,paddingRight:'90px'}}>
               Time Slot
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Day
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Module
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Venue
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Group
             </th>
-            <th className='hide-sm' style={{ textAlign: 'center' }}>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Staff Requirement
             </th>
           </tr>

@@ -20,12 +20,12 @@ const Notices = ({getNotices , notice :{notices, loading}}) => {
         <p className='lead'>
           {/* <i className='fas fa-user'></i> */} Notice Management
         </p>
-        <Link to={`/AddNotice`}>
+        {/* <Link to={`/AddNotice`}>
           <button className='btn btn-primary'>AddNotice Notices</button>
         </Link>
         <Link to={`/notices`}>
           <button className='btn btn-primary'>List Notices</button>
-        </Link>
+        </Link> */}
 
 
         
@@ -35,6 +35,7 @@ const Notices = ({getNotices , notice :{notices, loading}}) => {
         ) : (
           <h4>No notices found</h4>
         )}
+          
       </section>
     </Fragment>
   );
