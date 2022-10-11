@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const AdminSchema = new mongoose.Schema({
     userName: {
@@ -27,7 +27,11 @@ const AdminSchema = new mongoose.Schema({
     department : {
         type : String, 
         required : true
-    }
+    },
+    initialLogin: {
+      type: Boolean,
+      required: true,
+    },
 });
 
-module.exports = Admin = mongoose.model('admin', AdminSchema);  // Admin is the variable, admin is the name of the model, AdminSchema is the model schema
+module.exports = Admin = mongoose.model("admin", AdminSchema); // Admin is the variable, admin is the name of the model, AdminSchema is the model schema

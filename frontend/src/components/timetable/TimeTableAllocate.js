@@ -329,7 +329,7 @@ const TimeTableAllocate = ({
       })}
 
       {modules && <div style={{ display: "flex" }}>
-        <div className="custom-select" style={{ width: '450px' }}>
+        <div className="custom-select" style={{ width: '930px' }}>
           <select id="batch" onChange={(e) => { selectBatch(e) }}>
             <option>Select Batch:</option>
             {test.map((item) => {

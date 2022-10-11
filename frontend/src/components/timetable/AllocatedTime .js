@@ -87,7 +87,7 @@ function AllocatedTime() {
                             handleDelete(item)
                           }}
                         >
-                          Delete
+                          <i className='fas fa-trash'></i>
                         </button>
                       </td>
                     </tr>
