@@ -359,12 +359,21 @@ useEffect(() => {
       {modules && <div style={{ display: "flex" }}>
         <div className="custom-select" style={{ width: '930px' }}>
           <select id="batch" onChange={(e) => { selectBatch(e) }}>
-            <option>Select Batch:</option>
+            <option>Select Batch:</option> /* access level code */
             {test.map((item) => {
-               //Barrak - add ur if-else for admin access level
+              if (admin?.userType === 'admin') {
                 return (
                   <option value={item}>{item}</option>
                 )
+              }
+              else {
+                if (item.includes(admin?.department)) {
+                  return (
+                    <option value={item}>{item}</option>
+                  )
+                }
+                return
+              }
             })}
 
           </select>
