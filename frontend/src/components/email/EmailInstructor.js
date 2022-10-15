@@ -55,10 +55,10 @@ const EmailInstructor = ({
     console.log(emailInstructorform.current);
     emailjs
       .sendForm(
-        'service_2yi5441',
-        'template_q97f9n6',
+        'service_x1e9iqd',
+        'template_jetp8df',
         emailInstructorform.current,
-        '3yiSsWex126MEwSd2'
+        '7ZncN1mGyvZ9H5qmP'
       )
       .then(
         (result) => {

@@ -35,10 +35,10 @@ const AdminCreate = ({ addAdmin, admin: { admins } }) => {
     addAdmin(formValue);
     emailjs
       .sendForm(
-        'service_2yi5441',
-        'template_3uq9jb9',
+        'service_x1e9iqd', //email service
+        'template_7p1ojth', //email template user details, template
         adminform.current,
-        '3yiSsWex126MEwSd2'
+        '7ZncN1mGyvZ9H5qmP' //public key account
       )
       .then(
         (result) => {
@@ -91,11 +91,11 @@ const AdminCreate = ({ addAdmin, admin: { admins } }) => {
             onChange={(e) => setDepartment(e.target.value)}
           >
             <option value='admin'></option>
-            <option value='C'>Computer Science & Software Engineering (CSSE)</option>
-            <option value='IT'>Information Technology (IT)</option>
-            <option value='CSNE'>
-              Computer Systems Engineering (CSE)
+            <option value='C'>
+              Computer Science & Software Engineering (CSSE)
             </option>
+            <option value='IT'>Information Technology (IT)</option>
+            <option value='CSNE'>Computer Systems Engineering (CSE)</option>
           </select>
           <p>{errors.department?.message}</p>
           <br />

@@ -20,7 +20,7 @@ const EmailAdmin = ({
     console.log(instructor);
     if (admin !== '') {
       setSendersEmail(admin.email);
-      console.log('NIDULAAAAAAAAA');
+      //console.log('NIDULAAAAAAAAA');
     } else {
       setSendersEmail(instructor.email);
     }
@@ -52,10 +52,10 @@ const EmailAdmin = ({
     sendEmail(emailInstructorformValue);
     emailjs
       .sendForm(
-        'service_2yi5441',
-        'template_q97f9n6',
+        'service_x1e9iqd', //email communication
+        'template_jetp8df',
         emailAdminform.current,
-        '3yiSsWex126MEwSd2'
+        '7ZncN1mGyvZ9H5qmP'
       )
       .then(
         (result) => {

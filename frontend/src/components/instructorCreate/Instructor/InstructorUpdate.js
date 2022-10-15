@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState, useRef, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   getInstructors,
   updateInstructorByID,
-} from "../../../actions/instructor";
+} from '../../../actions/instructor';
 
-import { setAlert } from "../../../actions/alert";
-import emailjs from "emailjs-com";
-import "../Home/Home.css";
+import { setAlert } from '../../../actions/alert';
+import emailjs from 'emailjs-com';
+import '../Home/Home.css';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 const InstructorUpdate = ({
   getInstructors,
@@ -20,11 +20,11 @@ const InstructorUpdate = ({
     getInstructors();
   }, []);
 
-  const [ID, setUserID] = useState("");
-  const [email, setemail] = useState("");
-  const [department, setDepartment] = useState("");
-  const [userName, setusername] = useState("");
-  const [password, setpassword] = useState("");
+  const [ID, setUserID] = useState('');
+  const [email, setemail] = useState('');
+  const [department, setDepartment] = useState('');
+  const [userName, setusername] = useState('');
+  const [password, setpassword] = useState('');
   const initialLogin = false;
 
   const {
@@ -51,10 +51,10 @@ const InstructorUpdate = ({
     );
     emailjs
       .sendForm(
-        "service_2yi5441",
-        "template_3uq9jb9",
+        'service_x1e9iqd',
+        'template_7p1ojth',
         updateInstructorform.current,
-        "3yiSsWex126MEwSd2"
+        '7ZncN1mGyvZ9H5qmP'
       )
       .then(
         (result) => {
@@ -68,16 +68,16 @@ const InstructorUpdate = ({
 
   return (
     <div>
-      <div className="create">
-        <form ref={updateInstructorform} id="InstructorsUpdate">
+      <div className='create'>
+        <form ref={updateInstructorform} id='InstructorsUpdate'>
           <label>Select UserID</label>
           <select
-            name="ID"
-            id="ID"
-            style={{ width: "100%" }}
+            name='ID'
+            id='ID'
+            style={{ width: '100%' }}
             onChange={(e) => setUserID(e.target.value)}
           >
-            <option value=""></option>
+            <option value=''></option>
             {instructors.map((instru) => (
               <option value={instru.ID} key={instru.ID}>
                 {instru.ID}
@@ -88,32 +88,32 @@ const InstructorUpdate = ({
           <br />
           <label>Email</label>
           <input
-            name="email"
-            type="email"
-            {...register("email", { required: "This is required" })}
+            name='email'
+            type='email'
+            {...register('email', { required: 'This is required' })}
             onChange={(e) => setemail(e.target.value)}
           ></input>
           <p>{errors.email?.message}</p>
           <br />
           <label>Username</label>
           <input
-            name="userName"
-            {...register("userName", { required: "This is required" })}
+            name='userName'
+            {...register('userName', { required: 'This is required' })}
             onChange={(e) => setusername(e.target.value)}
           ></input>
           <p>{errors.userName?.message}</p>
           <br />
           <label>Department</label>
           <select
-            name="department"
-            id="department"
-            style={{ width: "100%" }}
+            name='department'
+            id='department'
+            style={{ width: '100%' }}
             onChange={(e) => setDepartment(e.target.value)}
           >
-            <option value=""></option>
-            <option value="C">Computing (C)</option>
-            <option value="IT">Information Technology (IT)</option>
-            <option value="CSNE">
+            <option value=''></option>
+            <option value='C'>Computing (C)</option>
+            <option value='IT'>Information Technology (IT)</option>
+            <option value='CSNE'>
               Computer Science & Network Engineering (CSNE)
             </option>
           </select>
@@ -121,18 +121,18 @@ const InstructorUpdate = ({
           <br />
           <label>Password</label>
           <input
-            name="password"
-            type="password"
-            {...register("password", {
-              required: "This is required",
-              minLength: { value: 8, message: "Need atleast 8 characters" },
-              maxLength: { value: 20, message: "Max characters are 20" },
+            name='password'
+            type='password'
+            {...register('password', {
+              required: 'This is required',
+              minLength: { value: 8, message: 'Need atleast 8 characters' },
+              maxLength: { value: 20, message: 'Max characters are 20' },
             })}
             onChange={(e) => setpassword(e.target.value)}
           ></input>
           <p>{errors.password?.message}</p>
           <br />
-          <button type="submit" onClick={handleSubmit(updateInstructor)}>
+          <button type='submit' onClick={handleSubmit(updateInstructor)}>
             Update User
           </button>
         </form>

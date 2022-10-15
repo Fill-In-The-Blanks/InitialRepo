@@ -17,7 +17,7 @@ const EmailHistory = ({
     console.log(admin);
     console.log(instructor);
     if (admin !== '') {
-      console.log('NIDULAAAAAAAAA');
+      //console.log('NIDULAAAAAAAAA');
       getEmailByEmail(admin.email);
     } else {
       getEmailByEmail(instructor.email);
