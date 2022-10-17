@@ -100,10 +100,10 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
             onChange={(e) => setDepartment(e.target.value)}
           >
             <option value=''></option>
-            <option value='C'>Computing (C)</option>
+            <option value='C'>Computer Science & Software Engineering (CSSE)</option>
             <option value='IT'>Information Technology (IT)</option>
             <option value='CSNE'>
-              Computer Science & Network Engineering (CSNE)
+            Computer Systems Engineering (CSE)
             </option>
           </select>
           <p>{errors.department?.message}</p>
