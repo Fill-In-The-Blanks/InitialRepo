@@ -14,7 +14,7 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
 
   const [ID, setUserID] = useState('');
   const [email, setemail] = useState('');
-  const [department, setDepartment] = useState('');
+  const [department, setDepartment] = useState('admin');
   const [userName, setusername] = useState('');
   const [password, setpassword] = useState('');
   const initialLogin = false;
@@ -100,7 +100,7 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
             onChange={(e) => setDepartment(e.target.value)}
           >
             <option value=''></option>
-            <option value='C'>Computer Science & Software Engineering (CSSE)</option>
+            <option value='CSSE'>Computer Science & Software Engineering (CSSE)</option>
             <option value='IT'>Information Technology (IT)</option>
             <option value='CSNE'>
             Computer Systems Engineering (CSE)

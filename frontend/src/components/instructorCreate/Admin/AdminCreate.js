@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import '../Home/Home.css';
 
 const AdminCreate = ({ addAdmin, admin: { admins } }) => {
+ 
   const [ID, setUserID] = useState('');
   const [email, setemail] = useState('');
   const [department, setDepartment] = useState('admin');
@@ -91,7 +92,7 @@ const AdminCreate = ({ addAdmin, admin: { admins } }) => {
             onChange={(e) => setDepartment(e.target.value)}
           >
             <option value='admin'></option>
-            <option value='C'>
+            <option value='CSSE'>
               Computer Science & Software Engineering (CSSE)
             </option>
             <option value='IT'>Information Technology (IT)</option>

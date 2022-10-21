@@ -83,10 +83,15 @@ const EmailAdmin = ({
             style={{ width: '100%' }}
             onChange={(e) => setReceiversEmail(e.target.value)}
           >
-            <option value=''></option>
+            <option value=''>Please select the admin</option>
             {admins.map((admin) => (
               <option value={admin.email} key={admin.ID}>
+                {admin.userName} &nbsp;-&nbsp;
                 {admin.email}
+                 
+               
+                
+                
               </option>
             ))}
           </select>

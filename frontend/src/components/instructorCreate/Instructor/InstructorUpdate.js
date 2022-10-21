@@ -111,7 +111,7 @@ const InstructorUpdate = ({
             onChange={(e) => setDepartment(e.target.value)}
           >
             <option value=''></option>
-            <option value='C'> Computer Science & Software Engineering (CSSE)</option>
+            <option value='CSSE'> Computer Science & Software Engineering (CSSE)</option>
             <option value='IT'>Information Technology (IT)</option>
             <option value='CSNE'>
             Computer Systems Engineering (CSE)

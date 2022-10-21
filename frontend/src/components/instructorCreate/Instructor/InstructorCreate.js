@@ -92,7 +92,7 @@ const InstructorCreate = ({ addInstructor, instructor: { instructors } }) => {
             onChange={(e) => setDepartment(e.target.value)}
           >
             <option value=''></option>
-            <option value='C'>
+            <option value='CSSE'>
               Computer Science & Software Engineering (CSSE)
             </option>
             <option value='IT'>Information Technology (IT)</option>

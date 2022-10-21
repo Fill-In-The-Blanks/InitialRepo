@@ -86,9 +86,10 @@ const EmailInstructor = ({
             style={{ width: '100%' }}
             onChange={(e) => setReceiversEmail(e.target.value)}
           >
-            <option value=''></option>
+            <option value=''>Please select instructor</option>
             {instructors.map((instru) => (
               <option value={instru.email} key={instru.ID}>
+                {instru.userName} &nbsp;-&nbsp;
                 {instru.email}
               </option>
             ))}

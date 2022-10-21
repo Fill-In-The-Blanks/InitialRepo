@@ -69,7 +69,7 @@ const Navbar = ({
           ) : (
             <Link
               to={'/EmailManagement'}
-              style={{ background: '#FF9494', borderRadius: '10px' }}
+              style={{ background: '#72DAB0', borderRadius: '10px' }}
             >
               {' '}
               <i className='fas fa-user'></i>{' '}

@@ -69,13 +69,7 @@ const Profile = ({
           <br />
           <label>Email</label>
           <input name='emails' readOnly value={emails}></input>
-          {/* <input
-            name="email"
-            type="email"
-            {...register("email", { required: "This is required" })}
-            onChange={(e) => setemail(e.target.value)}
-          ></input>
-          <p>{errors.email?.message}</p> */}
+          
           <br />
           <label>Username</label>
           <input
