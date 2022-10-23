@@ -88,8 +88,8 @@ const AddVenue = ({ Venue }) => {
                 
                 <input
                   type='text'
-                  placeholder='floor'
-                  name='floor'
+                  placeholder='Floor'
+                  name='Floor'
                   value={floor}
                   onChange={(e) => onchange(e)}
                 />

@@ -187,7 +187,7 @@ const TimetableItem = ({ slots, deleteSlot }) => {
     onChange={filterData}/>
   </div>
   <Link to={`/allocateSlot`}>
-              <button className='btn btn-primary'> <i className='fa-solid fa-list-check'></i>Allocate Sots</button>
+              <button className='btn btn-primary'> <i className='fa-solid fa-list-check'></i>Allocate Slots</button>
             </Link>
        <button className='btn btn-success' onClick={pdfGenerate}><i className='fas fa-file-download'></i> PDF</button>
       <table className='table' id='timelist'>
