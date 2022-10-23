@@ -6,13 +6,51 @@ import { deleteEmployee } from '../../actions/employee';
 import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
-
+import MyChart from '../Mychart';
+import Swal from 'sweetalert2';
 
 const pdfGenerate =(e)=>{
   var doc=new jsPDF('landscape','px','a4','false');
-  doc.addImage(logo,'PNG',90,50,100,80);
-  autoTable(doc, { html: '#employee-table' })
+
+  
+  
+  
+  autoTable(doc, { html: '#employee-table' , didDrawPage: function (data) {
+
+    // Header
+    doc.setFontSize(20);
+    doc.setTextColor(40);
+    doc.text("       Employee Information  ", data.settings.margin.right, 22);
+    doc.addImage(logo,'PNG',data.settings.margin.right,8, 20, 20)
+    
+    
+    // Footer
+    var str = "Page " + doc.internal.getNumberOfPages();
+   
+    doc.setFontSize(10);
+
+    // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+    var pageSize = doc.internal.pageSize;
+    var pageHeight = pageSize.height
+      ? pageSize.height
+      : pageSize.getHeight();
+    doc.text(str, data.settings.margin.left, pageHeight - 10);
+  }})
+ 
+
+  
+
+
+
+
   doc.save('Employee_List.pdf')
+  Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'File Downloaded',
+    showConfirmButton: false,
+    timer: 1500
+  })
 }
 
 
@@ -20,6 +58,8 @@ const pdfGenerate =(e)=>{
   
 
 const EmployeeItem = ({ employees, deleteEmployee }) => {
+  
+  
   const [value,SetValue]=useState('');
   const [dataSource,SetdataSource]=useState(employees);
   const [tableFilter,SetTableFilter]=useState([]);
@@ -36,8 +76,44 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
 
   }
 
+  const Delete=(id)=>{
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        var employeeid = id;
+        deleteEmployee(employeeid);
+        Swal.fire(
 
-  const employeesMapped =  value.length > 0 ? tableFilter.map((employee) => (
+          'Deleted!',
+          'Employee has been deleted.',
+          'success'
+        )
+      }
+    })
+   
+  }
+  const handleGraph = (index)=>{
+    console.log(index)
+    let chart = document.getElementById(`chart-${index}`)
+    if(chart.style.display === "")
+    {
+      chart.style.display = 'none'
+    }
+    else{
+      chart.style.display = ""
+    }
+
+  }
+
+  const employeesMapped =  value.length > 0 ? tableFilter.map((employee,index) => (
+
     <tr key={employee._id}>
       <td>{employee.empNo}</td>
       <td>{employee.empName}</td>
@@ -49,7 +125,7 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
         {' '}
         <button
           className='btn btn-danger'
-          onClick={() => deleteEmployee(employee._id)}
+          onClick={() => Delete(employee._id)}
         >
           <i className='fas fa-trash'></i>
         </button>
@@ -63,8 +139,9 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
         </Link>
       </td>
     </tr>
-  )): employees.map((employee) => (
-    <tr key={employee._id}>
+
+  )): employees.map((employee,index) => (
+   <> <tr key={employee._id}>
       <td>{employee.empNo}</td>
       <td>{employee.empName}</td>
       <td>{employee.sliitEmail}</td>
@@ -75,7 +152,7 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
         {' '}
         <button
           className='btn btn-danger'
-          onClick={() => deleteEmployee(employee._id)}
+          onClick={() => Delete(employee._id)}
         >
           <i className='fas fa-trash'></i>
         </button>
@@ -88,7 +165,15 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
           <i className='fas fa-edit'></i>
         </Link>
       </td>
+      <td>
+        <button className='btn btn-primary' onClick = {()=>{
+      console.log(index)
+      handleGraph(index)}}>
+          Hours
+        </button>
+      </td>
     </tr>
+      <tr ><td colSpan={8} id={`chart-${index}`} style = {{display : "none" }} ><MyChart empNo = {employee.empNo} /></td></tr></>
   ))
   return (
     <Fragment>
@@ -142,4 +227,4 @@ EmployeeItem.propTypes = {
   deleteEmployee: PropTypes.func.isRequired,
 };
 
-export default connect(null, { deleteEmployee })(EmployeeItem);
+export default connect(null, { deleteEmployee })(EmployeeItem); 

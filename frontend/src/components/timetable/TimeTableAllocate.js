@@ -553,7 +553,11 @@ useEffect(() => {
                       }
                     </td>
                     <td>
-                     {/* Adhil - insert ur part here*/}
+                    {timetable.find((teacher) => teacher.empNo === item2.empNo)
+                        ? timetable.find(
+                          (teacher) => teacher.empNo === item2.empNo
+                        ).hours
+                        : '0'}
                     </td>
                     {slots.map((item) => {
                       if (day === 'all') {
@@ -613,7 +617,11 @@ useEffect(() => {
                       }
                     </td>
                     <td>
-                      {/*Adhil - insert ur part*/}
+                    {timetable.find((teacher) => teacher.empNo === item2.empNo)
+                        ? timetable.find(
+                          (teacher) => teacher.empNo === item2.empNo
+                        ).hours
+                        : '0'}
                     </td>
                     {slots.map((item) => {
                       if (day == 'all') {

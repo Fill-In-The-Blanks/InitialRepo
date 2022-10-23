@@ -88,8 +88,8 @@ const onchange = (e) =>
             <select
               name='specialization'
               value={specialization}
-              onChange={(e) => onchange(e)}>
-              <option value='0'>* Select the Specialization</option>
+              onChange={(e) => onchange(e)} required>
+              <option value='0'>Select the Specialization</option>
               <option value='SE'>SE</option>
               <option value='IT'>IT</option>
               <option value='CSNE'>CSNE</option>
@@ -106,6 +106,7 @@ const onchange = (e) =>
               name='year'
               value={year}
               onChange={(e) => onchange(e)}
+              required
             >
               <option value='0'>* Select the Year of Study</option>
               <option value='Year 1'>1</option>
@@ -122,6 +123,7 @@ const onchange = (e) =>
               name='semester'
               value={semester}
               onChange={(e) => onchange(e)}
+              required
             >
               <option value='0'>* Select the Semester</option>
               <option value='1'>Semester 1</option>

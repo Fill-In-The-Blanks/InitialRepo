@@ -6,13 +6,41 @@ import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
-
+import Swal from 'sweetalert2';
 
 const pdfGenerate =(e)=>{
   var doc=new jsPDF('landscape','px','a4','false');
-  doc.addImage(logo,'PNG',100,200,400,200);
-  autoTable(doc, { html: '#mytimeTable' })
-  doc.save('myTimetable.pdf')
+ 
+  autoTable(doc, { html: '#mytimeTable' ,didDrawPage: function (data) {
+
+    // Header
+    doc.setFontSize(20);
+    doc.setTextColor(40);
+    doc.text("       My personal Timetable  ", data.settings.margin.right, 22);
+    doc.addImage(logo,'PNG',data.settings.margin.right,8, 20, 20)
+    
+    
+    // Footer
+    var str = "Page " + doc.internal.getNumberOfPages();
+   
+    doc.setFontSize(10);
+
+    // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+    var pageSize = doc.internal.pageSize;
+    var pageHeight = pageSize.height
+      ? pageSize.height
+      : pageSize.getHeight();
+    doc.text(str, data.settings.margin.left, pageHeight - 10);
+  }})
+ 
+  doc.save('my_timetable.pdf')
+  Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'File Downloaded',
+    showConfirmButton: false,
+    timer: 1500
+  })
 }
 const InstructorItem = ({timetable1}) => {
 

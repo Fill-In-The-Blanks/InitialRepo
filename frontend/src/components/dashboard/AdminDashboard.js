@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import MyChart from '../Mychart';
 
 const AdminDashboard = ({ auth: { admin } }) => {
   return (
@@ -28,6 +29,7 @@ const AdminDashboard = ({ auth: { admin } }) => {
       <Link className='btn adminleaveManagement' to='/ListLeaves'></Link>
      
       <Link className='btn InstructorManagement' to='/UserManagement'></Link>
+      <Link className='btn EmailManagement' to='/EmailManagement'></Link>
     </Fragment>
   );
 };
