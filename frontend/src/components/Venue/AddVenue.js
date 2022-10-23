@@ -57,7 +57,7 @@ const AddVenue = ({ Venue }) => {
                 />
               </div>
               <div className='form-group'>
-                type
+                Type
               
                 <select
                   name='type'
@@ -72,7 +72,7 @@ const AddVenue = ({ Venue }) => {
                 </select>
               </div>
               <div className='form-group'>
-                size
+                Size
                 <input
                   type='text'
                   placeholder='Size'

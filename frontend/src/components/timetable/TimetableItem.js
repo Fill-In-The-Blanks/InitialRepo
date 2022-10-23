@@ -8,12 +8,46 @@ import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
 import { Link } from 'react-router-dom';
-
+import Swal from 'sweetalert2';
 const pdfGenerate =(e)=>{
+  
+
   var doc=new jsPDF('landscape','px','a4','false');
-  doc.addImage(logo,'PNG',100,200,400,200);
-  autoTable(doc, { html: '#timelist' })
+
+  autoTable(doc, { html: '#timelist'  ,didDrawPage: function (data) {
+
+    // Header
+    doc.setFontSize(20);
+    doc.setTextColor(40);
+    doc.text("       Timetable List  ", data.settings.margin.right, 22);
+    doc.addImage(logo,'PNG',data.settings.margin.right,8, 20, 20)
+    
+    
+    // Footer
+    var str = "Page " + doc.internal.getNumberOfPages();
+   
+    doc.setFontSize(10);
+
+    // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+    var pageSize = doc.internal.pageSize;
+    var pageHeight = pageSize.height
+      ? pageSize.height
+      : pageSize.getHeight();
+    doc.text(str, data.settings.margin.left, pageHeight - 10);
+  }})
+ 
   doc.save('TimeTable_List.pdf')
+  Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'File Downloaded',
+    showConfirmButton: false,
+    timer: 1500
+  })
+
+
+
+
 }
 const TimetableItem = ({ slots, deleteSlot }) => {
   const [value,SetValue]=useState('');
@@ -30,6 +64,31 @@ const TimetableItem = ({ slots, deleteSlot }) => {
     }
 
   }
+
+  const Delete=(id)=>{
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        var slotid = id;
+        deleteSlot(slotid);
+        Swal.fire(
+
+          'Deleted!',
+          'Time Table has been deleted.',
+          'success'
+        )
+      }
+    })
+   
+  }
+
    const selectStaffRequirement = async (slot, e) => {
     try {
       console.log(e.target.value);
@@ -42,13 +101,43 @@ const TimetableItem = ({ slots, deleteSlot }) => {
 
   }
 
-  {/* const slotsMapped = slots.map((slot, index) => (
-    <tr key={index}> */}
 
- 
-
-
-  const slotsMapped = slots.map((slot, index) => (
+  const slotsMapped =  value.length > 0 ? tableFilter.map((slot,index) => (
+  <tr key={index}>
+    <td>{index + 1}</td>
+    <td>
+      {slot.startTime} - {slot.endTime}
+    </td>
+    <td>{slot.dayOfTheWeek}</td>
+    <td>{slot.module}</td>
+    <td>{slot.venue}</td>
+    <td>{slot.group}</td>
+    <td>{slot.staffRequirement}</td>
+    <td>
+      <div className="custom-select-1" style={{width:'200px'}}>
+        <select onChange={(e) => {
+        selectStaffRequirement(slot._id, e)
+        window.location.reload()
+      }}>
+          <option value="0" style = {{display : "none"}}>{slot.staffRequirement}</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+    </td>
+    <td>
+    <button
+      className='btn btn-danger btn-mini'
+      onClick={() => Delete(slot._id)}
+      >
+      <i className='fas fa-trash'></i>
+      </button>
+    </td>
+  </tr>
+)):slots.map((slot, index) => (
     <tr key={index}>
       <td>{index + 1}</td>
       <td>
@@ -58,6 +147,7 @@ const TimetableItem = ({ slots, deleteSlot }) => {
       <td>{slot.module}</td>
       <td>{slot.venue}</td>
       <td>{slot.group}</td>
+      <td>{slot.staffRequirement}</td>
       <td>
         <div className="custom-select-1" style={{width:'200px'}}>
           <select onChange={(e) => {
@@ -74,10 +164,13 @@ const TimetableItem = ({ slots, deleteSlot }) => {
         </div>
       </td>
       <td>
-        {' '}
-        <button className='btn btn-danger' onClick={() => deleteSlot(slot._id)}>
-          Delete{' '}
-        </button>
+      
+            <button
+      className='btn btn-danger btn-mini'
+      onClick={() => Delete(slot._id)}
+      >
+      <i className='fas fa-trash'></i>
+      </button>
       </td>
     </tr>
   ))

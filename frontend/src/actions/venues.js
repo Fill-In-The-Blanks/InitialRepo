@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 import { GET_VENUE, GET_VENUES, VENUE_ERROR } from './types';
+import Swal from 'sweetalert2';
 // Add Modules
 export const Venue = (formData,navigate) => async (dispatch) => {
     const config = {
@@ -16,6 +17,13 @@ export const Venue = (formData,navigate) => async (dispatch) => {
       await axios.post('/api/venues',formData,config);
   
       dispatch(setAlert("Venue Added Success",'success'));
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'The venue has been saved',
+        showConfirmButton: false,
+        timer: 1500
+      })
       navigate('/ListVenues');
       
       
@@ -24,7 +32,10 @@ export const Venue = (formData,navigate) => async (dispatch) => {
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
-        errors.forEach((error) => dispatch((setAlert(error.msg, 'danger'))));
+        errors.forEach((error) => dispatch((Swal.fire({
+          icon: 'error',
+          title:'Please Check Form ',
+          text: `${error.msg}`}))))
       }
   
      
@@ -55,7 +66,7 @@ export const deleteVenue = id => async dispatch => {
   try {
       await axios.delete(`/api/venues/${id}`);
 
-      dispatch(setAlert('Venue Removed', 'success'));
+      //dispatch(setAlert('Venue Removed', 'success'));
 
       const res = await axios.get('/api/venues');
 
@@ -82,6 +93,13 @@ export const updateVenueByID = (ID, formData,navigate) => async (dispatch) => {
 
       const res = await axios.put(`/api/venues/${ID}`, formData, config);
       dispatch(setAlert('Venue Updated', 'success'));
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'The venue has been updated',
+        showConfirmButton: false,
+        timer: 1500
+      })
       navigate('/ListVenues');
       dispatch({
           type: GET_VENUES,
@@ -91,13 +109,13 @@ export const updateVenueByID = (ID, formData,navigate) => async (dispatch) => {
   } catch (err) {
       const errors = err.response.data.errors;
       if(errors) {
-          errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+        errors.forEach((error) => dispatch((Swal.fire({
+          icon: 'error',
+          title:'Please Check Form ',
+          text: `${error.msg}`}))))
       }
 
-      dispatch({
-          type: VENUE_ERROR,
-          payload: { msg: err.response.statusText, status: err.response.status }
-      });
+    
   }
 }  
 
