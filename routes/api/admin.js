@@ -105,7 +105,23 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-//update function from accounts mangement 
+router.get("/:id", async (req, res) => {
+  try {
+    const admin = await Admin.find({ ID: req.params.id });
+    if (!admin) {
+      return res.status(404).json({ msg: "admin Not Found" });
+    }
+    res.json(admin);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "String") {
+      return res.status(404).json({ msg: "Admin not found" });
+    }
+    res.status(500).send("Server error");
+  }
+});
+
+//update function from accounts mangement
 router.put(
   "/:id",
   [
@@ -207,9 +223,8 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { userName, ID, email,  password, initialLogin } =
-      req.body;
-    console.log(req.body)
+    const { userName, ID, email, password, initialLogin } = req.body;
+    console.log(req.body);
     try {
       const admins = await Admin.find();
       const adminUserName = admins.find((o) => o.userName === userName);
@@ -239,7 +254,7 @@ router.put(
           userName,
           ID,
           email,
-         
+
           password,
           initialLogin,
         };
