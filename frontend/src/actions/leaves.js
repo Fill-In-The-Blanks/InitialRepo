@@ -15,13 +15,13 @@ export const requestLeave =(id,formData,navigate)=> async (dispatch)=>{
           const res = await axios.post('/api/leaves', formData, config);
           
           dispatch(setAlert('Request Has been Sent', 'success'));
-          Swal.fire({
+           Swal.fire({
             position: 'top-end',
             icon: 'success',
             title: 'The request has been saved',
-            showConfirmButton: false,
-            timer: 1500
-          })
+             showConfirmButton: false,
+           timer: 1500
+           })
           navigate(`/ListLeave/${id}`);
           
 

@@ -21,11 +21,11 @@ const LeaveSchema = new mongoose.Schema({
     },
     starttimeoff: {
       type:String ,
-      required: true,
+    
     },
     Endtimeoff: {
       type:String,
-      required: true,
+     
     },
     Message: {
       type:String ,

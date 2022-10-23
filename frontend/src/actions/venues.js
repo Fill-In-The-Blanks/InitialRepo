@@ -16,7 +16,7 @@ export const Venue = (formData,navigate) => async (dispatch) => {
     try {
       await axios.post('/api/venues',formData,config);
   
-      dispatch(setAlert("Venue Added Success",'success'));
+      dispatch(setAlert("Venue added Successfully",'success'));
       Swal.fire({
         position: 'top-end',
         icon: 'success',

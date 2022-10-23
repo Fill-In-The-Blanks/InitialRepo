@@ -7,7 +7,7 @@ import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
 import Swal from 'sweetalert2';
-
+var instructorName;
 const pdfGenerate =(e)=>{
   var doc=new jsPDF('landscape','px','a4','false');
  
@@ -16,7 +16,7 @@ const pdfGenerate =(e)=>{
     // Header
     doc.setFontSize(20);
     doc.setTextColor(40);
-    doc.text("       My personal Timetable  ", data.settings.margin.right, 22);
+    doc.text( "        Personal Timetable for:"+`${instructorName}`, data.settings.margin.right, 22);
     doc.addImage(logo,'PNG',data.settings.margin.right,8, 20, 20)
     
     
@@ -75,7 +75,7 @@ const InstructorItem = ({timetable1}) => {
           {/* <td>{item.empName}</td>
           <td>{item.empNo}</td> */}
           <td>{item.hours}</td>
-          
+          {instructorName= item.empName}
           
           
         </tr>
@@ -91,7 +91,7 @@ const InstructorItem = ({timetable1}) => {
           {/* <td>{item.empName}</td>
           <td>{item.empNo}</td> */}
           <td>{item.hours}</td>
-          
+          {instructorName= item.empName}
           
           
         </tr>
