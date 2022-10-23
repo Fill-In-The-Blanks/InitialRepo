@@ -40,6 +40,7 @@ const AdminView = ({ deleteAdmin, getAdmins, admin: { admins } }) => {
         <thead>
           <tr>
             <th scope="col">ID</th>
+            <th scope="col">Department</th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col"></th>
@@ -49,6 +50,7 @@ const AdminView = ({ deleteAdmin, getAdmins, admin: { admins } }) => {
           {admins.map((admin) => (
             <tr key={admin.ID}>
               <td>{admin.ID}</td>
+              <td>{admin.department}</td>
               <td>{admin.userName}</td>
               <td>{admin.email}</td>
               <td>

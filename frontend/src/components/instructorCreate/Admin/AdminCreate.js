@@ -1,17 +1,18 @@
-import React, { useState, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { addAdmin } from "../../../actions/instructor";
+import React, { useState, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { addAdmin } from '../../../actions/instructor';
 
-import { setAlert } from "../../../actions/alert";
-import emailjs from "emailjs-com";
-import { connect } from "react-redux";
-import "../Home/Home.css";
+import { setAlert } from '../../../actions/alert';
+import emailjs from 'emailjs-com';
+import { connect } from 'react-redux';
+import '../Home/Home.css';
 
 const AdminCreate = ({ addAdmin, admin: { admins } }) => {
-  const [ID, setUserID] = useState("");
-  const [email, setemail] = useState("");
-  const [userName, setusername] = useState("");
-  const [password, setpassword] = useState("");
+  const [ID, setUserID] = useState('');
+  const [email, setemail] = useState('');
+  const [department, setDepartment] = useState('admin');
+  const [userName, setusername] = useState('');
+  const [password, setpassword] = useState('');
   const initialLogin = true;
 
   const {
@@ -27,16 +28,17 @@ const AdminCreate = ({ addAdmin, admin: { admins } }) => {
       ID,
       email,
       userName,
+      department,
       password,
       initialLogin,
     };
     addAdmin(formValue);
     emailjs
       .sendForm(
-        "service_1v0gpp4",
-        "template_g8cmxq6",
+        'service_2yi5441',
+        'template_3uq9jb9',
         adminform.current,
-        "3FDPgQ1v2eRuz7fwJ"
+        '3yiSsWex126MEwSd2'
       )
       .then(
         (result) => {
@@ -54,47 +56,63 @@ const AdminCreate = ({ addAdmin, admin: { admins } }) => {
 
   return (
     <div>
-      <div className="create">
+      <div className='create'>
         <form ref={adminform}>
           <label>UserID</label>
           <input
-            name="ID"
-            {...register("ID", { required: "This is required" })}
+            name='ID'
+            {...register('ID', { required: 'This is required' })}
             onChange={(e) => setUserID(e.target.value)}
           ></input>
           <p>{errors.ID?.message}</p>
           <br />
           <label>Email</label>
           <input
-            name="email"
-            type="email"
-            {...register("email", { required: "This is required" })}
+            name='email'
+            type='email'
+            {...register('email', { required: 'This is required' })}
             onChange={(e) => setemail(e.target.value)}
           ></input>
           <p>{errors.email?.message}</p>
           <br />
           <label>Username</label>
           <input
-            name="userName"
-            {...register("userName", { required: "This is required" })}
+            name='userName'
+            {...register('userName', { required: 'This is required' })}
             onChange={(e) => setusername(e.target.value)}
           ></input>
           <p>{errors.userName?.message}</p>
           <br />
+          <label>Department</label>
+          <select
+            name='department'
+            id='department'
+            style={{ width: '100%' }}
+            onChange={(e) => setDepartment(e.target.value)}
+          >
+            <option value='admin'></option>
+            <option value='C'>Computer Science & Software Engineering (CSSE)</option>
+            <option value='IT'>Information Technology (IT)</option>
+            <option value='CSNE'>
+              Computer Systems Engineering (CSE)
+            </option>
+          </select>
+          <p>{errors.department?.message}</p>
+          <br />
           <label>Password</label>
           <input
-            name="password"
-            type="password"
-            {...register("password", {
-              required: "This is required",
-              minLength: { value: 8, message: "Need atleast 8 characters" },
-              maxLength: { value: 20, message: "Max characters are 20" },
+            name='password'
+            type='password'
+            {...register('password', {
+              required: 'This is required',
+              minLength: { value: 8, message: 'Need atleast 8 characters' },
+              maxLength: { value: 20, message: 'Max characters are 20' },
             })}
             onChange={(e) => setpassword(e.target.value)}
           ></input>
           <p>{errors.password?.message}</p>
           <br />
-          <button type="submit" onClick={handleSubmit(onSubmitAdmin)}>
+          <button type='submit' onClick={handleSubmit(onSubmitAdmin)}>
             Create User
           </button>
         </form>

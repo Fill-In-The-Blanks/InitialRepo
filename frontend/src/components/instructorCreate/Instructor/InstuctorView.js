@@ -46,6 +46,7 @@ const InstructorView = ({
         <thead>
           <tr>
             <th scope="col">ID</th>
+            <th scope="col">Department</th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th className="redcol" scope="col"></th>
@@ -55,6 +56,7 @@ const InstructorView = ({
           {instructors.map((inst) => (
             <tr key={inst.ID}>
               <td>{inst.ID}</td>
+              <td>{inst.department}</td>
               <td>{inst.userName}</td>
               <td>{inst.email}</td>
               <td>

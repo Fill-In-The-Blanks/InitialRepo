@@ -19,6 +19,7 @@ router.post(
       .not()
       .isEmpty()
       .isEmail(),
+    check("department", "SLIIT department is required").not().isEmpty(),
     check("password", "A password should have minimum 6 characters").isLength({
       min: 6,
     }),
@@ -29,7 +30,8 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { userName, ID, email, password, initialLogin } = req.body;
+    const { userName, ID, email, department, password, initialLogin } =
+      req.body;
 
     try {
       //see if the admin exists
@@ -43,6 +45,7 @@ router.post(
         userName,
         ID,
         email,
+        department,
         password,
         initialLogin,
       });
@@ -111,6 +114,7 @@ router.put(
       .not()
       .isEmpty()
       .isEmail(),
+    check("department", "SLIIT department is required").not().isEmpty(),
     check("password", "A password should have minimum 6 characters").isLength({
       min: 6,
     }),
@@ -121,7 +125,8 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { userName, ID, email, password, initialLogin } = req.body;
+    const { userName, ID, email, department, password, initialLogin } =
+      req.body;
 
     try {
       const admins = await Admin.find();
@@ -152,6 +157,7 @@ router.put(
           userName,
           ID,
           email,
+          department,
           password,
           initialLogin,
         };

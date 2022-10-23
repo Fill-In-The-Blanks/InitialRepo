@@ -11,9 +11,11 @@ import instructor from './instructor';
 import profile from './profile';
 import notice from './notice';
 import leave from './leave';
+import email from './email';
 import timetable1 from './allocation';
 export default combineReducers({
   alert,
+  email,
   auth,
   module,
   employee,
