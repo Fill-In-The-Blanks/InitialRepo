@@ -91,9 +91,11 @@ const TimetableItem = ({ slots, deleteSlot }) => {
 
    const selectStaffRequirement = async (slot, e) => {
     try {
+      
       console.log(e.target.value);
       console.log(slot);
       await axios.post('/api/timetable/slot', { slotID : slot, staffRequirement: e.target.value });
+     
       
     } catch (error) {
       console.log(error)
