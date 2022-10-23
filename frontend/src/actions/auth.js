@@ -13,7 +13,7 @@ import {
   INSTRUCTOR_LOGOUT,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
-
+import Swal from 'sweetalert2';
 // Load Admin
 export const loadAdmin = () => async (dispatch) => {
   if (localStorage.token) {
@@ -56,7 +56,10 @@ export const loginAdmin = (email, password) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) => dispatch((Swal.fire({
+        icon: 'error',
+        title:'Invalid login ',
+        text: `${error.msg}`}))))
     }
 
     dispatch({
@@ -115,7 +118,10 @@ export const loginInstructor = (email, password) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) => dispatch((Swal.fire({
+        icon: 'error',
+        title:'Invalid Login ',
+        text: `${error.msg}`}))))
     }
 
     dispatch({

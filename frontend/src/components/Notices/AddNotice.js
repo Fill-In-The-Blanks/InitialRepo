@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-
+import Swal from 'sweetalert2';
 import { connect } from 'react-redux';
 import { Notices } from '../../actions/notices';
 import PropTypes from 'prop-types';
@@ -17,13 +17,29 @@ const AddNotice = ({ Notices }) => {
   });
   //   const navigate = useNavigate();
   const { noticeNo, heading, content, author, start, end } = formData;
-  const onchange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onchange = (e) =>{
+    
+    
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    
 
+   
+  }
   const onsubmit = async (e) => {
     e.preventDefault();
-
-    Notices(formData);
+    var startDate = document.getElementById("startD").value;
+    var EndDate = document.getElementById("endD").value;
+    if (EndDate < startDate){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Start date is greater than end date',
+     
+      })
+    }
+    else{
+      Notices(formData);
+    }
   };
   return (
     <Fragment>
@@ -46,6 +62,7 @@ const AddNotice = ({ Notices }) => {
               type='number'
               placeholder='Notice Number'
               name='noticeNo'
+              min={1}
               value={noticeNo}
               onChange={(e) => onchange(e)}
             />
@@ -86,7 +103,9 @@ const AddNotice = ({ Notices }) => {
             <input
               type='date'
               placeholder='Start Date'
+              min={new Date().toISOString()?.split('T')[0]}
               name='start'
+              id='startD'
               value={start}
               onChange={(e) => onchange(e)}
             />
@@ -96,7 +115,9 @@ const AddNotice = ({ Notices }) => {
             <input
               type='date'
               placeholder='Expiry Date'
+              min={new Date().toISOString()?.split('T')[0]}
               name='end'
+              id='endD'
               value={end}
               onChange={(e) => onchange(e)}
             />

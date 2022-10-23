@@ -48,7 +48,7 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
 
         <form className='form' onSubmit={(e) => onSubmit(e)}>
           <div className='form-group'>
-            Employee's ID Number
+          Number
             <small className='form-text'>
               Will be rejected if employee number already exists
             </small>
@@ -63,7 +63,7 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           </div>
 
           <div className='form-group'>
-            Employee's Name
+            Name
             <input
               type='text'
               placeholder='Employee Name'
@@ -74,7 +74,7 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           </div>
 
           <div className='form-group'>
-            Employee's SLIIT email
+            SLIIT email
             <small className='form-text'>
               Will be rejected if employee email already exists
             </small>
@@ -89,7 +89,7 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           </div>
 
           <div className='form-group'>
-            Employee's Phone Number
+            Phone Number
             <small className='form-text'>
               Will be rejected if phone number is already used
             </small>
@@ -122,11 +122,11 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           </div>
           <input
             type='submit'
-            className='btn btn-success'
-            value='Add Employee'
+            className='btn btn-primary'
+            value='Confirm'
           />
           <Link to={`/listEmployees`}>
-          <button className='btn btn-primary'>cancel</button>
+          <button className='btn btn-primary'>Cancel</button>
         </Link>
         </form>
       </section>
