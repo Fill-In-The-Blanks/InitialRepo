@@ -62,6 +62,7 @@ const AddNotice = ({ Notices }) => {
               type='number'
               placeholder='Notice Number'
               name='noticeNo'
+              min={1}
               value={noticeNo}
               onChange={(e) => onchange(e)}
             />
