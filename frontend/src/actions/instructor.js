@@ -9,6 +9,7 @@ import {
   ADMIN_ERROR,
 } from "./types";
 import { GET_TIMETABLES,GET_TIMETABLE,TIMETABLE_ERROR } from './types';
+import Swal from 'sweetalert2';
 
 export const addInstructor = (formData) => (dispatch) => {
   try {
@@ -25,7 +26,10 @@ export const addInstructor = (formData) => (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) => dispatch((Swal.fire({
+        icon: 'error',
+        title:'Please Check Form ',
+        text: `${error.msg}`}))))
     }
   }
 };
@@ -100,7 +104,10 @@ export const updateInstructorByID =
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+        errors.forEach((error) => dispatch((Swal.fire({
+          icon: 'error',
+          title:'Please Check Form ',
+          text: `${error.msg}`}))))
       }
 
       dispatch({
@@ -128,7 +135,10 @@ export const addAdmin = (formData) => (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) => dispatch((Swal.fire({
+        icon: 'error',
+        title:'Please Check Form ',
+        text: `${error.msg}`}))))
     }
   }
 };
@@ -188,7 +198,10 @@ export const updateAdminByID = (id, formData, navigate) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) => dispatch((Swal.fire({
+        icon: 'error',
+        title:'Please Check Form ',
+        text: `${error.msg}`}))))
     }
 
     dispatch({

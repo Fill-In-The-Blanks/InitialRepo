@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setAlert } from "./alert";
 import { GET_NOTICE, GET_NOTICES, NOTICE_ERROR } from './types';
-
+import Swal from 'sweetalert2';
 
 //add notice
 export const Notices = (formData) => async (dispatch) => {
@@ -15,10 +15,20 @@ export const Notices = (formData) => async (dispatch) => {
     await axios.post("/api/notices", formData, config);
 
     dispatch(setAlert("Notice Added Success", "success"));
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'The Notice has been saved',
+      showConfirmButton: false,
+      timer: 1500
+    })
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) => dispatch((Swal.fire({
+        icon: 'error',
+        title:'Please Check Form ',
+        text: `${error.msg}`}))))
     }
   }
 };
@@ -45,7 +55,7 @@ export const deleteNotice = (id) => async (dispatch) => {
   try {
     await axios.delete(`/api/notices/${id}`);
 
-    dispatch(setAlert('Notice Deleted', 'success'));
+    //dispatch(setAlert('Notice Deleted', 'success'));
 
     const res = await axios.get('/api/notices');
 

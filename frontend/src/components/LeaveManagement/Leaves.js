@@ -37,13 +37,12 @@ const ListLeave = ({
           { leaves.length > 0 ? (
             <LeaveItem leave={leaves}/>
           ):(
-            <h4>No Leaves Found</h4>
+            <p className='lead'>No Leaves Found</p>
           )}
           <Link to={`/SendRequest/${id}`}>
-            <button className='btn btn-success'>+</button>
+            <button className='btn btn-success'>+ Apply</button>
           </Link>
         </div>
-  
         <div>
           
         </div>

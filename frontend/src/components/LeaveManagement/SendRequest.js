@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import {getInstructorByID} from '../../actions/instructor';
 import emailjs from '@emailjs/browser';
 import Spinner from '../layout/Spinner';
-
+import Swal from 'sweetalert2';
 
 const initialState={
   empNo:'' , 
@@ -21,12 +21,13 @@ const initialState={
   NumberofDays:'',
   status:''
 };
+
 const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loading},})=>{
 
    
       const [formData, setFormData] = useState(initialState);
       const navigate = useNavigate();
-     
+      const [email, setEmail] = useState('')
       const form = useRef();
       const {id}= useParams();
       useEffect(() => {
@@ -36,7 +37,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
           const data = { ...initialState };
           data.empNo = instructor.ID;
           data.empName = instructor.userName;
-          
+          setEmail (instructor.email);
     
           setFormData(data);
         }
@@ -60,15 +61,33 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
           var endTime = new Date(startTime)
           endTime = endTime.setHours(GetHours(strEndTime), GetMinutes(strEndTime), 0);
           if (startTime > endTime) {
-              alert("Start Time is greater than end time");
+            Swal.fire({
+              icon: 'warning',
+              title: 'Oops...',
+              text: 'Start Time is greater than end time',
+           
+            })
+            
               e.preventDefault();
           }
           else if (startTime == endTime) {
-              alert("Start Time equals end time");
+            Swal.fire({
+              icon: 'warning',
+              title: 'Oops...',
+              text: 'Start Time equals end time',
+           
+            })
+             
               e.preventDefault();
           }
           else if (endTime < startTime) {
-            alert("End Time less than start time");
+            Swal.fire({
+              icon: 'warning',
+              title: 'Oops...',
+              text: 'End Time less than start time',
+           
+            })
+            
             e.preventDefault();
         }
         else {
@@ -120,39 +139,57 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
             
     
             <form ref={form} className='form' onSubmit={(e) => onSubmit(e)}>
-              
-                Employee's ID Number
+            <div className='form-group'>
+                Number
              
                 <input
                   type='text'
-                  placeholder='Employee Number'
+                  placeholder='Number'
                  
                   name='empNo'
                   readOnly={true}
                   value={empNo}
                   onChange={(e) => onChange(e)}
                   required
+                  
                 />
+              </div>
+              <div className='form-group'>
+              Email
+             
+             <input
+               type='text'
+               placeholder='email'
               
+               name='email'
+               readOnly={true}
+               value={email}
+               onChange={(e) => onChange(e)}
+               required
+               hidden
+             />
+
+              </div>
     
               <div className='form-group'>
-                Employee's Name
+                Name
                 <input
                   type='text'
-                  placeholder='Employee Name'
+                  placeholder='name'
                   readOnly={true}
                   name='empName'
                   value={empName}
                   onChange={(e) => onChange(e)}
+                  
                 />
               </div>
     
               <div className='form-group'>
-                Lecturer Incharge SLIIT email
+                Lecturer incharge SLIIT email
                 
                 <input
                   type='text'
-                  placeholder='Lecturer In charge SLIIT email'
+                  placeholder='Lecturer in charge SLIIT email'
                   name='CordinatorEmail'
                   value={CordinatorEmail}
                   onChange={(e) => onChange(e)}
@@ -178,7 +215,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
                 
                 <input
                   type='time'
-                  placeholder='Start Time'
+                  placeholder='Start time'
                   id='txtStartTime'
                   name='starttimeoff'
                   min="08:00" max="20:00"
@@ -192,7 +229,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
                 
                 <input
                   type='time'
-                  placeholder='02:30 '
+                  placeholder='End time '
                   name='Endtimeoff'
                   id='txtEndTime'
                   
@@ -206,7 +243,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
                 
                 <textarea
                   
-                  placeholder='Reason For Leave'
+                  placeholder='Reason for leave'
                   name='Message'
                   value={Message}
                   onChange={(e) => onChange(e)}
@@ -214,11 +251,11 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
               </div>
 
               <div className='form-group'>
-                Number of Days
+                Number of days
                 
                 <input
                   type='number'
-                  placeholder='Number of Days'
+                  placeholder='Number of days'
                   min={1}
                   max={10}
                   name='NumberofDays'
@@ -226,12 +263,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
                   onChange={(e) => onChange(e)}
                 />
               </div>
-              <div className='form-group'>
-                
-              
-                
-              </div>
-
+            
           
           <div className='form-group'>
             <label
@@ -246,7 +278,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
          
           <input type='submit' className='btn btn-success' value='Send' />
           <Link to={`/ListLeave/${id}`} >
-          <input type='reset' className='btn btn-danger' value='cancel' />
+          <input type='reset' className='btn btn-danger' value='Cancel' />
           </Link>
         </form>
       </section>
