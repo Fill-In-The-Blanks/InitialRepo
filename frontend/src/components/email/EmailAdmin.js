@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { getAdmins } from '../../actions/instructor';
 import { sendEmail } from '../../actions/email';
-
+import Swal from 'sweetalert2';
 import { setAlert } from '../../actions/alert';
 import emailjs from 'emailjs-com';
 import { connect } from 'react-redux';
@@ -41,6 +41,7 @@ const EmailAdmin = ({
   const emailAdminform = useRef();
 
   const sendAdminEmail = () => {
+    
     setSentDate('null');
     const emailInstructorformValue = {
       sendersEmail,
@@ -49,22 +50,48 @@ const EmailAdmin = ({
       content,
       sentDate,
     };
-    sendEmail(emailInstructorformValue);
-    emailjs
-      .sendForm(
-        'service_2yi5441',
-        'template_q97f9n6',
-        emailAdminform.current,
-        '3yiSsWex126MEwSd2'
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
+
+    Swal.fire({
+      title: 'Do you want to send email?',
+      text: "You won't be able to revert this!",
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Send it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        sendEmail(emailInstructorformValue);
+        emailjs
+          .sendForm(
+            'service_2yi5441',
+            'template_q97f9n6',
+            emailAdminform.current,
+            '3yiSsWex126MEwSd2'
+          )
+          .then(
+            (result) => {
+              console.log(result.text);
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
+      
+        Swal.fire(
+
+          'Done!',
+          'Your email has been sent.',
+          'success'
+        )
+      }
+    })
+
+
+
+
+   
   };
 
   return (

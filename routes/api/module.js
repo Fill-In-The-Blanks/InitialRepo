@@ -12,9 +12,9 @@ const Module = require('../../model/modules'); //importing admin model for line 
 router.post(
   '/',
   [
-    check('moduleName', 'Enter a Module Name').not().isEmpty(), //route validation
+    check('moduleName', 'Enter a module name').not().isEmpty(), //route validation
    
-    check('specialization', 'Select a Specialization ').not().isEmpty(),
+    check('specialization', 'Select a specialization ').not().isEmpty(),
     check('year', ' Select the year of study ').not().isEmpty(),
     check('semester', 'Select a semester of study ').not().isEmpty(),
   ],
@@ -60,10 +60,10 @@ router.post(
 router.put(
   '/:id',
   [
-    check('moduleName', 'Enter a Module Name').not().isEmpty(), //route validation
-    check('specialization', 'Select a Specialization').not().isEmpty(),
-    check('year', 'Select a year of Study ').not().isEmpty(),
-    check('semester', 'Select a Semester of Study').not().isEmpty(),
+    check('moduleName', 'Enter a module name').not().isEmpty(), //route validation
+    check('specialization', 'Select a specialization').not().isEmpty(),
+    check('year', 'Select a year of study ').not().isEmpty(),
+    check('semester', 'Select a semester of study').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
