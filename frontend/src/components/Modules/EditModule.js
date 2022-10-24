@@ -42,19 +42,19 @@ const EditModule = ({
       Swal.fire({
         icon: 'error',
         title: 'Please Check Form ',
-        text: 'Select A Specialization',
+        text: 'Select a specialization',
       });
     } else if (document.getElementsByName('year')[0].value === '0') {
       Swal.fire({
         icon: 'error',
         title: 'Please Check Form ',
-        text: 'Select A Year',
+        text: 'Select a year',
       });
     } else if (document.getElementsByName('semester')[0].value === '0') {
       Swal.fire({
         icon: 'error',
         title: 'Please Check Form ',
-        text: 'Select A Year',
+        text: 'Select a semester',
       });
     } else {
       updateModuleByID(id, formData, navigate);
