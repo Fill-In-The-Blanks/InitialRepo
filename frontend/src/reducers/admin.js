@@ -1,7 +1,7 @@
 import { GET_ADMIN, GET_ADMINS, ADMIN_ERROR } from "../actions/types";
 
 const initialState = {
-  singleadmin: [],
+  admin: null,
   loading: true,
   admins: [],
   error: {},
@@ -14,7 +14,7 @@ export default function (state = initialState, action) {
     case GET_ADMIN:
       return {
         ...state,
-        singleadmin: payload,
+        admin: payload,
         loading: false,
       };
     case GET_ADMINS:

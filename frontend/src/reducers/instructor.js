@@ -5,7 +5,7 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  instructor: [],
+  instructor: null,
   loading: true,
   instructors: [],
   error: {},

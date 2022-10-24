@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { getEmailByEmail, clearEmails } from "../../actions/email";
+import React, { useEffect, useState } from 'react';
+import { getEmailByEmail, clearEmails } from '../../actions/email';
 
-import { setAlert } from "../../actions/alert";
-import { connect } from "react-redux";
-import "./Home.css";
+import { setAlert } from '../../actions/alert';
+import { connect } from 'react-redux';
+import './Home.css';
 
 //Their is issuess with this minor bugs need to fix
 
@@ -16,7 +16,8 @@ const EmailHistory = ({
   useEffect(() => {
     console.log(admin);
     console.log(instructor);
-    if (admin !== "") {
+    if (admin !== '') {
+      console.log('NIDULAAAAAAAAA');
       getEmailByEmail(admin.email);
     } else {
       getEmailByEmail(instructor.email);
@@ -45,26 +46,26 @@ const EmailHistory = ({
   return (
     <div>
       <div>
-        <button className="clearButton" onClick={clearEmail}>
+        <button className='clearButton' onClick={clearEmail}>
           Clear History
         </button>
       </div>
       {showEmails ? (
-        <div style={{ paddingTop: "30px" }}>
+        <div style={{ paddingTop: '30px' }}>
           {emails.map((mail) => {
             return (
-              <div className="cards" key={mail._id}>
-                <h3 style={{ textAlign: "left", paddingLeft: "20px" }}>
+              <div className='cards' key={mail._id}>
+                <h3 style={{ textAlign: 'left', paddingLeft: '20px' }}>
                   <strong>Sent To: </strong>
                   {mail.receiversEmail}
                 </h3>
-                <h4 style={{ textAlign: "left", paddingLeft: "20px" }}>
+                <h4 style={{ textAlign: 'left', paddingLeft: '20px' }}>
                   <strong>Subject:</strong> {mail.subject}
                 </h4>
-                <p style={{ textAlign: "left", paddingLeft: "20px" }}>
+                <p style={{ textAlign: 'left', paddingLeft: '20px' }}>
                   <strong>Sent Date:</strong> {mail.sentDate}
                 </p>
-                <p style={{ textAlign: "left", paddingLeft: "20px" }}>
+                <p style={{ textAlign: 'left', paddingLeft: '20px' }}>
                   <strong>Sent Message:</strong> {mail.content}
                 </p>
               </div>
@@ -73,7 +74,7 @@ const EmailHistory = ({
         </div>
       ) : (
         <div>
-          <p style={{ paddingTop: "20px" }}>
+          <p style={{ paddingTop: '20px' }}>
             <strong>No E-Mails Found</strong>
           </p>
         </div>

@@ -20,7 +20,7 @@ const EmailAdmin = ({
     console.log(instructor);
     if (admin !== '') {
       setSendersEmail(admin.email);
-      //console.log('NIDULAAAAAAAAA');
+      console.log('NIDULAAAAAAAAA');
     } else {
       setSendersEmail(instructor.email);
     }
@@ -41,6 +41,7 @@ const EmailAdmin = ({
   const emailAdminform = useRef();
 
   const sendAdminEmail = () => {
+    
     setSentDate('null');
     const emailInstructorformValue = {
       sendersEmail,
@@ -57,9 +58,10 @@ const EmailAdmin = ({
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, Send it!',
+      confirmButtonText: 'Yes, Send it!'
     }).then((result) => {
       if (result.isConfirmed) {
+
         sendEmail(emailInstructorformValue);
         emailjs
           .sendForm(
@@ -76,10 +78,20 @@ const EmailAdmin = ({
               console.log(error.text);
             }
           );
+      
+        Swal.fire(
 
-        Swal.fire('Done!', 'Your email has been sent.', 'success');
+          'Done!',
+          'Your email has been sent.',
+          'success'
+        )
       }
-    });
+    })
+
+
+
+
+   
   };
 
   return (
@@ -98,10 +110,9 @@ const EmailAdmin = ({
             style={{ width: '100%' }}
             onChange={(e) => setReceiversEmail(e.target.value)}
           >
-            <option value=''>Please select the admin</option>
+            <option value=''></option>
             {admins.map((admin) => (
               <option value={admin.email} key={admin.ID}>
-                {admin.userName} &nbsp;-&nbsp;
                 {admin.email}
               </option>
             ))}

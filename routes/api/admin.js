@@ -105,23 +105,6 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  try {
-    const admin = await Admin.find({ ID: req.params.id });
-    if (!admin) {
-      return res.status(404).json({ msg: "admin Not Found" });
-    }
-    res.json(admin);
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind === "String") {
-      return res.status(404).json({ msg: "Admin not found" });
-    }
-    res.status(500).send("Server error");
-  }
-});
-
-//update function from accounts mangement
 router.put(
   "/:id",
   [
@@ -175,86 +158,6 @@ router.put(
           ID,
           email,
           department,
-          password,
-          initialLogin,
-        };
-
-        const salt = await bcrypt.genSalt(10); //hasing intilzied
-
-        updatedAdmin.password = await bcrypt.hash(password, salt);
-
-        admin = await Admin.findOneAndUpdate(
-          { ID: req.params.id },
-          { $set: updatedAdmin },
-          { new: true }
-        );
-      } else
-        return res
-          .status(400)
-          .json({ errors: [{ msg: "Instructor does not exist" }] });
-
-      res.json(admin);
-    } catch (err) {
-      console.error(err.message);
-      if (err.kind === "ObjectId") {
-        return res.status(404).json({ msg: "Instructor does not exist" });
-      }
-      res.status(500).send("Server error");
-    }
-  }
-);
-//profile update
-router.put(
-  "/:id/profile",
-  [
-    check("userName", "Username is required").not().isEmpty(), //route validation
-    check("ID", "SLIIT instrcutor ID is required").not().isEmpty(),
-    check("email", "SLIIT instructor email is required")
-      .not()
-      .isEmpty()
-      .isEmail(),
-    check("password", "A password should have minimum 6 characters").isLength({
-      min: 6,
-    }),
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { userName, ID, email, password, initialLogin } = req.body;
-    console.log(req.body);
-    try {
-      const admins = await Admin.find();
-      const adminUserName = admins.find((o) => o.userName === userName);
-      const adminEmail = admins.find((o) => o.email === email);
-      let admin = admins.find((o) => o.ID === req.params.id);
-
-      if (adminUserName && admin && adminUserName != admin) {
-        return res.status(400).json({
-          errors: [
-            {
-              msg: "The Username is already used by " + adminUserName.ID,
-            },
-          ],
-        });
-      } else if (adminEmail && admin && adminEmail != admin) {
-        return res.status(400).json({
-          errors: [
-            {
-              msg: "The email in already used by " + adminEmail.ID,
-            },
-          ],
-        });
-      }
-
-      if (admin) {
-        const updatedAdmin = {
-          userName,
-          ID,
-          email,
-
           password,
           initialLogin,
         };
