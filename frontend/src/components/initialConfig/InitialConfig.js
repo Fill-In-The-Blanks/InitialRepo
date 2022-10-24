@@ -80,7 +80,7 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
 
   return (
     <Fragment>
-      <p className='lead'>Inital Configuration</p>
+      <p className='lead'>Initial Configuration</p>
       <h1>Upload Instructor File </h1>
       <br></br>
       <input

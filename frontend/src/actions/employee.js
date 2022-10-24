@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 import { EMPLOYEE_ERROR, GET_EMPLOYEE, GET_EMPLOYEES } from './types';
+import Swal from 'sweetalert2';
 
-export const addEmployee = (formData) => async (dispatch) => {
+export const addEmployee = (formData, navigate) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -12,13 +13,29 @@ export const addEmployee = (formData) => async (dispatch) => {
 
     const res = await axios.post('/api/employee', formData, config);
 
-    dispatch(setAlert('Employee added', 'success'));
+    dispatch(setAlert('Employee Added Successfully', 'success'));
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Employee Added Successfully',
+      showConfirmButton: false,
+      timer: 1000,
+    });
 
-    /* history.push('/adminDashboard'); */
+    navigate('/listEmployees');
+    /* history.push('/listEmployees'); */
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) =>
+        dispatch(
+          Swal.fire({
+            icon: 'error',
+            title: 'Please Check Form ',
+            text: `${error.msg}`,
+          })
+        )
+      );
     }
   }
 };
@@ -68,7 +85,7 @@ export const deleteEmployee = (id) => async (dispatch) => {
   try {
     await axios.delete(`/api/employee/${id}`);
 
-    dispatch(setAlert('Employee Deleted', 'success'));
+    /* dispatch(setAlert('Employee Deleted', 'success')); */
 
     const res = await axios.get('/api/employee');
 
@@ -113,16 +130,32 @@ export const updateEmployeeByID =
       const res = await axios.put(`/api/employee/${id}`, formData, config);
       dispatch(setAlert('Employee Updated', 'success'));
 
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Employee Added Successfully',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+
       dispatch({
         type: GET_EMPLOYEE,
         payload: res.data,
       });
 
-      /* navigate('/listEmployees'); */
+      navigate('/listEmployees');
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+        errors.forEach((error) =>
+          dispatch(
+            Swal.fire({
+              icon: 'error',
+              title: 'Please Check Form ',
+              text: `${error.msg}`,
+            })
+          )
+        );
       }
 
       dispatch({
