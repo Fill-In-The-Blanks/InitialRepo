@@ -13,15 +13,18 @@ const Navbar = ({
       <li>
         <div>
           {isAuthenticated && isAdmin ? (
-            <Link to={`Profile/${admin.ID}`} style={{ background: '#CC9423' ,borderRadius:'10px'  }}>
+            <Link
+              to={`Profile/${admin.ID}/${admin.email}`}
+              style={{ background: '#CC9423', borderRadius: '10px' }}
+            >
               {' '}
               <i className='fas fa-user'></i>{' '}
-              <span className='hide-sm' >Profile</span>
+              <span className='hide-sm'>Profile</span>
             </Link>
           ) : (
             <Link
               to={`Profile/${instructor.ID}`}
-              style={{ background: '#CC9423' ,borderRadius:'10px' }}
+              style={{ background: '#CC9423', borderRadius: '10px' }}
             >
               {' '}
               <i className='fas fa-user'></i>{' '}
@@ -33,14 +36,44 @@ const Navbar = ({
       <li>
         <div>
           {isAuthenticated && isAdmin ? (
-            <Link to='/adminDashboard' style={{background: '#CC9423' ,borderRadius:'10px'  }}>
+            <Link
+              to='/adminDashboard'
+              style={{ background: '#CC9423', borderRadius: '10px' }}
+            >
               <i className='fa fa-home'></i>{' '}
               <span className='hide-sm'>Dashboard</span>
             </Link>
           ) : (
-            <Link to='/instructorDashboard' style={{ background: '#CC9423' ,borderRadius:'10px' }}>
+            <Link
+              to='/instructorDashboard'
+              style={{ background: '#CC9423', borderRadius: '10px' }}
+            >
               <i className='fa fa-home'></i>{' '}
               <span className='hide-sm'>Dashboard</span>
+            </Link>
+          )}
+        </div>
+      </li>
+
+      <li>
+        <div>
+          {isAuthenticated && isAdmin ? (
+            <Link
+              to={'/EmailManagement'}
+              style={{ background: '#A5C9CA', borderRadius: '10px' }}
+            >
+              {' '}
+              <i className='fas fa-user'></i>{' '}
+              <span className='hide-sm'>Email</span>
+            </Link>
+          ) : (
+            <Link
+              to={'/EmailManagement'}
+              style={{ background: '#72DAB0', borderRadius: '10px' }}
+            >
+              {' '}
+              <i className='fas fa-user'></i>{' '}
+              <span className='hide-sm'>Email</span>
             </Link>
           )}
         </div>
@@ -50,7 +83,10 @@ const Navbar = ({
           <a
             onClick={logout}
             href='/'
-            style={{ /* color: '#fff',  */ background: '#F74940' ,borderRadius:'10px'}}
+            style={{
+              /* color: '#fff',  */ background: '#F74940',
+              borderRadius: '10px',
+            }}
           >
             <i className='fa fa-sign-out'></i>{' '}
             <span className='hide-sm'>Logout</span>
@@ -59,7 +95,10 @@ const Navbar = ({
           <a
             onClick={logout}
             href='/'
-            style={{ /* color: '#fff',  */ background: '#F74940' ,borderRadius:'10px'}}
+            style={{
+              /* color: '#fff',  */ background: '#F74940',
+              borderRadius: '10px',
+            }}
           >
             <i className='fa fa-sign-out'></i>{' '}
             <span className='hide-sm'>Logout</span>
@@ -72,7 +111,10 @@ const Navbar = ({
   const guestLinks = (
     <ul>
       <li>
-        <Link to='/login' style={{ color: '#fff', background: '#0B8390' , borderRadius:'8PX'}}>
+        <Link
+          to='/login'
+          style={{ color: '#fff', background: '#0B8390', borderRadius: '8PX' }}
+        >
           Admin Login
         </Link>
       </li>
@@ -85,9 +127,10 @@ const Navbar = ({
         <Link to='/'>
           <h1 style={{ float: 'left', color: '#1E2022' }}>
             {/* <i className='fas fa-file'></i> SLIIT IAS */}
-           <img src={logo}
-           style={{ height:'62px', margin: 'auto', display: 'block' }}></img>
-           
+            <img
+              src={logo}
+              style={{ height: '62px', margin: 'auto', display: 'block' }}
+            ></img>
           </h1>
         </Link>
       </h1>

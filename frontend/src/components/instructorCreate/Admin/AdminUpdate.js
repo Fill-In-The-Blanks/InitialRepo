@@ -1,23 +1,35 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { getAdmins, updateAdminByID } from "../../../actions/instructor";
+import {
+  getAdmins,
+  updateAdminByID,
+  getAdmin,
+} from "../../../actions/instructor";
 
 import { setAlert } from "../../../actions/alert";
 import emailjs from "emailjs-com";
 import { connect } from "react-redux";
 import "../Home/Home.css";
 
-const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
+const AdminUpdate = ({
+  updateAdminByID,
+  getAdmins,
+  getAdmin,
+  admin: { admins, singleadmin },
+}) => {
   useEffect(() => {
     getAdmins();
   }, []);
 
   const [ID, setUserID] = useState("");
   const [email, setemail] = useState("");
-  const [department, setDepartment] = useState("");
+  const [department, setDepartment] = useState("admin");
   const [userName, setusername] = useState("");
   const [password, setpassword] = useState("");
   const initialLogin = false;
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -26,6 +38,11 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
   } = useForm();
 
   const updateAdminform = useRef();
+
+  const showUserData = (value) => {
+    setUserID(value);
+    getAdmin(value);
+  };
 
   const updateAdmin = () => {
     const UpdatedAdminformValue = {
@@ -38,12 +55,13 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
     };
     console.log(UpdatedAdminformValue);
     updateAdminByID(UpdatedAdminformValue.ID, UpdatedAdminformValue);
+    navigate("/UserManagement");
     emailjs
       .sendForm(
-        "service_2yi5441",
-        "template_3uq9jb9",
+        "service_x1e9iqd", //service
+        "template_7p1ojth", //template
         updateAdminform.current,
-        "3yiSsWex126MEwSd2"
+        "37ZncN1mGyvZ9H5qmP" //public key emailjs
       )
       .then(
         (result) => {
@@ -64,9 +82,8 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
             name="ID"
             id="ID"
             style={{ width: "100%" }}
-            onChange={(e) => setUserID(e.target.value)}
+            onChange={(e) => showUserData(e.target.value)}
           >
-            <option value=""></option>
             {admins.map((admin) => (
               <option value={admin.ID} key={admin.ID}>
                 {admin.ID}
@@ -76,36 +93,44 @@ const AdminUpdate = ({ updateAdminByID, getAdmins, admin: { admins } }) => {
           <p>{errors.ID?.message}</p>
           <br />
           <label>Email</label>
-          <input
-            name="email"
-            type="email"
-            {...register("email", { required: "This is required" })}
-            onChange={(e) => setemail(e.target.value)}
-          ></input>
+          {singleadmin.map((admin) => (
+            <input
+              name="email"
+              type="email"
+              placeholder={admin.email}
+              {...register("email", { required: "This is required" })}
+              onChange={(e) => setemail(e.target.value)}
+            ></input>
+          ))}
           <p>{errors.email?.message}</p>
           <br />
           <label>Username</label>
-          <input
-            name="userName"
-            {...register("userName", { required: "This is required" })}
-            onChange={(e) => setusername(e.target.value)}
-          ></input>
+          {singleadmin.map((admin) => (
+            <input
+              name="userName"
+              placeholder={admin.userName}
+              {...register("userName", { required: "This is required" })}
+              onChange={(e) => setusername(e.target.value)}
+            ></input>
+          ))}
           <p>{errors.userName?.message}</p>
           <br />
           <label>Departments</label>
-          <select
-            name="department"
-            id="department"
-            style={{ width: "100%" }}
-            onChange={(e) => setDepartment(e.target.value)}
-          >
-            <option value=""></option>
-            <option value="C">Computing (C)</option>
-            <option value="IT">Information Technology (IT)</option>
-            <option value="CSNE">
-              Computer Science & Network Engineering (CSNE)
-            </option>
-          </select>
+          {singleadmin.map((admin) => (
+            <select
+              name="department"
+              id="department"
+              style={{ width: "100%" }}
+              onChange={(e) => setDepartment(e.target.value)}
+            >
+              <option value="">{admin.department}</option>
+              <option value="CSSE">
+                Computer Science & Software Engineering (CSSE)
+              </option>
+              <option value="IT">Information Technology (IT)</option>
+              <option value="CSNE">Computer Systems Engineering (CSE)</option>
+            </select>
+          ))}
           <p>{errors.department?.message}</p>
           <br />
           <label>Password</label>
@@ -138,5 +163,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   updateAdminByID,
   getAdmins,
+  getAdmin,
   setAlert,
 })(AdminUpdate);

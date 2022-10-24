@@ -8,7 +8,7 @@ import {
   GET_ADMIN,
   GET_ADMINS,
   ADMIN_ERROR,
-} from "./types";
+} from './types';
 
 import Swal from 'sweetalert2';
 
@@ -27,10 +27,15 @@ export const addInstructor = (formData) => (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch((Swal.fire({
-        icon: 'error',
-        title:'Please Check Form ',
-        text: `${error.msg}`}))))
+      errors.forEach((error) =>
+        dispatch(
+          Swal.fire({
+            icon: 'error',
+            title: 'Please Check Form ',
+            text: `${error.msg}`,
+          })
+        )
+      );
     }
   }
 };
@@ -105,10 +110,15 @@ export const updateInstructorByID =
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
-        errors.forEach((error) => dispatch((Swal.fire({
-          icon: 'error',
-          title:'Please Check Form ',
-          text: `${error.msg}`}))))
+        errors.forEach((error) =>
+          dispatch(
+            Swal.fire({
+              icon: 'error',
+              title: 'Please Check Form ',
+              text: `${error.msg}`,
+            })
+          )
+        );
       }
 
       dispatch({
@@ -136,10 +146,15 @@ export const addAdmin = (formData) => (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch((Swal.fire({
-        icon: 'error',
-        title:'Please Check Form ',
-        text: `${error.msg}`}))))
+      errors.forEach((error) =>
+        dispatch(
+          Swal.fire({
+            icon: 'error',
+            title: 'Please Check Form ',
+            text: `${error.msg}`,
+          })
+        )
+      );
     }
   }
 };
@@ -150,6 +165,23 @@ export const getAdmins = () => (dispatch) => {
       console.log(res.data);
       dispatch({
         type: GET_ADMINS,
+        payload: res.data,
+      });
+    });
+  } catch (err) {
+    dispatch({
+      type: ADMIN_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const getAdmin = (id) => async (dispatch) => {
+  try {
+    axios.get(`/api/admin/${id}`).then((res) => {
+      console.log(res.data);
+      dispatch({
+        type: GET_ADMIN,
         payload: res.data,
       });
     });
@@ -199,10 +231,15 @@ export const updateAdminByID = (id, formData, navigate) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch((Swal.fire({
-        icon: 'error',
-        title:'Please Check Form ',
-        text: `${error.msg}`}))))
+      errors.forEach((error) =>
+        dispatch(
+          Swal.fire({
+            icon: 'error',
+            title: 'Please Check Form ',
+            text: `${error.msg}`,
+          })
+        )
+      );
     }
 
     dispatch({
@@ -212,19 +249,18 @@ export const updateAdminByID = (id, formData, navigate) => async (dispatch) => {
   }
 };
 
-export const getallocatedTimetable = number => async dispatch => {
+export const getallocatedTimetable = (number) => async (dispatch) => {
   try {
-      const res=await axios.get(`/api/instructor2/${number}`);
+    const res = await axios.get(`/api/instructor2/${number}`);
 
-      dispatch({
-          type: GET_TIMETABLES,
-          payload: res.data
-      });  
-
+    dispatch({
+      type: GET_TIMETABLES,
+      payload: res.data,
+    });
   } catch (err) {
-      dispatch({
-          type: TIMETABLE_ERROR,
-          payload: { msg: err.response.statusText, status: err.response.status } 
-      });
+    dispatch({
+      type: TIMETABLE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };
