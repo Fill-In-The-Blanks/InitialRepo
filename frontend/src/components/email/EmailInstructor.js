@@ -21,7 +21,6 @@ const EmailInstructor = ({
     console.log(instructor);
     if (admin !== '') {
       setSendersEmail(admin.email);
-      console.log('NIDULAAAAAAAAA');
     } else {
       setSendersEmail(instructor.email);
     }
@@ -59,38 +58,30 @@ const EmailInstructor = ({
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, Send it!'
+      confirmButtonText: 'Yes, Send it!',
     }).then((result) => {
       if (result.isConfirmed) {
         sendEmail(emailInstructorformValue);
-    console.log(emailInstructorform.current);
-    emailjs
-      .sendForm(
-        'service_2yi5441',
-        'template_q97f9n6',
-        emailInstructorform.current,
-        '3yiSsWex126MEwSd2'
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
-       
-      
-        Swal.fire(
+        console.log(emailInstructorform.current);
+        emailjs
+          .sendForm(
+            'service_x1e9iqd',
+            'template_jetp8df',
+            emailInstructorform.current,
+            '7ZncN1mGyvZ9H5qmP'
+          )
+          .then(
+            (result) => {
+              console.log(result.text);
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
 
-          'Done!',
-          'Your email has been sent.',
-          'success'
-        )
+        Swal.fire('Done!', 'Your email has been sent.', 'success');
       }
-    })
-
-    
+    });
   };
 
   return (
@@ -109,9 +100,10 @@ const EmailInstructor = ({
             style={{ width: '100%' }}
             onChange={(e) => setReceiversEmail(e.target.value)}
           >
-            <option value=''></option>
+            <option value=''>Please select instructor</option>
             {instructors.map((instru) => (
               <option value={instru.email} key={instru.ID}>
+                {instru.userName} &nbsp;-&nbsp;
                 {instru.email}
               </option>
             ))}

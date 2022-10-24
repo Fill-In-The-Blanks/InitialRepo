@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
   getInstructors,
   updateInstructorByID,
+  getInstructorByID,
 } from "../../../actions/instructor";
 
 import { setAlert } from "../../../actions/alert";
@@ -13,12 +15,15 @@ import { connect } from "react-redux";
 
 const InstructorUpdate = ({
   getInstructors,
-  instructor: { instructors, loading },
+  getInstructorByID,
+  instructor: { instructors, loading, instructor },
   updateInstructorByID,
 }) => {
   useEffect(() => {
     getInstructors();
   }, []);
+
+  const navigate = useNavigate();
 
   const [ID, setUserID] = useState("");
   const [email, setemail] = useState("");
@@ -35,6 +40,11 @@ const InstructorUpdate = ({
 
   const updateInstructorform = useRef();
 
+  const showUserData = (value) => {
+    setUserID(value);
+    getInstructorByID(value);
+  };
+
   const updateInstructor = () => {
     const UpdatedInstructorformValue = {
       ID,
@@ -49,12 +59,15 @@ const InstructorUpdate = ({
       UpdatedInstructorformValue.ID,
       UpdatedInstructorformValue
     );
+
+    navigate("/UserManagement");
+
     emailjs
       .sendForm(
-        "service_2yi5441",
-        "template_3uq9jb9",
+        "service_x1e9iqd",
+        "template_7p1ojth",
         updateInstructorform.current,
-        "3yiSsWex126MEwSd2"
+        "7ZncN1mGyvZ9H5qmP"
       )
       .then(
         (result) => {
@@ -75,9 +88,8 @@ const InstructorUpdate = ({
             name="ID"
             id="ID"
             style={{ width: "100%" }}
-            onChange={(e) => setUserID(e.target.value)}
+            onChange={(e) => showUserData(e.target.value)}
           >
-            <option value=""></option>
             {instructors.map((instru) => (
               <option value={instru.ID} key={instru.ID}>
                 {instru.ID}
@@ -87,36 +99,81 @@ const InstructorUpdate = ({
           <p>{errors.ID?.message}</p>
           <br />
           <label>Email</label>
-          <input
-            name="email"
-            type="email"
-            {...register("email", { required: "This is required" })}
-            onChange={(e) => setemail(e.target.value)}
-          ></input>
+          {instructor ? (
+            instructor.map((instru) => (
+              <input
+                name="email"
+                type="email"
+                placeholder={instru.email}
+                // placeholder={instrcutor.email}
+                {...register("email", { required: "This is required" })}
+                onChange={(e) => setemail(e.target.value)}
+              ></input>
+            ))
+          ) : (
+            <input
+              name="email"
+              type="email"
+              // placeholder={instrcutor.email}
+              {...register("email", { required: "This is required" })}
+              onChange={(e) => setemail(e.target.value)}
+            ></input>
+          )}
           <p>{errors.email?.message}</p>
           <br />
           <label>Username</label>
-          <input
-            name="userName"
-            {...register("userName", { required: "This is required" })}
-            onChange={(e) => setusername(e.target.value)}
-          ></input>
+          {instructor ? (
+            instructor.map((instru) => (
+              <input
+                name="userName"
+                placeholder={instru.userName}
+                {...register("userName", { required: "This is required" })}
+                onChange={(e) => setusername(e.target.value)}
+              ></input>
+            ))
+          ) : (
+            <input
+              name="userName"
+              {...register("userName", { required: "This is required" })}
+              onChange={(e) => setusername(e.target.value)}
+            ></input>
+          )}
           <p>{errors.userName?.message}</p>
           <br />
           <label>Department</label>
-          <select
-            name="department"
-            id="department"
-            style={{ width: "100%" }}
-            onChange={(e) => setDepartment(e.target.value)}
-          >
-            <option value=""></option>
-            <option value="C">Computing (C)</option>
-            <option value="IT">Information Technology (IT)</option>
-            <option value="CSNE">
-              Computer Science & Network Engineering (CSNE)
-            </option>
-          </select>
+          {instructor ? (
+            instructor.map((instru) => (
+              <select
+                name="department"
+                id="department"
+                style={{ width: "100%" }}
+                onChange={(e) => setDepartment(e.target.value)}
+              >
+                <option value="">{instru.department}</option>
+                <option value="CSSE">
+                  {" "}
+                  Computer Science & Software Engineering (CSSE)
+                </option>
+                <option value="IT">Information Technology (IT)</option>
+                <option value="CSNE">Computer Systems Engineering (CSE)</option>
+              </select>
+            ))
+          ) : (
+            <select
+              name="department"
+              id="department"
+              style={{ width: "100%" }}
+              onChange={(e) => setDepartment(e.target.value)}
+            >
+              <option value=""></option>
+              <option value="CSSE">
+                {" "}
+                Computer Science & Software Engineering (CSSE)
+              </option>
+              <option value="IT">Information Technology (IT)</option>
+              <option value="CSNE">Computer Systems Engineering (CSE)</option>
+            </select>
+          )}
           <p>{errors.department?.message}</p>
           <br />
           <label>Password</label>
@@ -150,4 +207,5 @@ export default connect(mapStateToProps, {
   setAlert,
   getInstructors,
   updateInstructorByID,
+  getInstructorByID,
 })(InstructorUpdate);
