@@ -8,6 +8,7 @@ const EmployeeSchema = new mongoose.Schema({
   },
   empName: {
     type: String,
+    required: true,
   },
   sliitEmail: {
     type: String,
@@ -22,6 +23,7 @@ const EmployeeSchema = new mongoose.Schema({
   department: {
     type: String,
     required: true,
+    default: 'None',
   },
   vacancyStatus: {
     type: String,

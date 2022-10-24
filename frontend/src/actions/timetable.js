@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 import { GET_SLOTS, SLOT_ERROR } from './types';
-
+import Swal from 'sweetalert2';
 // add using excel sheet
 export const addTimetableSheet = (formData) => async (dispatch) => {
   try {
@@ -34,7 +34,10 @@ export const addTimetable = (formData) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch((Swal.fire({
+        icon: 'error',
+        title:'Please Check Form ',
+        text: `${error.msg}`}))))
     }
   }
 };
@@ -61,7 +64,7 @@ export const deleteSlot = (id) => async (dispatch) => {
   try {
     await axios.delete(`/api/timetable/${id}`);
 
-    dispatch(setAlert('Slot Deleted', 'success'));
+    //dispatch(setAlert('Slot Deleted', 'success'));
 
     const res = await axios.get('/api/timetable');
 
@@ -86,7 +89,13 @@ export const deleteSlots = () => async (dispatch) => {
     await axios.delete('/api/timetable/');
 
     dispatch(setAlert('Slots Deleted', 'success'));
-
+    Swal.fire({
+      position: 'top-end',
+      icon: 'info',
+      title: 'All slots have been deleted',
+      showConfirmButton: false,
+      timer: 1500
+    })
     const res = await axios.get('/api/timetable');
 
     dispatch({

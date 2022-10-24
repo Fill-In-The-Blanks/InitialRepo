@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getEmployeeByID, updateEmployeeByID } from '../../actions/employee';
 import Spinner from '../layout/Spinner';
+import Swal from 'sweetalert2';
 
 const initialState = {
   empNo: '',
@@ -46,7 +47,15 @@ const UpdateEmployee = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    updateEmployeeByID(employee._id, formData, navigate);
+    if (document.getElementsByName('department')[0].value === '0') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Please Check Form ',
+        text: 'Select A Department',
+      });
+    } else {
+      updateEmployeeByID(employee._id, formData, navigate);
+    }
   };
 
   return loading ? (
