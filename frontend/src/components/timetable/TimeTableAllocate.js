@@ -355,50 +355,16 @@ useEffect(() => {
           }
         }
       })}
-      
+
       {modules && <div style={{ display: "flex" }}>
         <div className="custom-select" style={{ width: '930px' }}>
           <select id="batch" onChange={(e) => { selectBatch(e) }}>
-            <option>Select Batch:</option>   
+            <option>Select Batch:</option>
             {test.map((item) => {
-              if (admin?.department === 'admin') {
-                //Barrak access level
+               //Barrak - add ur if-else for admin access level
                 return (
                   <option value={item}>{item}</option>
                 )
-              }
-              else {
-               //checks if the admin from ccse depatment, and shows specilization accordingly
-                if ( admin?.department === 'CSSE') {
-                  if ((item.includes( 'SE') && item.includes('IM') ) ||  !item.includes('ISE') &&  !item.includes('CSNE') && !item.includes('IT') && !item.includes('CS') && !item.includes('DS')){
-                    
-                    return (
-                      <option value={item}>{item}</option>
-                    )
-                  }
-                  
-                }
-
-               else  if ( admin?.department === 'IT') {
-                  if (item.includes( 'IT' ) && item.includes('DS') || !item.includes('ISE')  &&  !item.includes('CSNE') && !item.includes('IM') && !item.includes('CS') && !item.includes('SE')) {
-                    
-                    return (
-                      <option value={item}>{item}</option>
-                    )
-                  }
-                  
-                }
-                else  if ( admin?.department === 'CSE') {
-                  if (item.includes( 'ISE') && item.includes('CSNE') && item.includes('CS') || !item.includes('IT') && !item.includes('DS') && !item.includes('IM') && !item.includes('SE')) {
-                    
-                    return (
-                      <option value={item}>{item}</option>
-                    )
-                  }
-                  
-                }
-                return
-              }
             })}
 
           </select>

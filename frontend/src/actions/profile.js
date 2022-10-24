@@ -10,7 +10,7 @@ export const updateProfile = (id, formData, userType) => async (dispatch) => {
       },
     };
     if (userType === "Admin") {
-      const res = await axios.put(`/api/admin/${id}/profile`, formData, config);
+      const res = await axios.put(`/api/admin/${id}`, formData, config);
       dispatch(setAlert("Profile Updated", "success"));
       Swal.fire({
         position: 'top-end',
