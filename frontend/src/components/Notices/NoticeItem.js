@@ -8,21 +8,71 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
-
+import Swal from 'sweetalert2';
 
 const pdfGenerate =(e)=>{
+
+
   var doc=new jsPDF('landscape','px','a4','false');
-  doc.addImage(logo,'PNG',100,200,400,200);
-  autoTable(doc, { html: '#noticetable' })
+
+  autoTable(doc, { html: '#noticetable'  ,didDrawPage: function (data) {
+
+    // Header
+    doc.setFontSize(20);
+    doc.setTextColor(40);
+    doc.text("       Notices List  ", data.settings.margin.right, 22);
+    doc.addImage(logo,'PNG',data.settings.margin.right,8, 20, 20)
+    
+    
+    // Footer
+    var str = "Page " + doc.internal.getNumberOfPages();
+   
+    doc.setFontSize(10);
+
+    // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+    var pageSize = doc.internal.pageSize;
+    var pageHeight = pageSize.height
+      ? pageSize.height
+      : pageSize.getHeight();
+    doc.text(str, data.settings.margin.left, pageHeight - 10);
+  }})
+ 
   doc.save('Notices_List.pdf')
+  Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'File Downloaded',
+    showConfirmButton: false,
+    timer: 1500
+  })
 }
 
 
 const NoticeItem = ({notices, deleteNotice}) => {
   const sendReminder = (notice)=>{
-    axios.post("/api/notices/sendreminder", notice)
-    .then(body=>console.log(body))
-    .catch(err=>console.log(err))
+    Swal.fire({
+      title: 'Do you want to send Reminders?',
+      text: "The Reminder will be sent to all instructors!",
+      icon: 'infor',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Remind!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        axios.post("/api/notices/sendreminder", notice)
+        .then(body=>console.log(body))
+        .catch(err=>console.log(err))
+        Swal.fire(
+
+          'Sent!',
+          'Reminder has been Sent.',
+          'success'
+        )
+      }
+    })
+   
   }
 
 
@@ -41,7 +91,29 @@ const NoticeItem = ({notices, deleteNotice}) => {
     }
 
   }
+  const Delete=(id)=>{
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        var noticeid = id;
+        deleteNotice(noticeid)
+        Swal.fire(
 
+          'Deleted!',
+          'Notice has been deleted.',
+          'success'
+        )
+      }
+    })
+   
+  }
 
 
 
@@ -55,7 +127,7 @@ const NoticeItem = ({notices, deleteNotice}) => {
       <td>{notice.end}</td>
       <td>
         {' '}
-        <button className='btn btn-danger' onClick={()=> deleteNotice(notice._id)}>
+        <button className='btn btn-danger' onClick={()=> Delete(notice._id)}>
         <i className='fas fa-trash'></i>
           </button>
       </td>
@@ -73,7 +145,7 @@ const NoticeItem = ({notices, deleteNotice}) => {
       <td>{notice.end}</td>
       <td>
         {' '}
-        <button className='btn btn-danger' onClick={()=> deleteNotice(notice._id)}>
+        <button className='btn btn-danger' onClick={()=> Delete(notice._id)}>
         <i className='fas fa-trash'></i>
           </button>
       </td>

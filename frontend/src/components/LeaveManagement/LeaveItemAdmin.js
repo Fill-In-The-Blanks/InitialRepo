@@ -7,13 +7,41 @@ import  axios  from 'axios';
 import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
-
+import Swal from 'sweetalert2';
 
 const pdfGenerate =(e)=>{
   var doc=new jsPDF('landscape','px','a4','false');
-  doc.addImage(logo,'PNG',100,200,400,200);
-  autoTable(doc, { html: '#leavetable' })
+
+  autoTable(doc, { html: '#leavetable' ,didDrawPage: function (data) {
+
+    // Header
+    doc.setFontSize(20);
+    doc.setTextColor(40);
+    doc.text("       Leave List  ", data.settings.margin.right, 22);
+    doc.addImage(logo,'PNG',data.settings.margin.right,8, 20, 20)
+    
+    
+    // Footer
+    var str = "Page " + doc.internal.getNumberOfPages();
+   
+    doc.setFontSize(10);
+
+    // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+    var pageSize = doc.internal.pageSize;
+    var pageHeight = pageSize.height
+      ? pageSize.height
+      : pageSize.getHeight();
+    doc.text(str, data.settings.margin.left, pageHeight - 10);
+  }})
+ 
   doc.save('Leave_List.pdf')
+  Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'File Downloaded',
+    showConfirmButton: false,
+    timer: 1500
+  })
 }
 
 const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
@@ -43,10 +71,33 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
     // setFormData({ ...formData, [e.target.name]: e.target.value });
     const setStatus = async (id, e) => {
       try {
-        console.log(e.target.value);
-        console.log(id);
+       
+        Swal.fire({
+          title: ' Change status to   '+`${e.target.value}` +' ?',
+          showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          denyButtonText: `No`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed && e.target.value=='Approved') {
+            
+            updatestatusByID(id,e.target.value);
+            Swal.fire(`${e.target.value}`, '', 'success')
+            //document.getElementById(id).style.display = 'none';
+           
+          }
+          else if(result.isConfirmed && e.target.value=='Declined') {
+            updatestatusByID(id,e.target.value);
+            Swal.fire(`${e.target.value}`, '', 'error')
+          }
+          
+          else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+          }
+        })
       
-      updatestatusByID(id,e.target.value);
+     
       
       } catch (error) {
         console.log(error)
@@ -60,7 +111,7 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
 
     const leaves =  value.length > 0 ? tableFilter.map((item) => (
     
-        <tr key={item._id}>
+        <tr key={item._id} id={item._id}>
           <td>{item.empNo}</td>
           <td>{item.empName}</td>
           <td>{item.date}</td>
@@ -77,7 +128,7 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
               className='btn btn-danger'
             onClick={(e) => setStatus(item._id,e)}
            >
-              <i class='fas fa-window-close'></i>
+              <i className='fas fa-window-close'></i>
             </button>
           
           </td>
@@ -97,7 +148,7 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
         </tr>
       )):  leave.map((item) => (
         
-        <tr key={item._id}>
+        <tr key={item._id} id={item._id}>
         <td>{item.empNo}</td>
         <td>{item.empName}</td>
      
@@ -115,7 +166,7 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
       onClick={ (e)=>setStatus(item._id,e)}
       >
       
-      <i class='fas fa-window-close'></i>
+      <i className='fas fa-window-close'></i>
        </button>
        </td>
       

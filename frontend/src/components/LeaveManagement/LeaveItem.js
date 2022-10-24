@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { deleteLeave } from '../../actions/leaves';
+import Swal from 'sweetalert2';
+import emailjs from '@emailjs/browser';
 const LeaveItem = ({leave,deleteLeave}) => {
 
   const navigate = useNavigate();
@@ -23,16 +25,62 @@ const LeaveItem = ({leave,deleteLeave}) => {
       }
   
     }
+    const Delete=(id,empNo,name,email1,date)=>{
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          var moduleid = id;
+          deleteLeave(id,empNo)
+          Swal.fire(
+  
+            'Deleted!',
+            'Leave has been deleted.',
+            'success'
+          )
+          let date1 = new Date().toISOString()?.split('T')[0];
 
+          
+
+          // This arrangement can be altered based on how we want the date's format to appear.
+         
+          console.log(date1); // "17-6-2022"
+          let fullName = name;
+          let Date1 = date;
+          let emailid = email1;
+            console.log(fullName,Date1,emailid);
+              var contactParams = {
+                  name: fullName,
+                  date: Date1,
+                  email: emailid
+              };
+          if (Date1 > date1 ){
+                  emailjs.send('service_5hilmhs', 'template_8g7iu5d',contactParams, 'mxh2UGjiVIpuyyKJP')
+                  .then((result) => {
+                        console.log(result.text);
+                  }, (error) => {
+                  console.log(error.text);
+                  });
+        }
+        }
+      })
+     
+    }
 
 
     const leaves =  value.length > 0 ? tableFilter.map((item) => (
     
         <tr key={item._id}>
           <td>{item.empNo}</td>
-          <td>{item.empName}</td>
-          <td>{item.CordinatorEmail}</td>
-          <td>{item.date}</td>
+          <td id={item.empName}>{item.empName}</td>
+          <td id={item.CordinatorEmail}>{item.CordinatorEmail}</td>
+          <td id= {item.date}>{item.date}</td>
           <td>{item.starttimeoff}</td>
           <td>{item.Endtimeoff}</td>
           <td>{item.Message}</td>
@@ -42,7 +90,7 @@ const LeaveItem = ({leave,deleteLeave}) => {
             {' '}
             <button
               className='btn btn-danger'
-            onClick={() => deleteLeave(item._id,navigate)}
+            onClick={() => Delete(item._id,item.empNo,item.empName,item.CordinatorEmail,item.date)}
             >
               Delete{' '}
             </button>
@@ -54,9 +102,9 @@ const LeaveItem = ({leave,deleteLeave}) => {
         
         <tr key={item._id}>
         <td>{item.empNo}</td>
-        <td>{item.empName}</td>
-        <td>{item.CordinatorEmail}</td>
-        <td>{item.date}</td>
+        <td id={item.empName}>{item.empName}</td>
+        <td id={item.CordinatorEmail}>{item.CordinatorEmail}</td>
+        <td id= {item.date}>{item.date}</td>
         <td>{item.starttimeoff}</td>
         <td>{item.Endtimeoff}</td>
         <td>{item.Message}</td>
@@ -66,7 +114,7 @@ const LeaveItem = ({leave,deleteLeave}) => {
       {' '}
       <button
       className='btn btn-danger'
-      onClick={() => deleteLeave(item._id)}
+      onClick={() => Delete(item._id,item.empNo,item.empName,item.CordinatorEmail,item.date)}
        >
        <i className='fas fa-trash'></i>
        </button>

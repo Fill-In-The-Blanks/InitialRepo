@@ -58,7 +58,7 @@ router.post(
     check("noticeNo", "Notice No is required").not().isEmpty(), //route validation
     check("heading", "Enter Valid heading").not().isEmpty(),
     check("content", "Content is required").not().isEmpty(),
-    check("author", "author is required").not().isEmpty(),
+    check("author", "Author is required").not().isEmpty(),
     check("start", "Start Date is required").not().isEmpty(),
     check("end", "End Date is required").not().isEmpty(),
   ],

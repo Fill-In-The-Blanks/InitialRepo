@@ -13,12 +13,10 @@ const Leave = require('../../model/Leave');
 router.post(
     '/',[
 
-    check('empNo', 'Employee Number is required').not().isEmpty(), //route validation
-    check('empName', 'Enter Valid Name').not().isEmpty(),
-    check('CordinatorEmail', 'Coordinator Email is required').not().isEmpty().normalizeEmail(),
-    check('date', 'Date of Leave').not().isEmpty(),
-    check('starttimeoff', ' Start Time off is required').not().isEmpty(),
-    check('Endtimeoff', ' Ending Time off is required').not().isEmpty(),
+    check('empNo', 'Employee number is required').not().isEmpty(), //route validation
+    check('empName', 'Enter Valid name').not().isEmpty(),
+    check('CordinatorEmail', 'Coordinator email is required').not().isEmpty().normalizeEmail(),
+    check('date', 'Date of leave').not().isEmpty(),
     check('Message', ' Message is required').not().isEmpty(),
 
 

@@ -14,10 +14,10 @@ router.post(
   [
     check('vName', 'Venue Name is required').not().isEmpty(), //route validation
     check('vID', 'Enter Valid Venue Code').not().isEmpty(),
-    check('type', 'type of venue is required').not().isEmpty(),
-    check('size', 'size is required').not().isEmpty(),
-    check('floor', 'floor is required').not().isEmpty(),
-    check('faculty', 'faculty is required').not().isEmpty(),
+    check('type', 'Type of venue is required').not().isEmpty(),
+    check('size', 'Size is required').not().isEmpty(),
+    check('floor', 'Floor is required').not().isEmpty(),
+    check('faculty', 'Faculty is required').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -63,11 +63,11 @@ router.put(
   '/:id',
   [
     check('vName', 'Venue Name is required').not().isEmpty(), //route validation
-    check('vID', 'Enter Valid Venue Code').not().isEmpty(),
-    check('type', 'type of venue is required').not().isEmpty(),
-    check('size', 'size is required').not().isEmpty(),
-    check('floor', 'floor is required').not().isEmpty(),
-    check('faculty', 'faculty is required').not().isEmpty(),
+    check('vID', 'Enter valid Venue code').not().isEmpty(),
+    check('type', 'Type of venue is required').not().isEmpty(),
+    check('size', 'Size is required').not().isEmpty(),
+    check('floor', 'Floor is required').not().isEmpty(),
+    check('faculty', 'Faculty is required').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);

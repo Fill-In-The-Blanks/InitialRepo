@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { getInstructors } from "../../actions/instructor";
-import { sendEmail } from "../../actions/email";
+import React, { useState, useRef, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { getInstructors } from '../../actions/instructor';
+import { sendEmail } from '../../actions/email';
+import Swal from 'sweetalert2';
+import { setAlert } from '../../actions/alert';
+import emailjs from 'emailjs-com';
+import './Home.css';
 
-import { setAlert } from "../../actions/alert";
-import emailjs from "emailjs-com";
-import "./Home.css";
-
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 const EmailInstructor = ({
   getInstructors,
@@ -19,18 +19,18 @@ const EmailInstructor = ({
     getInstructors();
     console.log(admin);
     console.log(instructor);
-    if (admin !== "") {
+    if (admin !== '') {
       setSendersEmail(admin.email);
     } else {
       setSendersEmail(instructor.email);
     }
   }, []);
 
-  const [sendersEmail, setSendersEmail] = useState("");
-  const [receiversEmail, setReceiversEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [content, setContent] = useState("");
-  const [sentDate, setSentDate] = useState("");
+  const [sendersEmail, setSendersEmail] = useState('');
+  const [receiversEmail, setReceiversEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [content, setContent] = useState('');
+  const [sentDate, setSentDate] = useState('');
 
   const {
     register,
@@ -41,7 +41,7 @@ const EmailInstructor = ({
   const emailInstructorform = useRef();
 
   const updateInstructor = () => {
-    setSentDate("");
+    setSentDate('');
     const emailInstructorformValue = {
       sendersEmail,
       receiversEmail,
@@ -50,42 +50,57 @@ const EmailInstructor = ({
       sentDate,
     };
     console.log(emailInstructorformValue);
-    sendEmail(emailInstructorformValue);
-    console.log(emailInstructorform.current);
-    emailjs
-      .sendForm(
-        "service_x1e9iqd",
-        "template_jetp8df",
-        emailInstructorform.current,
-        "7ZncN1mGyvZ9H5qmP"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
+
+    Swal.fire({
+      title: 'Do you want to send email?',
+      text: "You won't be able to revert this!",
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Send it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        sendEmail(emailInstructorformValue);
+        console.log(emailInstructorform.current);
+        emailjs
+          .sendForm(
+            'service_x1e9iqd',
+            'template_jetp8df',
+            emailInstructorform.current,
+            '7ZncN1mGyvZ9H5qmP'
+          )
+          .then(
+            (result) => {
+              console.log(result.text);
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
+
+        Swal.fire('Done!', 'Your email has been sent.', 'success');
+      }
+    });
   };
 
   return (
     <div>
-      <div className="create">
+      <div className='create'>
         <h3>Send Instructor Email</h3>
         <br />
-        <form ref={emailInstructorform} id="InstructorEmail">
+        <form ref={emailInstructorform} id='InstructorEmail'>
           <label>My Email Address</label>
-          <input name="sendersEmail" readOnly value={sendersEmail}></input>
+          <input name='sendersEmail' readOnly value={sendersEmail}></input>
           <br />
           <label>Select To Instructor</label>
           <select
-            name="receiversEmail"
-            id="receiversEmail"
-            style={{ width: "100%" }}
+            name='receiversEmail'
+            id='receiversEmail'
+            style={{ width: '100%' }}
             onChange={(e) => setReceiversEmail(e.target.value)}
           >
-            <option value="">Please select instructor</option>
+            <option value=''>Please select instructor</option>
             {instructors.map((instru) => (
               <option value={instru.email} key={instru.ID}>
                 {instru.userName} &nbsp;-&nbsp;
@@ -97,21 +112,21 @@ const EmailInstructor = ({
           <br />
           <label>Subject</label>
           <input
-            name="subject"
-            {...register("subject", { required: "This is required" })}
+            name='subject'
+            {...register('subject', { required: 'This is required' })}
             onChange={(e) => setSubject(e.target.value)}
           ></input>
           <p>{errors.subject?.message}</p>
           <br />
           <label>Content</label>
           <textarea
-            name="content"
-            {...register("content", { required: "This is required" })}
+            name='content'
+            {...register('content', { required: 'This is required' })}
             onChange={(e) => setContent(e.target.value)}
           ></textarea>
           <p>{errors.content?.message}</p>
           <br />
-          <button type="submit" onClick={handleSubmit(updateInstructor)}>
+          <button type='submit' onClick={handleSubmit(updateInstructor)}>
             Send Email
           </button>
         </form>
