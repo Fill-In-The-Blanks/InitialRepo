@@ -17,7 +17,7 @@ export const Venue = (formData, navigate) => async (dispatch) => {
     Swal.fire({
       position: 'top-end',
       icon: 'success',
-      title: 'The venue has been saved',
+      title: 'Venue Added Successfully',
       showConfirmButton: false,
       timer: 1500,
     });
