@@ -16,6 +16,7 @@ router.post(
   '/',
   auth,
   [
+    check('empName', 'Must provide an employee name').not().isEmpty(),
     check('empNo', 'Must provide a valid SLIIT employee number')
       .not()
       .isEmpty()
@@ -25,7 +26,10 @@ router.post(
       .isEmpty()
       .isEmail()
       .normalizeEmail(),
-    check('phone', 'Must provide a phone number')
+    check(
+      'phone',
+      'Must provide a valid phone number. Valid examples: 0771234567, 0763453565, 071-3453455, +94764310985'
+    )
       .not()
       .isEmpty()
       .isMobilePhone(),
@@ -133,12 +137,16 @@ router.get('/:id', async (req, res) => {
 router.put(
   '/:id',
   [
+    check('empName', 'Must provide an employee name').not().isEmpty(),
     check('sliitEmail', 'Must provide a valid SLIIT employee email')
       .not()
       .isEmpty()
       .isEmail()
       .normalizeEmail(),
-    check('phone', 'Must provide a phone number')
+    check(
+      'phone',
+      'Must provide a valid phone number. Valid examples: 0771234567, 0763453565, 071-3453455, +94764310985'
+    )
       .not()
       .isEmpty()
       .isMobilePhone(),

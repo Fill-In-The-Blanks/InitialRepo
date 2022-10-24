@@ -12,12 +12,12 @@ const Venues = require('../../model/Venues');
 router.post(
   '/',
   [
-    check('vName', 'Venue Name is required').not().isEmpty(), //route validation
+    check('vName', 'Venue Name I Required').not().isEmpty(), //route validation
     check('vID', 'Enter Valid Venue Code').not().isEmpty(),
-    check('type', 'Type of venue is required').not().isEmpty(),
-    check('size', 'Size is required').not().isEmpty(),
-    check('floor', 'Floor is required').not().isEmpty(),
-    check('faculty', 'Faculty is required').not().isEmpty(),
+    check('type', 'Type Of Venue Is Required').not().isEmpty(),
+    check('size', 'Size Is Required').not().isEmpty(),
+    check('floor', 'Floor Is Required').not().isEmpty(),
+    check('faculty', 'Faculty Is Required').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -31,7 +31,7 @@ router.post(
       //see if the module exists
       let venue = await Venues.findOne({ vName });
       if (venue) {
-        res.status(400).json({ errors: [{ msg: 'venue already exists' }] });
+        res.status(400).json({ errors: [{ msg: 'Venue Already Exists' }] });
       }
 
       //initilize the admin variable(takes val from req,res body)
