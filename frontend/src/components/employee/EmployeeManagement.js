@@ -4,6 +4,8 @@ import { setAlert } from '../../actions/alert';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const EmployeeManagement = ({ addEmployee, setAlert }) => {
   const [formData, setFormData] = useState({
@@ -13,7 +15,7 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
     phone: '',
     department: '',
   });
-
+  const navigate = useNavigate();
   const { empNo, empName, sliitEmail, phone, department } = formData;
 
   const onChange = (e) =>
@@ -21,10 +23,27 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (document.getElementsByName('department')[0].value === '0') {
-      setAlert('Select a department', 'danger');
+
+    if (formData.empName == null || formData.empName == '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Please Check Form ',
+        text: 'Enter Employee Name',
+      });
+    } else if (formData.phone == null || formData.phone == '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Please Check Form ',
+        text: 'Enter Phone Number. Valid examples: 0771234567, 0763453565, 071-3453455, +94764310985',
+      });
+    } else if (document.getElementsByName('department')[0].value === '0') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Please Check Form ',
+        text: 'Select A Department',
+      });
     } else {
-      addEmployee(formData);
+      addEmployee(formData, navigate);
     }
   };
 
@@ -39,16 +58,9 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           {/* <i className='fas fa-user'></i> */} Employee Management
         </p>
 
-        {/* <Link to={`/employeeManagement`}>
-          <button className='btn btn-primary'>Add Employees</button>
-        </Link>
-        <Link to={`/listEmployees`}>
-          <button className='btn btn-primary'>List Employees</button>
-        </Link> */}
-
         <form className='form' onSubmit={(e) => onSubmit(e)}>
           <div className='form-group'>
-            Employee's ID Number
+            Number
             <small className='form-text'>
               Will be rejected if employee number already exists
             </small>
@@ -63,7 +75,7 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           </div>
 
           <div className='form-group'>
-            Employee's Name
+            Name
             <input
               type='text'
               placeholder='Employee Name'
@@ -74,7 +86,7 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           </div>
 
           <div className='form-group'>
-            Employee's SLIIT email
+            SLIIT email
             <small className='form-text'>
               Will be rejected if employee email already exists
             </small>
@@ -89,7 +101,7 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
           </div>
 
           <div className='form-group'>
-            Employee's Phone Number
+            Phone Number
             <small className='form-text'>
               Will be rejected if phone number is already used
             </small>
@@ -110,7 +122,7 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
               value={department}
               onChange={(e) => onChange(e)}
             >
-              <option value='0'>* Select the department</option>
+              <option value='0'>Select the department</option>
               <option value='SE'>SE</option>
               <option value='IT'>IT</option>
               <option value='CSNE'>CSNE</option>
@@ -120,14 +132,10 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
               <option value='DS'>DS</option>
             </select>
           </div>
-          <input
-            type='submit'
-            className='btn btn-success'
-            value='Add Employee'
-          />
+          <input type='submit' className='btn btn-primary' value='Confirm' />
           <Link to={`/listEmployees`}>
-          <button className='btn btn-primary'>cancel</button>
-        </Link>
+            <button className='btn btn-primary'>Cancel</button>
+          </Link>
         </form>
       </section>
     </Fragment>

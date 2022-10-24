@@ -80,20 +80,16 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
 
   return (
     <Fragment>
-      <p className='lead'>Inital Configuration</p>
-      <h1>Upload Instructor File </h1><br></br>
-      
+      <p className='lead'>Initial Configuration</p>
+      <h1>Upload Instructor File </h1>
+      <br></br>
       <input
         type='file'
-        
         onChange={(e) => {
           const file = e.target.files[0];
           readInstructorExcel(file);
         }}
       />
-
-      
-      
       <table className='table'>
         <thead>
           <tr>
@@ -134,7 +130,6 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
       <h1>Upload Timetable File</h1> <br></br>
       <input
         type='file'
-        
         onChange={(e) => {
           const file = e.target.files[0];
           readTimetableExcel(file);

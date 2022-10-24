@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 import { GET_LEAVES, LEAVE_ERROR ,GET_LEAVE} from './types';
-
+import Swal from 'sweetalert2';
 export const requestLeave =(id,formData,navigate)=> async (dispatch)=>{
 
     try{
@@ -15,6 +15,13 @@ export const requestLeave =(id,formData,navigate)=> async (dispatch)=>{
           const res = await axios.post('/api/leaves', formData, config);
           
           dispatch(setAlert('Request Has been Sent', 'success'));
+           Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'The request has been saved',
+             showConfirmButton: false,
+           timer: 1500
+           })
           navigate(`/ListLeave/${id}`);
           
 
@@ -22,7 +29,10 @@ export const requestLeave =(id,formData,navigate)=> async (dispatch)=>{
 
         const errors = err.response.data.errors;
         if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+            errors.forEach((error) => dispatch((Swal.fire({
+                icon: 'error',
+                title:'Please Check Form ',
+                text: `${error.msg}`}))))
         }
 
     }
@@ -49,13 +59,16 @@ export const getLeaves = () => async dispatch => {
 
 
 //delete Leave
-export const deleteLeave = (id,navigate) => async dispatch => {
+export const deleteLeave = (id,empNo) => async dispatch => {
   try {
       await axios.delete(`/api/leaves/${id}`);
 
-      dispatch(setAlert('Leave Removed', 'success'));
-
-      navigate(`/ListLeave/${id}`);
+      //dispatch(setAlert('Leave Removed', 'success'));
+      const res=await axios.get(`/api/leave/${empNo}`);
+      dispatch({
+        type: GET_LEAVES,
+        payload: res.data
+    });  
 
    
 
@@ -112,9 +125,9 @@ export const updatestatusByID = (ID,formData) => async dispatch => {
       
 
        await axios.post(`/api/leaves/${ID}`,{status:formData});
-      dispatch(setAlert('Leave Status Updated', 'success'));
+     
       const res = await axios.get('/api/leaves');
-
+      
       dispatch({
           type: GET_LEAVES,
           payload: res.data
@@ -123,12 +136,12 @@ export const updatestatusByID = (ID,formData) => async dispatch => {
   } catch (err) {
       const errors = err.response.data.errors;
       if(errors) {
-          errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+        errors.forEach((error) => dispatch((Swal.fire({
+            icon: 'error',
+            title:'Please Check Form ',
+            text: `${error.msg}`}))))
       }
 
-      dispatch({
-          type: LEAVE_ERROR,
-          payload: { msg: err.response.statusText, status: err.response.status }
-      });
+     
   }
 }; 
