@@ -23,6 +23,7 @@ const InstructorDashboard = ({ auth: { instructor } }) => {
         className='btn personalTimetable '
         to={`/ListTime/${instructor._id}`}
       ></Link>
+      <Link className='btn EmailManagement' to='/EmailManagement'></Link>
     </Fragment>
   );
 };

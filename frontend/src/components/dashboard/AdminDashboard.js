@@ -6,7 +6,7 @@ import MyChart from '../Mychart';
 const AdminDashboard = ({ auth: { admin } }) => {
   return (
     <Fragment>
-      <h1 style={{ marginTop: '30px' }} className='large  center-text'>
+      <h1 style={{marginTop: '30px'}}className='large  center-text'>
         Hello {admin && admin.userName}
       </h1>
       <p className='lead center-text'>
@@ -24,11 +24,12 @@ const AdminDashboard = ({ auth: { admin } }) => {
       ></Link>
       <Link className='btn initialConfig' to='/initialConfig'></Link>
       <Link className='btn VenueManagement' to='/ListVenues'></Link>
-      <Link className='btn NoticesManagement' to='/notices'></Link>
-
+      <Link className='btn NoticesManagement' to= '/notices'></Link>
+      
       <Link className='btn adminleaveManagement' to='/ListLeaves'></Link>
-
+     
       <Link className='btn InstructorManagement' to='/UserManagement'></Link>
+      <Link className='btn EmailManagement' to='/EmailManagement'></Link>
     </Fragment>
   );
 };

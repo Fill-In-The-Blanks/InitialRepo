@@ -201,21 +201,23 @@ router.put(
   }
 );
 
-router.get("/:id", async (req, res) => {
+
+
+router.get('/:id', async (req, res) => {
   try {
-    const instructor = await Instructor.find({ ID: req.params.id });
+    const instructor = await Instructor.findById(req.params.id);
 
     if (!instructor) {
-      return res.status(404).json({ msg: "instructor not found" });
+      return res.status(404).json({ msg: 'instructor not found' });
     }
 
     res.json(instructor);
   } catch (err) {
     console.error(err.message);
-    if (err.kind === "String") {
-      return res.status(404).json({ msg: "instructor not found" });
+    if (err.kind === 'String') {
+      return res.status(404).json({ msg: 'instructor not found' });
     }
-    res.status(500).send("Server error");
+    res.status(500).send('Server error');
   }
 });
 
