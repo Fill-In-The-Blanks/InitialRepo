@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
-const Timetable = require('../../model/TimeTable');
+const Timetable = require('../../model/Timetable');
 const { check, validationResult } = require('express-validator');
 const Employee = require('../../model/Employee.js');
 const Slot = require('../../model/Slot');
@@ -167,8 +167,40 @@ router.post('/slots', auth, async (req, res) => {
 // @desc    Add allocations
 // @access  public
 router.post('/createTimeTable', async (req, res) => {
+  // loop through all the selected allocations
   req.body.timetable.forEach(async (item) => {
     try {
+      // to find all allocations of this instructor for a particular day
+      // this is done to reject redundancies and overlapping allocations of the same instructor
+      const allocations = await Timetable.find({
+        empNo: item.empNo,
+        day: item.dayOfTheWeek,
+      }); //object
+
+      // loop through existing allocations of the current instructor for a particular day
+      for (const allocation in allocations) {
+        let allocatedStartTime = allocations[allocation].startTime;
+        let allocatedEndTime = allocations[allocation].endTime;
+        let currentStartTime = item.startTime;
+        let currentEndTime = item.endTime;
+
+        // check if current session starts or ends within an existing sessions time
+        if (
+          (allocatedStartTime <= currentStartTime &&
+            currentStartTime < allocatedEndTime) ||
+          (allocatedStartTime < currentEndTime &&
+            currentEndTime <= allocatedEndTime)
+        ) {
+          return;
+        } // check if current session starts and ends over an existing session
+        else if (
+          currentStartTime <= allocatedStartTime &&
+          allocatedEndTime < currentEndTime
+        ) {
+          return;
+        }
+      }
+
       let result = await new Timetable({
         module: item.module,
         startTime: item.startTime,
@@ -183,10 +215,10 @@ router.post('/createTimeTable', async (req, res) => {
       sendMail(await getMail(item.empNo), item);
       let result2 = await Slot.updateOne({ _id: item._id }, { assigned: true });
     } catch (error) {
-      console.log(error);
+      res.status(500).send('Server error');
     }
   });
-  res.status(200).send('added');
+  res.status(200).send('Added allocations');
 });
 
 // @route   POST api/timetable/deleteSlots
@@ -219,7 +251,7 @@ router.get('/getTimeTable', async (req, res) => {
 });
 
 // @route   POST api/timetable/getEmployeeTimeTable/:empNo
-// @desc    Retrieve all alloocations of an instructor
+// @desc    ????
 // @access  public
 router.get('/getEmployeeTimeTable/:empNo', async (req, res) => {
   let time = {
@@ -247,6 +279,19 @@ router.get('/getEmployeeTimeTable/:empNo', async (req, res) => {
     res.status(200).json({ hours: hours });
   } catch (error) {
     return res.status(500).json({ msg: 'Internal Server Error' });
+  }
+});
+
+// @route   POST api/timetable/test
+// @desc    To retrieve allocations of an instructor for a particular day
+// @access  public
+router.get('/test', async (req, res) => {
+  const { empNo, day } = req.body;
+  try {
+    const result = await Timetable.find({ empNo: empNo, day: day });
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send('Server error');
   }
 });
 

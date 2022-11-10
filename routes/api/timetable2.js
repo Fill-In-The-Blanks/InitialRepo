@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
-const Timetable = require('../../model/TimeTable');
+const Timetable = require('../../model/Timetable');
 const { check, validationResult } = require('express-validator');
 
 // @route   GET api/timetable2/:module
