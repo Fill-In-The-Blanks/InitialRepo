@@ -750,9 +750,12 @@ const TimeTableAllocate = ({
           <tr>
             <th>Start Time</th>
             <th>End Time</th>
+            <th>Day</th>
+            <th>Batch</th>
             <th>Instructor Name</th>
-            <th>Hours</th>
+            <th>Session Hours</th>
             <th>Subject</th>
+            <th>Venue</th>
           </tr>
         </thead>
         <tbody>
@@ -762,9 +765,12 @@ const TimeTableAllocate = ({
                   <tr key={item.emp}>
                     <td>{item.startTime}</td>
                     <td>{item.endTime}</td>
+                    <td>{item.dayOfTheWeek}</td>
+                    <td>{item.batch}</td>
                     <td>{item.empName}</td>
                     <td>{item.hours}</td>
                     <td>{item.module}</td>
+                    <td>{item.venue}</td>
                   </tr>
                 );
               })
