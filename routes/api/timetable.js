@@ -211,6 +211,7 @@ router.post('/createTimeTable', async (req, res) => {
         venue: item.venue,
         day: item.dayOfTheWeek,
         slotID: item._id,
+        batch: item.batch,
       }).save();
       sendMail(await getMail(item.empNo), item);
       let result2 = await Slot.updateOne({ _id: item._id }, { assigned: true });

@@ -127,6 +127,7 @@ const TimeTableAllocate = ({
           dayOfTheWeek: item.dayOfTheWeek,
           sessionType: item.sessionType,
           venue: item.venue,
+          batch: item.group,
         },
       ]);
       if (heading.style.background === 'orange') {

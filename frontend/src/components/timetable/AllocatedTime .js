@@ -10,12 +10,15 @@ import Swal from 'sweetalert2';
 function AllocatedTime() {
   const [emphour, setEmphours] = useState([]);
   const [timeTable, setTimeTable] = useState([]);
+
   useEffect(() => {
     axios
       .get('/api/timetable/getTimeTable')
       .then((body) => setTimeTable(body.data))
       .catch((err) => console.log(err));
   }, []);
+
+  // displays a sweet alert for deletion
   const handleDelete = (item) => {
     console.log(item);
     Swal.fire({
@@ -38,6 +41,7 @@ function AllocatedTime() {
     });
   };
 
+  // download the allocated session table into excel
   const excelGenerate = async () => {
     const fileType =
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -49,6 +53,7 @@ function AllocatedTime() {
     FileSaver.saveAs(data, 'Allocated_Slots' + fileExtension);
   };
 
+  // download the allocation session tabe into PDF
   const pdfGenerate = (e) => {
     var doc = new jsPDF('landscape', 'px', 'a4', 'false');
 
@@ -128,7 +133,7 @@ function AllocatedTime() {
                       <td>{item.startTime}</td>
                       <td>{item.endTime}</td>
                       <td>{item.day}</td>
-                      <td>{item.group}</td>
+                      <td>{item.batch}</td>
                       <td>{item.empName}</td>
                       <td>
                         {emphour.map((item3) => {
