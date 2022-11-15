@@ -356,8 +356,33 @@ const TimeTableAllocate = ({
             >
               <option>Select Batch:</option>
               {test.map((item) => {
-                //Barrak - add ur if-else for admin access level
-                return <option value={item}>{item}</option>;
+                // checks if the coordinator is a super/admin coordinator
+                if (admin?.department === 'admin') {
+                  return <option value={item}>{item}</option>;
+                }
+                //checks if the coordinator is from from CCSE department
+                else if (admin?.department === 'CSSE') {
+                  if (item.includes('WD.SE') || item.includes('IM')) {
+                    return <option value={item}>{item}</option>;
+                  }
+                }
+                // checks if the coordinator is from the IT department
+                else if (admin?.department === 'IT') {
+                  if (item.includes('IT') || item.includes('DS')) {
+                    return <option value={item}>{item}</option>;
+                  }
+                }
+                // checks if the coordinator is from the CSE department
+                else if (admin?.department === 'CSE') {
+                  if (
+                    item.includes('ISE') ||
+                    item.includes('CSNE') ||
+                    item.includes('CS')
+                  ) {
+                    return <option value={item}>{item}</option>;
+                  }
+                  return;
+                }
               })}
             </select>
           </div>
