@@ -195,4 +195,17 @@ router.get('/empName', async (req, res) => {
   }
 });
 
+// @route   DELETE api/timetable/
+// @desc    Delete all slots
+// @access  private
+router.delete('/', async (req, res) => {
+  try {
+    await Leave.deleteMany();
+    res.json('All Leaves deleted');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

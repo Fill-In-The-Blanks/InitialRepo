@@ -7,8 +7,17 @@ import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
 import autoTable from 'jspdf-autotable';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+
+
+
+
+
+
+var empNo;
+var pdfOutput;
 var instructorName;
-const pdfGenerate =(e)=>{
+const pdfGenerate =()=>{
   var doc=new jsPDF('landscape','px','a4','false');
  
   autoTable(doc, { html: '#mytimeTable' ,didDrawPage: function (data) {
@@ -41,14 +50,86 @@ const pdfGenerate =(e)=>{
     showConfirmButton: false,
     timer: 1500
   })
+  
+  
+  pdfOutput = doc.output("datauristring");
+
+  return pdfOutput;
+  
+ 
+
+
+
+
 }
-const InstructorItem = ({timetable1}) => {
+
+
+
+
+const AdminInstructorItem = ({timetable1}) => {
+  
+  const sendReminder = (empNo)=>{
+    console.log(empNo);
+    Swal.fire({
+      title: 'Do you want to email the attachment?',
+      text: "The timetable will be emailed to the instructor!",
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Remind!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let pdf=pdfGenerate();
+        let emp1=empNo;
+        
+        
+        axios.post('/api/personalTimetable/sendtable',{pdf1:pdf,emp:emp1})
+        .then(body=>console.log(body))
+        .catch(err=>console.log(err))
+        Swal.fire(
+  
+          'Sent!',
+          'Reminder has been Sent.',
+          'success'
+        )
+      }
+    })
+   
+  }
 
   const navigate = useNavigate();
     const [value,SetValue]=useState('');
     const [dataSource,SetdataSource]=useState(timetable1);
     const [tableFilter,SetTableFilter]=useState([]);
     //const [sortvalue,SetsortValue]=useState('');
+    const [emphour, setEmphours] = useState([])
+    const [timeTable, setTimeTable] = useState([]);
+
+    useEffect(() => {
+      axios
+        .get('/api/timetable/getTimeTable')
+        .then((body) => setTimeTable(body.data))
+        .catch((err) => console.log(err));
+    }, []);
+    
+    useEffect(() => {
+      timeTable.forEach((item) => {
+        let hours = 0;
+        hours = item.hours
+        let index = emphour.findIndex((item2) => item2.empNo === item.empNo)
+        if (index === -1) {
+          emphour.push({ empNo: item.empNo, hours: item.hours})
+        }
+        else {
+          let new_hours = emphour[index].hours + hours
+          emphour[index] = {
+            empNo: item.empNo,
+            hours: new_hours
+          }
+        }
+      })
+    }, [timeTable,emphour])
     
     const filterData=(e)=>{
       if(e.target.value!=""){
@@ -62,7 +143,14 @@ const InstructorItem = ({timetable1}) => {
   
     }
 
-
+    
+    const handleFilter = (value)=>{
+      SetValue(value);
+      const filterData=dataSource.filter(timetable1=>timetable1.day===value);
+      SetTableFilter([...filterData]);
+    
+    }
+  
 
     const timetables =  value.length > 0 ? tableFilter.map((item) => (
       
@@ -72,10 +160,19 @@ const InstructorItem = ({timetable1}) => {
           <td>{item.startTime}</td>
           <td>{item.endTime}</td>
           <td>{item.venue}</td>
-          {/* <td>{item.empName}</td>
-          <td>{item.empNo}</td> */}
+          
+          <td style = {{display:"none"}}>{empNo=item.empNo}</td> 
           <td>{item.hours}</td>
           <td style = {{display:"none"}}>{instructorName= item.empName}</td>
+          <td>{
+                emphour.map((item3) => {
+                          if (item.empNo === item3.empNo) {
+                            return (<p>
+                              {item3.hours}
+                            </p>)
+                          }
+                        })
+                      }</td>
           
           
         </tr>
@@ -88,8 +185,8 @@ const InstructorItem = ({timetable1}) => {
           <td>{item.startTime}</td>
           <td>{item.endTime}</td>
           <td>{item.venue}</td>
-          {/* <td>{item.empName}</td>
-          <td>{item.empNo}</td> */}
+          
+          <td style = {{display:"none"}}>{empNo=item.empNo}</td> 
           <td>{item.hours}</td>
           <td style = {{display:"none"}}>{instructorName= item.empName}</td>
           
@@ -109,7 +206,14 @@ const InstructorItem = ({timetable1}) => {
     onChange={filterData}/>
   </div>
                 
-                 
+      <button className=' btn btn-success'  onClick={()=>handleFilter("Monday")}>Monday</button>
+       <button className=' btn btn-success'onClick={()=>handleFilter("Tuesday")}>Tuesday</button>
+       <button className=' btn btn-success'onClick={()=>handleFilter("Wednesday")}>Wednesday</button>
+       <button className='  btn btn-success'onClick={()=>handleFilter("Thursday")}>Thursday</button>
+       <button className=' btn btn-success'onClick={()=>handleFilter("Friday")}>Friday</button>
+       <button className='  btn btn-success'onClick={()=>handleFilter("Saturday")}>Saturday</button>
+       <button className='  btn btn-success'onClick={()=>handleFilter("Sunday")}>Sunday</button><br/>
+               
          
 
       <table className='table' id='mytimeTable'>
@@ -125,12 +229,7 @@ const InstructorItem = ({timetable1}) => {
             <th className='hide-sm' style={{ textAlign: 'left' }}>
               Venue
             </th>
-            {/* <th className='hide-sm' style={{ textAlign: 'left' }}>
-              Instructor
-            </th>
-            <th className='hide-sm' style={{ textAlign: 'left' }}>
-              Instructor ID
-            </th> */}
+          
             <th className='hide-sm' style={{ textAlign: 'left' }}>
               Hours
             </th>
@@ -144,16 +243,28 @@ const InstructorItem = ({timetable1}) => {
         </thead>
         <tbody>{timetables}</tbody>
       </table>
-      <button className='btn btn-success' onClick={pdfGenerate}><i className='fas fa-file-download'></i> PDF</button> 
+
+
+
       
+      <Link to='/listEmployees'>
+      <button className='btn btn-success' ><i className='fas fa-backspace'></i> Back</button>
+      </Link>
+      <button className='btn btn-success' onClick={()=> sendReminder(empNo)}><i className='fa fa-envelope'></i>
+         {''} Send Mail
+          </button>
     </Fragment>
   );
 };
 
-InstructorItem.propTypes = {
+AdminInstructorItem.propTypes = {
   timetable1: PropTypes.array.isRequired,
  
  
 };
 
-export default connect(null)(InstructorItem);
+
+
+
+
+export default connect(null)(AdminInstructorItem,pdfGenerate);

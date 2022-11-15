@@ -137,8 +137,19 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
         >
           <i className='fas fa-edit'></i>
         </Link>
+
       </td>
-    </tr>
+      <td>
+    <Link to={`/ListAdminTime/${employee.empNo}`}>
+            <button className='btn btn-success'>
+  <i className='fas fa-calendar'></i></button>
+          </Link>
+    </td>
+    
+      </tr>
+    
+      
+          
 
   )): employees.map((employee,index) => (
    <> <tr key={employee._id}>
@@ -165,6 +176,12 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
           <i className='fas fa-edit'></i>
         </Link>
       </td>
+      <td>
+    <Link to={`/ListAdminTime/${employee.empNo}`}>
+            <button className='btn btn-success'>
+  <i className='fas fa-calendar'></i></button>
+          </Link>
+    </td>
       <td>
         <button className='btn btn-primary' onClick = {()=>{
       console.log(index)

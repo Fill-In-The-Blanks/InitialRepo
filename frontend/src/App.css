@@ -208,6 +208,12 @@ img {
   color: #fff;
 }
 
+.btn:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #cccccc;
+}
+
 .btn-success:hover,
 .bg-success,
 .badge-success,
@@ -730,6 +736,7 @@ tr:hover {background-color:#d6effa73;}
     margin:7px;
 
 }
+
 
 }
 .custom-select select{

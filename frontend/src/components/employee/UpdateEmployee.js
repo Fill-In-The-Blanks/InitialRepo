@@ -66,6 +66,7 @@ const UpdateEmployee = ({
             name='empName'
             value={empName}
             onChange={(e) => onChange(e)}
+            readOnly
           />
         </div>
 

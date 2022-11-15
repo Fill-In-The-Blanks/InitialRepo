@@ -82,7 +82,7 @@ const AllocatedIModitem = ({timetable1}) => {
           <td>{item.empName}</td>
           <td>{item.empNo}</td>
           <td>{item.hours}</td>
-          {moduleName= item.module}
+          <td style = {{display:"none"}}>{moduleName= item.module}</td>
           
           
         </tr>
@@ -98,7 +98,7 @@ const AllocatedIModitem = ({timetable1}) => {
           <td>{item.empName}</td>
           <td>{item.empNo}</td>
           <td>{item.hours}</td>
-          {moduleName= item.module}
+          <td style = {{display:"none"}}>{moduleName= item.module}</td>
           
           
         </tr>
