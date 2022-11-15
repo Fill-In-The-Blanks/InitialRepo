@@ -90,11 +90,11 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
     }
   };
 
-  }
+  
 
   const employeesMapped =  value.length > 0 ? tableFilter.map((employee,index) => (
 
-    <tr key={employee._id}>
+    <>  <tr key={employee._id}>
       <td>{employee.empNo}</td>
       <td>{employee.empName}</td>
       <td>{employee.sliitEmail}</td>
@@ -125,8 +125,21 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
   <i className='fas fa-calendar'></i></button>
           </Link>
     </td>
-    
-      </tr>
+    <td>
+        <button className='btn btn-primary' onClick = {()=>{
+      console.log(index)
+      handleGraph(index)}}>
+          Hours
+        </button>
+      </td>
+    </tr>
+      <tr>
+        <td colSpan={8} id={`chart-${index}`} style = {{display : "none" }} >
+        <MyChart empNo = {employee.empNo} />
+        </td>
+        </tr>
+        </>
+      
     
       
           
@@ -170,8 +183,13 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
         </button>
       </td>
     </tr>
-      <tr ><td colSpan={8} id={`chart-${index}`} style = {{display : "none" }} ><MyChart empNo = {employee.empNo} /></td></tr></>
-  ))
+      <tr>
+        <td colSpan={8} id={`chart-${index}`} style = {{display : "none" }} >
+        <MyChart empNo = {employee.empNo} />
+        </td>
+        </tr>
+        </>
+  ));
   return (
     <Fragment>
       <div className='search'>
@@ -219,7 +237,7 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
       </table>
     </Fragment>
   );
-};
+  } 
 
 EmployeeItem.propTypes = {
   employees: PropTypes.array.isRequired,
