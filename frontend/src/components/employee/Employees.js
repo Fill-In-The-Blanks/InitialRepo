@@ -1,11 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React, { Fragment, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { getEmployees } from "../../actions/employee";
-import EmployeeItem from "./EmployeeItem";
-import Spinner from "../layout/Spinner";
+import { connect } from 'react-redux';
+import { getEmployees } from '../../actions/employee';
+import EmployeeItem from './EmployeeItem';
+import Spinner from '../layout/Spinner';
 
 const Employees = ({ getEmployees, employee: { employees, loading } }) => {
   useEffect(() => {
@@ -15,13 +14,12 @@ const Employees = ({ getEmployees, employee: { employees, loading } }) => {
     <Spinner />
   ) : (
     <Fragment>
-      <section className="container container-margin-top-override">
-        <p className="lead">
+      <section className='container container-margin-top-override'>
+        <p className='lead'>
           {/* <i className='fas fa-user'></i> */} Employee Management
         </p>
 
-      
-         {/* <Link to={`/employeeManagement`}>
+        {/* <Link to={`/employeeManagement`}>
           <button className="btn btn-success" style={{ marginBottom: "5px" }}>
             + Add New
           </button>
@@ -31,7 +29,6 @@ const Employees = ({ getEmployees, employee: { employees, loading } }) => {
         ) : (
           <h4>No employees found</h4>
         )}
-       
       </section>
     </Fragment>
   );

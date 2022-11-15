@@ -1,8 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Spinner from '../layout/Spinner';
 import { getSlots } from '../../actions/timetable';
 import TimetableItem from './TimetableItem';
 import SlotsConfirmationDialog from '../dialogBox/SlotsConfirmationDialog';
@@ -32,33 +31,15 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
           </Fragment>
         ) : (
           <Fragment>
-            {/* <Link to={`/`}>
-              <button
-                className='btn btn-primary'
-                style={{ marginBottom: '5px' }}
-              >
-                Add Slot
-              </button>
-            </Link> */}
-
-          
-
-            {/* <Link to={`/timetableManagement`}>
-              <button className='btn btn-primary'>List Slots</button>
-            </Link> */}
             <button
               className='btn btn-danger'
               style={{ float: 'right' }}
               onClick={() => setButtonStatus({ delete: !buttonStatus.delete })}
             >
-              <i className='fas fa-trash'></i> 
-             {''} Delete All Slots{' '}
+              <i className='fas fa-trash'></i>
+              {''} Delete All Slots{' '}
             </button>
-            {slots.length > 0 ? (
-              <TimetableItem slots={slots} />
-            ) : (
-              <h4>No slots found</h4>
-            )}
+            {slots.length > 0 ? <TimetableItem slots={slots} /> : <Spinner />}
           </Fragment>
         )}
       </section>
