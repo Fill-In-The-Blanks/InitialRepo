@@ -1,18 +1,22 @@
-import React, { useState, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { addInstructor } from "../../../actions/instructor";
+import React, { useState, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { addInstructor } from '../../../actions/instructor';
+import PropTypes from 'prop-types';
+import { setAlert } from '../../../actions/alert';
+import emailjs from 'emailjs-com';
+import { connect } from 'react-redux';
+import '../Home/Home.css';
 
-import { setAlert } from "../../../actions/alert";
-import emailjs from "emailjs-com";
-import { connect } from "react-redux";
-import "../Home/Home.css";
-
-const InstructorCreate = ({ addInstructor, instructor: { instructors } }) => {
-  const [ID, setUserID] = useState("");
-  const [email, setemail] = useState("");
-  const [department, setDepartment] = useState("");
-  const [userName, setusername] = useState("");
-  const [password, setpassword] = useState("");
+const InstructorCreate = ({
+  addInstructor,
+  instructor: { instructors },
+  auth: { admin },
+}) => {
+  const [ID, setUserID] = useState('');
+  const [email, setemail] = useState('');
+  const [department, setDepartment] = useState('');
+  const [userName, setusername] = useState('');
+  const [password, setpassword] = useState('');
   const initialLogin = true;
 
   const {
@@ -36,10 +40,10 @@ const InstructorCreate = ({ addInstructor, instructor: { instructors } }) => {
     addInstructor(formValue);
     emailjs
       .sendForm(
-        "service_2yi5441",
-        "template_3uq9jb9",
+        'service_2yi5441',
+        'template_3uq9jb9',
         instructorform.current,
-        "3yiSsWex126MEwSd2"
+        '3yiSsWex126MEwSd2'
       )
       .then(
         (result) => {
@@ -57,69 +61,82 @@ const InstructorCreate = ({ addInstructor, instructor: { instructors } }) => {
 
   return (
     <div>
-      <div className="create">
+      <div className='create'>
         <form ref={instructorform}>
           <label>UserID</label>
           <input
-            name="ID"
-            {...register("ID", { required: "This is required" })}
+            name='ID'
+            {...register('ID', { required: 'This is required' })}
             onChange={(e) => setUserID(e.target.value)}
           ></input>
           <p>{errors.ID?.message}</p>
           <br />
           <label>Email</label>
           <input
-            name="email"
-            type="email"
-            {...register("email", { required: "This is required" })}
+            name='email'
+            type='email'
+            {...register('email', { required: 'This is required' })}
             onChange={(e) => setemail(e.target.value)}
           ></input>
           <p>{errors.email?.message}</p>
           <br />
           <label>Username</label>
           <input
-            name="userName"
-            {...register("userName", { required: "This is required" })}
+            name='userName'
+            {...register('userName', { required: 'This is required' })}
             onChange={(e) => setusername(e.target.value)}
           ></input>
           <p>{errors.userName?.message}</p>
           <br />
           <label>Department</label>
           <select
-            name="department"
-            id="department"
-            style={{ width: "100%" }}
+            name='department'
+            id='department'
+            style={{ width: '100%' }}
             onChange={(e) => setDepartment(e.target.value)}
           >
-            <option value=""></option>
-            <option value='C'>Computer Science & Software Engineering (CSSE)</option>
-            <option value='IT'>Information Technology (IT)</option>
-            <option value='CSNE'>
-              Computer Systems Engineering (CSE)
-            </option>
+            {/* If coordinator is of CSSE or is a FOC admin then render CSSE option */}
+            {(admin?.department === 'CSSE' ||
+              admin?.department === 'admin') && (
+              <option value='CSSE'>
+                Computer Science & Software Engineering (CSSE)
+              </option>
+            )}
+            {/* If coordinator is of IT or is a FOC admin then render IT option */}
+            {(admin?.department === 'IT' || admin?.department === 'admin') && (
+              <option value='IT'>Information Technology (IT)</option>
+            )}
+            {/* If coordinator is of CSE or is a FOC admin then render CSE option */}
+            {(admin?.department === 'CSE' || admin?.department === 'admin') && (
+              <option value='CSE'>Computer Systems Engineering (CSE)</option>
+            )}
           </select>
           <p>{errors.department?.message}</p>
           <br />
           <label>Password</label>
           <input
-            name="password"
-            type="password"
-            {...register("password", {
-              required: "This is required",
-              minLength: { value: 8, message: "Need atleast 8 characters" },
-              maxLength: { value: 20, message: "Max characters are 20" },
+            name='password'
+            type='password'
+            {...register('password', {
+              required: 'This is required',
+              minLength: { value: 8, message: 'Need atleast 8 characters' },
+              maxLength: { value: 20, message: 'Max characters are 20' },
             })}
             onChange={(e) => setpassword(e.target.value)}
           ></input>
           <p>{errors.password?.message}</p>
           <br />
-          <button type="submit" onClick={handleSubmit(onsubmitInstructor)}>
+          <button type='submit' onClick={handleSubmit(onsubmitInstructor)}>
             Create User
           </button>
         </form>
       </div>
     </div>
   );
+};
+
+InstructorCreate.propTypes = {
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

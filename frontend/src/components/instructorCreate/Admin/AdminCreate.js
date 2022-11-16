@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { addAdmin } from '../../../actions/instructor';
-
+import PropTypes from 'prop-types';
 import { setAlert } from '../../../actions/alert';
 import emailjs from 'emailjs-com';
 import { connect } from 'react-redux';
 import '../Home/Home.css';
 
-const AdminCreate = ({ addAdmin, admin: { admins } }) => {
+const AdminCreate = ({ addAdmin, admin: { admins }, auth: { admin } }) => {
   const [ID, setUserID] = useState('');
   const [email, setemail] = useState('');
   const [department, setDepartment] = useState('admin');
@@ -90,12 +90,25 @@ const AdminCreate = ({ addAdmin, admin: { admins } }) => {
             style={{ width: '100%' }}
             onChange={(e) => setDepartment(e.target.value)}
           >
-            <option value='admin'></option>
-            <option value='C'>Computer Science & Software Engineering (CSSE)</option>
-            <option value='IT'>Information Technology (IT)</option>
-            <option value='CSNE'>
-              Computer Systems Engineering (CSE)
-            </option>
+            {/* If coordinator is an FOC admin then render admin option */}
+            {admin?.department === 'admin' && (
+              <option value='admin'>FOC Admin</option>
+            )}
+            {/* If coordinator is of CSSE or is a FOC admin then render CSSE option */}
+            {(admin?.department === 'CSSE' ||
+              admin?.department === 'admin') && (
+              <option value='CSSE'>
+                Computer Science & Software Engineering (CSSE)
+              </option>
+            )}
+            {/* If coordinator is of IT or is a FOC admin then render IT option */}
+            {(admin?.department === 'IT' || admin?.department === 'admin') && (
+              <option value='IT'>Information Technology (IT)</option>
+            )}
+            {/* If coordinator is of CSE or is a FOC admin then render CSE option */}
+            {(admin?.department === 'CSE' || admin?.department === 'admin') && (
+              <option value='CSE'>Computer Systems Engineering (CSE)</option>
+            )}
           </select>
           <p>{errors.department?.message}</p>
           <br />
@@ -119,6 +132,10 @@ const AdminCreate = ({ addAdmin, admin: { admins } }) => {
       </div>
     </div>
   );
+};
+
+AdminCreate.propTypes = {
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
