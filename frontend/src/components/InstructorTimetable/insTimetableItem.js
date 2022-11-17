@@ -77,32 +77,43 @@ const InstructorItem = ({ timetable1 }) => {
             <td>{item.venue}</td>
             {/* <td>{item.empName}</td>
           <td>{item.empNo}</td> */}
-            <td>{item.hours}</td>
-            <td className='hide-sm'>{(instructorName = item.empName)}</td>
-          </tr>
-        ))
-      : timetable1.map((item) => (
-          <tr key={item._id}>
-            <td>{item.day}</td>
-            <td>{item.startTime}</td>
-            <td>{item.endTime}</td>
-            <td>{item.venue}</td>
-            {/* <td>{item.empName}</td>
+          <td>{item.hours}</td>
+          <td style = {{display:"none"}}>{instructorName= item.empName}</td>
+          
+          
+        </tr>
+      )):  timetable1.map((item) => (
+        
+        
+        <tr key={item._id}>
+          
+          <td>{item.day}</td>
+          <td>{item.startTime}</td>
+          <td>{item.endTime}</td>
+          <td>{item.venue}</td>
+          {/* <td>{item.empName}</td>
           <td>{item.empNo}</td> */}
-            <td>{item.hours}</td>
-            <td className='hide-sm'>{(instructorName = item.empName)}</td>
-          </tr>
-        ));
-  return (
-    <Fragment>
-      <div className='search'>
-        <input
-          type='text'
-          placeholder='Search'
-          value={value}
-          onChange={filterData}
-        />
-      </div>
+          <td>{item.hours}</td>
+          <td style = {{display:"none"}}>{instructorName= item.empName}</td>
+          
+          
+        </tr>
+      ))
+      return (
+    
+        <Fragment>
+         
+         <div className='search'>         
+    
+    <input type='text' 
+    placeholder='Search'
+    
+    value={value}
+    onChange={filterData}/>
+  </div>
+                
+                 
+         
 
       <table className='table' id='mytimeTable'>
         <thead>

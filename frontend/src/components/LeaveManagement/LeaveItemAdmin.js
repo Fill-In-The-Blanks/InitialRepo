@@ -2,7 +2,7 @@ import React, { Fragment,useState,useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link ,useNavigate} from 'react-router-dom';
-import { deleteLeave,updatestatusByID} from '../../actions/leaves';
+import {deleteAllLeaves,updatestatusByID} from '../../actions/leaves';
 import  axios  from 'axios';
 import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png'
@@ -44,7 +44,7 @@ const pdfGenerate =(e)=>{
   })
 }
 
-const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
+const LeaveItemAdmmin = ({leave,updatestatusByID,deleteAllLeaves}) => {
 
   
     const [value,SetValue]=useState('');
@@ -65,31 +65,54 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
       }
   
     }
+
+    const delete1=(e)=>{
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          
+          deleteAllLeaves();
+          
+          Swal.fire(
+  
+            'Deleted!',
+            'All Leaves in the system has been Deleted. ',
+            'success'
+          )
+     } })
+
+    }
  
 
-    // const onchange = (e) =>
-    // setFormData({ ...formData, [e.target.name]: e.target.value });
-    const setStatus = async (id, e) => {
+   
+    const setStatus = async (id, status) => {
       try {
        
         Swal.fire({
-          title: ' Change status to   '+`${e.target.value}` +' ?',
+          title: ' Change status to   '+`${status}` +' ?',
           showDenyButton: true,
           showCancelButton: true,
           confirmButtonText: 'Yes',
           denyButtonText: `No`,
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed && e.target.value=='Approved') {
+          if (result.isConfirmed && status=='Approved') {
             
-            updatestatusByID(id,e.target.value);
-            Swal.fire(`${e.target.value}`, '', 'success')
+            updatestatusByID(id,status);
+            Swal.fire(`${status}`, '', 'success')
             //document.getElementById(id).style.display = 'none';
            
           }
-          else if(result.isConfirmed && e.target.value=='Declined') {
-            updatestatusByID(id,e.target.value);
-            Swal.fire(`${e.target.value}`, '', 'error')
+          else if(result.isConfirmed && status=='Declined') {
+            updatestatusByID(id,status);
+            Swal.fire(`${status}`, '', 'error')
           }
           
           else if (result.isDenied) {
@@ -109,9 +132,10 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
    
 
 
-    const leaves =  value.length > 0 ? tableFilter.map((item) => (
+    const leaves =  value.length > 0 ? tableFilter.map((item,index) => (
     
         <tr key={item._id} id={item._id}>
+          <td>{index+1}</td>
           <td>{item.empNo}</td>
           <td>{item.empName}</td>
           <td>{item.date}</td>
@@ -125,10 +149,12 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
             <button 
             name='status'
             value={"Declined"}
-              className='btn btn-danger'
-            onClick={(e) => setStatus(item._id,e)}
+            className='btn btn-danger'
+            onClick={(e) => setStatus(item._id,"Declined")}
+            disabled={item.date < new Date().toISOString().slice(0, 10)? true : false ||item.status == "Declined" ? true : false }
            >
               <i className='fas fa-window-close'></i>
+              
             </button>
           
           </td>
@@ -138,7 +164,8 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
             <button name='status'
             value={"Approved"}
             className='btn btn-success'
-            onClick={((e) => setStatus(item._id,e))}
+            onClick={((e) => setStatus(item._id,"Approved"))}
+            disabled={item.date < new Date().toISOString().slice(0, 10)? true : false ||item.status == "Approved" ? true : false}
             >
             <i class='fas fa-check'></i>
             </button>
@@ -146,9 +173,10 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
           </td>
           
         </tr>
-      )):  leave.map((item) => (
+      )):  leave.map((item,index) => (
         
         <tr key={item._id} id={item._id}>
+        <td>{index+1}</td>
         <td>{item.empNo}</td>
         <td>{item.empName}</td>
      
@@ -163,7 +191,8 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
       <button value={"Declined"}
       name='status'
       className='btn btn-danger'
-      onClick={ (e)=>setStatus(item._id,e)}
+      onClick={ (e)=>setStatus(item._id,"Declined")}
+      disabled={item.date < new Date().toISOString().slice(0, 10)? true : false ||item.status == "Declined" ? true : false }
       >
       
       <i className='fas fa-window-close'></i>
@@ -177,7 +206,8 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
        name='status'
       className='btn btn-success'
       
-      onClick={(e) => setStatus(item._id,e)}
+      onClick={(e) => setStatus(item._id,"Approved")}
+      disabled={item.date < new Date().toISOString().slice(0, 10)? true : false||item.status == "Approved" ? true : false}
        >
       <i className='fas fa-check'></i>
        </button>
@@ -198,10 +228,15 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
         value={value}
         onChange={filterData}/>
       </div>
+
+      <button className=' btn btn-danger'  onClick={()=>delete1()}>Delete All leaves</button>
       <button className='btn btn-success' onClick={pdfGenerate}><i className='fas fa-file-download'></i> PDF</button>
       <table className='table' id='leavetable'>
         <thead>
           <tr>
+          <th className='hide-sm' style={{ textAlign: 'left' }}>
+              Number
+            </th>
             <th>Employee No</th>
             <th className='hide-sm' style={{ textAlign: 'left' }}>
               Employee Name
@@ -241,8 +276,8 @@ const LeaveItemAdmmin = ({leave,updatestatusByID}) => {
 
 LeaveItemAdmmin.propTypes = {
   leave: PropTypes.array.isRequired,
-
+  deleteAllLeaves:PropTypes.func.isRequired,
  updatestatusByID:PropTypes.func.isRequired
 };
 
-export default connect(null,{updatestatusByID})(LeaveItemAdmmin);
+export default connect(null,{updatestatusByID,deleteAllLeaves})(LeaveItemAdmmin);

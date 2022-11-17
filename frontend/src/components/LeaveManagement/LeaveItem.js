@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { deleteLeave } from '../../actions/leaves';
+import { deleteLeave,updatestatusByIDIns } from '../../actions/leaves';
 import Swal from 'sweetalert2';
 import emailjs from '@emailjs/browser';
-const LeaveItem = ({leave,deleteLeave}) => {
+const LeaveItem = ({leave,updatestatusByIDIns}) => {
 
   const navigate = useNavigate();
     const [value,SetValue]=useState('');
     const [dataSource,SetdataSource]=useState(leave);
     const [tableFilter,SetTableFilter]=useState([]);
     //const [sortvalue,SetsortValue]=useState('');
-    
+    const [disabled, setDisabled] = useState(true)
     const filterData=(e)=>{
       if(e.target.value!=""){
         SetValue(e.target.value);
@@ -25,7 +25,7 @@ const LeaveItem = ({leave,deleteLeave}) => {
       }
   
     }
-    const Delete=(id,empNo,name,email1,date)=>{
+    const update=(id,empNo,name,email1,date)=>{
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -33,15 +33,16 @@ const LeaveItem = ({leave,deleteLeave}) => {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, Cancel it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          var moduleid = id;
-          deleteLeave(id,empNo)
+          
+          updatestatusByIDIns(id,"cancelled",empNo);
+          
           Swal.fire(
   
-            'Deleted!',
-            'Leave has been deleted.',
+            'Cancelled!',
+            'The coordinator has been notified of the changes. ',
             'success'
           )
           let date1 = new Date().toISOString()?.split('T')[0];
@@ -52,7 +53,7 @@ const LeaveItem = ({leave,deleteLeave}) => {
          
           console.log(date1); // "17-6-2022"
           let fullName = name;
-          let Date1 = date;
+          let Date1 = date;//applied ddate
           let emailid = email1;
             console.log(fullName,Date1,emailid);
               var contactParams = {
@@ -60,7 +61,7 @@ const LeaveItem = ({leave,deleteLeave}) => {
                   date: Date1,
                   email: emailid
               };
-          if (Date1 > date1 ){
+          if (Date1 >= date1 ){
                   emailjs.send('service_5hilmhs', 'template_8g7iu5d',contactParams, 'mxh2UGjiVIpuyyKJP')
                   .then((result) => {
                         console.log(result.text);
@@ -74,12 +75,10 @@ const LeaveItem = ({leave,deleteLeave}) => {
     }
 
 
-    const leaves =  value.length > 0 ? tableFilter.map((item) => (
+    const leaves =  value.length > 0 ? tableFilter.map((item,index) => (
     
         <tr key={item._id}>
-          <td>{item.empNo}</td>
-          <td id={item.empName}>{item.empName}</td>
-          <td id={item.CordinatorEmail}>{item.CordinatorEmail}</td>
+          <td>{index+1}</td>
           <td id= {item.date}>{item.date}</td>
           <td>{item.starttimeoff}</td>
           <td>{item.Endtimeoff}</td>
@@ -89,21 +88,21 @@ const LeaveItem = ({leave,deleteLeave}) => {
           <td>
             {' '}
             <button
+            id='cancel'
               className='btn btn-danger'
-            onClick={() => Delete(item._id,item.empNo,item.empName,item.CordinatorEmail,item.date)}
+            onClick={() => update(item._id,item.empNo,item.empName,item.CordinatorEmail,item.date)}
+            disabled={item.date < new Date().toISOString().slice(0, 10)? true : false ||item.status == "cancelled" ? true :false}
             >
-              Delete{' '}
+              <i className='fa fa-calendar-times-o'></i>
             </button>
           
           </td>
           
         </tr>
-      )):  leave.map((item) => (
+      )):  leave.map((item,index) => (
         
         <tr key={item._id}>
-        <td>{item.empNo}</td>
-        <td id={item.empName}>{item.empName}</td>
-        <td id={item.CordinatorEmail}>{item.CordinatorEmail}</td>
+        <td>{index+1}</td>
         <td id= {item.date}>{item.date}</td>
         <td>{item.starttimeoff}</td>
         <td>{item.Endtimeoff}</td>
@@ -113,10 +112,12 @@ const LeaveItem = ({leave,deleteLeave}) => {
       <td>
       {' '}
       <button
-      className='btn btn-danger'
-      onClick={() => Delete(item._id,item.empNo,item.empName,item.CordinatorEmail,item.date)}
+      id='cancel'
+      className='btn btn-danger '
+      onClick={() => update(item._id,item.empNo,item.empName,item.CordinatorEmail,item.date)}
+      disabled={item.date < new Date().toISOString().slice(0, 10)? true :false||item.status == "cancelled" ? true : false}
        >
-       <i className='fas fa-trash'></i>
+       <i className='fa fa-calendar-times-o'></i>
        </button>
        </td>
      
@@ -139,13 +140,10 @@ const LeaveItem = ({leave,deleteLeave}) => {
       <table className='table'>
         <thead>
           <tr>
-            <th>Employee No</th>
-            <th className='hide-sm' style={{ textAlign: 'left' }}>
-              Employee Name
+          <th className='hide-sm' style={{ textAlign: 'left' }}>
+              Number
             </th>
-            <th className='hide-sm' style={{ textAlign: 'left' }}>
-             Cordinator Email
-            </th>
+            
             <th className='hide-sm' style={{ textAlign: 'left' }}>
               Date
             </th>
@@ -180,8 +178,9 @@ const LeaveItem = ({leave,deleteLeave}) => {
 
 LeaveItem.propTypes = {
   leave: PropTypes.array.isRequired,
- deleteLeave: PropTypes.func.isRequired,
+ 
+ updatestatusByIDIns:PropTypes.func.isRequired
  
 };
 
-export default connect(null,{deleteLeave})(LeaveItem);
+export default connect(null,{updatestatusByIDIns})(LeaveItem);

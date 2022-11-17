@@ -27,6 +27,7 @@ import EditVenue from './components/Venue/EditVenue';
 import AddNotice from './components/Notices/AddNotice';
 import Notices from './components/Notices/Notices';
 import ListAllocTime from './components/InstructorTimetable/instructorTimetable';
+import AdminListAllocTime from './components/AdminInstrcutorTimetable/AdminTimetable'
 /* import { useNavigate } from 'react-router-dom'; */
 import setAuthToken from './utils/setAuthToken';
 import SendRequest from './components/LeaveManagement/SendRequest';
@@ -105,6 +106,7 @@ const App = () => {
               <Route path='/UserManagement' element={<Home />} />
               <Route path='/Profile/:id' element={<Profile />} />
               <Route path='/ListTime/:id' element={<ListAllocTime />} />
+              <Route path='/ListAdminTime/:id' element={<AdminListAllocTime />} />
               <Route path='/EmailManagement' element={<EmailHome />} />
 
               <Route
