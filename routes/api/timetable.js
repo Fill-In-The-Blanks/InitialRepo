@@ -75,15 +75,16 @@ router.delete('/', async (req, res) => {
   }
 });
 
+// @route   POST api/timetable/slot
+// @desc    Update staff requirement of a slot
+// @access  public
 router.post('/slot', async (req, res) => {
   try {
-    console.log(req.body);
     const test3 = await Slot.findByIdAndUpdate(req.body.slotID, {
       $set: { staffRequirement: req.body.staffRequirement },
     });
     const test4 = await Slot.find({ _id: req.body.slotID });
-    console.log(test4);
-    res.status(200).send('staff requirement update');
+    res.status(200).send('Staff requirement updated');
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
@@ -91,7 +92,7 @@ router.post('/slot', async (req, res) => {
 });
 
 // @route   POST api/timetable/slots v1 [Has try catch in and outside the map]. v2 in employee api
-// @desc    Add slots
+// @desc    Add slots from excel sheet
 // @access  private
 router.post('/slots', auth, async (req, res) => {
   const sheet = req.body;
@@ -106,6 +107,7 @@ router.post('/slots', auth, async (req, res) => {
       const module = sheet[slot][Object.keys(sheet[slot])[3]];
       const venue = sheet[slot][Object.keys(sheet[slot])[4]];
       const group = sheet[slot][Object.keys(sheet[slot])[5]];
+
       /* let group = '',
         sessionType = '',
         staffRequirement = '';
@@ -138,8 +140,6 @@ router.post('/slots', auth, async (req, res) => {
         group,
       });
 
-      //console.log(moduleObject);
-
       if (!moduleObject) {
         moduleObject = new Module({
           moduleName: module,
@@ -163,9 +163,44 @@ router.post('/slots', auth, async (req, res) => {
   }
 });
 
+// @route   POST api/timetable/createTimetable
+// @desc    Add allocations
+// @access  public
 router.post('/createTimeTable', async (req, res) => {
+  // loop through all the selected allocations
   req.body.timetable.forEach(async (item) => {
     try {
+      // to find all allocations of this instructor for a particular day
+      // this is done to reject redundancies and overlapping allocations of the same instructor
+      const allocations = await Timetable.find({
+        empNo: item.empNo,
+        day: item.dayOfTheWeek,
+      }); //object
+
+      // loop through existing allocations of the current instructor for a particular day
+      for (const allocation in allocations) {
+        let allocatedStartTime = allocations[allocation].startTime;
+        let allocatedEndTime = allocations[allocation].endTime;
+        let currentStartTime = item.startTime;
+        let currentEndTime = item.endTime;
+
+        // check if current session starts or ends within an existing sessions time
+        if (
+          (allocatedStartTime <= currentStartTime &&
+            currentStartTime < allocatedEndTime) ||
+          (allocatedStartTime < currentEndTime &&
+            currentEndTime <= allocatedEndTime)
+        ) {
+          return;
+        } // check if current session starts and ends over an existing session
+        else if (
+          currentStartTime <= allocatedStartTime &&
+          allocatedEndTime < currentEndTime
+        ) {
+          return;
+        }
+      }
+
       let result = await new Timetable({
         module: item.module,
         startTime: item.startTime,
@@ -176,16 +211,20 @@ router.post('/createTimeTable', async (req, res) => {
         venue: item.venue,
         day: item.dayOfTheWeek,
         slotID: item._id,
+        batch: item.batch,
       }).save();
       sendMail(await getMail(item.empNo), item);
       let result2 = await Slot.updateOne({ _id: item._id }, { assigned: true });
     } catch (error) {
-      console.log(error);
+      res.status(500).send('Server error');
     }
   });
-  res.status(200).send('added');
+  res.status(200).send('Added allocations');
 });
 
+// @route   POST api/timetable/deleteSlots
+// @desc    Delete an allocation
+// @access  public
 router.post('/deleteSlots', async (req, res) => {
   try {
     await Timetable.deleteMany({
@@ -201,6 +240,10 @@ router.post('/deleteSlots', async (req, res) => {
     res.status(500).send('internal server error');
   }
 });
+
+// @route   POST api/timetable/getTimetable
+// @desc    Retrieve all allocations
+// @access  public
 router.get('/getTimeTable', async (req, res) => {
   try {
     const result = await Timetable.find();
@@ -208,6 +251,9 @@ router.get('/getTimeTable', async (req, res) => {
   } catch (error) {}
 });
 
+// @route   POST api/timetable/getEmployeeTimeTable/:empNo
+// @desc    ????
+// @access  public
 router.get('/getEmployeeTimeTable/:empNo', async (req, res) => {
   let time = {
     Monday: 0,
@@ -234,6 +280,19 @@ router.get('/getEmployeeTimeTable/:empNo', async (req, res) => {
     res.status(200).json({ hours: hours });
   } catch (error) {
     return res.status(500).json({ msg: 'Internal Server Error' });
+  }
+});
+
+// @route   POST api/timetable/test
+// @desc    To retrieve allocations of an instructor for a particular day
+// @access  public
+router.get('/test', async (req, res) => {
+  const { empNo, day } = req.body;
+  try {
+    const result = await Timetable.find({ empNo: empNo, day: day });
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send('Server error');
   }
 });
 

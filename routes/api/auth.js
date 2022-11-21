@@ -1,27 +1,26 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const auth = require("../../middleware/auth");
-const jwt = require("jsonwebtoken");
-const config = require("config");
-const { check, validationResult } = require("express-validator");
+const bcrypt = require('bcryptjs');
+const auth = require('../../middleware/auth');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const { check, validationResult } = require('express-validator');
 
-const Admin = require("../../model/Admin");
-const Instructor = require("../../model/Instructor");
+const Admin = require('../../model/Admin');
+const Instructor = require('../../model/Instructor');
 
 // -----------------------------------------------------------------------------
 
 // @route   GET api/auth
 // @desc    Admin token authentication route
 // @access  Public
-router.get("/", auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
-    console.log(req.admin.id);
-    const admin = await Admin.findById(req.admin.id).select("-password");
+    const admin = await Admin.findById(req.admin.id).select('-password');
     res.json(admin);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
@@ -29,13 +28,16 @@ router.get("/", auth, async (req, res) => {
 // @desc    authenticate admin & get token
 // @access  Public
 router.post(
-  "/",
+  '/',
   [
-    check("email", "SLIIT employee email is required").isEmail(),
-    check("password", "Password is required").exists(),
+    check('email', 'SLIIT employee email is required').isEmail(),
+    check('password', 'Password is required').exists(),
   ],
   async (req, res) => {
-    await Admin.updateMany({} , {$set : {userType :"admin" , department : "none"}})
+    await Admin.updateMany(
+      {},
+      { $set: { userType: 'admin', department: 'none' } }
+    );
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -46,15 +48,15 @@ router.post(
     try {
       //see if the admin exists
       let admin = await Admin.findOne({
-        email: { $regex: new RegExp("^" + req.body.email + "$", "i") },
+        email: { $regex: new RegExp('^' + req.body.email + '$', 'i') },
       }); // the regex code is to make the search non case sensitive
       if (!admin) {
-        return res.status(400).json({ errors: [{ msg: "Invalid email" }] });
+        return res.status(400).json({ errors: [{ msg: 'Invalid email' }] });
       }
 
       const isMatch = await bcrypt.compare(password, admin.password);
       if (!isMatch) {
-        return res.status(400).json({ errors: [{ msg: "Invalid Password" }] });
+        return res.status(400).json({ errors: [{ msg: 'Invalid Password' }] });
       }
 
       //Return jsonwebtoken
@@ -65,7 +67,7 @@ router.post(
       };
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        config.get('jwtSecret'),
         { expiresIn: 360000 }, //token expires in an hour, for now we keep a higher val for testing purposes
         (err, token) => {
           if (err) throw err;
@@ -74,29 +76,29 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
 
-router.get("/instructor", auth, async (req, res) => {
+router.get('/instructor', auth, async (req, res) => {
   try {
     console.log(req.instructor.id);
     const instructor = await Instructor.findById(req.instructor.id).select(
-      "-password"
+      '-password'
     );
     res.json(instructor);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 });
 
 router.post(
-  "/instructor",
+  '/instructor',
   [
-    check("email", "SLIIT employee email is required").isEmail(),
-    check("password", "Password is required").exists(),
+    check('email', 'SLIIT employee email is required').isEmail(),
+    check('password', 'Password is required').exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -109,15 +111,15 @@ router.post(
     try {
       //see if the admin exists
       let instructor = await Instructor.findOne({
-        email: { $regex: new RegExp("^" + req.body.email + "$", "i") },
+        email: { $regex: new RegExp('^' + req.body.email + '$', 'i') },
       }); // the regex code is to make the search non case sensitive
       if (!instructor) {
-        return res.status(400).json({ errors: [{ msg: "Invalid email" }] });
+        return res.status(400).json({ errors: [{ msg: 'Invalid email' }] });
       }
 
       const isMatch = await bcrypt.compare(password, instructor.password);
       if (!isMatch) {
-        return res.status(400).json({ errors: [{ msg: "Invalid Password" }] });
+        return res.status(400).json({ errors: [{ msg: 'Invalid Password' }] });
       }
 
       //Return jsonwebtoken
@@ -128,7 +130,7 @@ router.post(
       };
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        config.get('jwtSecret'),
         { expiresIn: 360000 }, //token expires in an hour, for now we keep a higher val for testing purposes
         (err, token) => {
           if (err) throw err;
@@ -137,7 +139,7 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );

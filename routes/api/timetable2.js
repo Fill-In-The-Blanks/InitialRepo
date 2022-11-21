@@ -4,6 +4,9 @@ const auth = require('../../middleware/auth');
 const Timetable = require('../../model/Timetable');
 const { check, validationResult } = require('express-validator');
 
+// @route   GET api/timetable2/:module
+// @desc    Get all allocations for a particular module
+// @access  public
 router.get('/:module', async (req, res) => {
   try {
     const module = await Timetable.find({ module: req.params.module });

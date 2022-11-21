@@ -22,15 +22,19 @@ const TimeTableSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  hours :{
-    type:Number
+  hours: {
+    type: Number,
+  },
+  batch: {
+    type: String,
+    default: 'default',
   },
 
   /*   sessionType: {
     type: String,
     required: true,
   }, */
-hours : {type : Number , default : 0 },
+  //hours: { type: Number, default: 0 },
   empName: {
     type: String,
     required: true,

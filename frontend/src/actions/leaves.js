@@ -23,7 +23,7 @@ export const requestLeave =(id,formData,navigate)=> async (dispatch)=>{
            timer: 1500
            })
           navigate(`/ListLeave/${id}`);
-          
+          return 'sucess';
 
     }catch(err){
 
@@ -80,6 +80,37 @@ export const deleteLeave = (id,empNo) => async dispatch => {
   }
 };
 
+
+// @Desc  Delete all leaves
+export const deleteAllLeaves = () => async (dispatch) => {
+  try {
+    await axios.delete('/api/leaves/');
+
+    dispatch(setAlert(' All Leaves Deleted', 'success'));
+    Swal.fire({
+      position: 'top-end',
+      icon: 'info',
+      title: 'All Leaves have been deleted',
+      showConfirmButton: false,
+      timer: 1500
+    })
+    const res = await axios.get('/api/leaves');
+
+    dispatch({
+      type: GET_LEAVES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+        type: LEAVE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status } 
+    });
+}
+};
+
+
+  
+
 //get Leave by id
 export const getLeave = id => async dispatch => {
   try {
@@ -132,6 +163,32 @@ export const updatestatusByID = (ID,formData) => async dispatch => {
           type: GET_LEAVES,
           payload: res.data
       }); 
+
+  } catch (err) {
+      const errors = err.response.data.errors;
+      if(errors) {
+        errors.forEach((error) => dispatch((Swal.fire({
+            icon: 'error',
+            title:'Please Check Form ',
+            text: `${error.msg}`}))))
+      }
+
+     
+  }
+}; 
+
+//update status for instructor to cancel leave
+export const updatestatusByIDIns = (ID,formData,empNo) => async dispatch => {
+  try {
+      
+
+       await axios.post(`/api/leaves/${ID}`,{status:formData});
+     
+       const res=await axios.get(`/api/leave/${empNo}`);
+       dispatch({
+         type: GET_LEAVES,
+         payload: res.data
+     });  
 
   } catch (err) {
       const errors = err.response.data.errors;

@@ -71,25 +71,25 @@ const InstructorItem = ({ timetable1 }) => {
     value.length > 0
       ? tableFilter.map((item) => (
           <tr key={item._id}>
-            <td>{item.day}</td>
             <td>{item.startTime}</td>
             <td>{item.endTime}</td>
-            <td>{item.venue}</td>
-            {/* <td>{item.empName}</td>
-          <td>{item.empNo}</td> */}
+            <td>{item.day}</td>
+            <td>{item.batch}</td>
             <td>{item.hours}</td>
+            <td>{item.module}</td>
+            <td>{item.venue}</td>
             <td className='hide-sm'>{(instructorName = item.empName)}</td>
           </tr>
         ))
       : timetable1.map((item) => (
           <tr key={item._id}>
-            <td>{item.day}</td>
             <td>{item.startTime}</td>
             <td>{item.endTime}</td>
-            <td>{item.venue}</td>
-            {/* <td>{item.empName}</td>
-          <td>{item.empNo}</td> */}
+            <td>{item.day}</td>
+            <td>{item.batch}</td>
             <td>{item.hours}</td>
+            <td>{item.module}</td>
+            <td>{item.venue}</td>
             <td className='hide-sm'>{(instructorName = item.empName)}</td>
           </tr>
         ));
@@ -107,7 +107,6 @@ const InstructorItem = ({ timetable1 }) => {
       <table className='table' id='mytimeTable'>
         <thead>
           <tr>
-            <th>Day</th>
             <th className='hide-sm' style={{ textAlign: 'left' }}>
               Start Time
             </th>
@@ -115,16 +114,19 @@ const InstructorItem = ({ timetable1 }) => {
               End Time
             </th>
             <th className='hide-sm' style={{ textAlign: 'left' }}>
+              Day
+            </th>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
+              Batch
+            </th>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
+              Session Hours
+            </th>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
+              Subject
+            </th>
+            <th className='hide-sm' style={{ textAlign: 'left' }}>
               Venue
-            </th>
-            {/* <th className='hide-sm' style={{ textAlign: 'left' }}>
-              Instructor
-            </th>
-            <th className='hide-sm' style={{ textAlign: 'left' }}>
-              Instructor ID
-            </th> */}
-            <th className='hide-sm' style={{ textAlign: 'left' }}>
-              Hours
             </th>
           </tr>
         </thead>

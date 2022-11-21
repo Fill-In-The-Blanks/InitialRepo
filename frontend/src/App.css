@@ -210,6 +210,12 @@ img {
   color: #fff;
 }
 
+.btn:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #cccccc;
+}
+
 .btn-success:hover,
 .bg-success,
 .badge-success,

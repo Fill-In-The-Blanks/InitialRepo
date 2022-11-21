@@ -40,6 +40,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
           setEmail (instructor.email);
     
           setFormData(data);
+         
         }
       }, [loading, getInstructorByID, instructor]);
 
@@ -87,10 +88,14 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
               text: 'End Time less than start time',
            
             })
+
             
             e.preventDefault();
         }
+        
         else {
+         
+  
           
           setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -112,15 +117,18 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
     
       const onSubmit = async (e) => {
         e.preventDefault();
+      
        
         requestLeave(id,formData,navigate);
-
-        emailjs.sendForm('service_5hilmhs', 'template_a586mw5',form.current, 'mxh2UGjiVIpuyyKJP')
+       
+          emailjs.sendForm('service_5hilmhs', 'template_a586mw5',form.current, 'mxh2UGjiVIpuyyKJP')
           .then((result) => {
                 console.log(result.text);
           }, (error) => {
           console.log(error.text);
           });
+        
+        
       };
 
       return  loading ? (
@@ -193,7 +201,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
                   name='CordinatorEmail'
                   value={CordinatorEmail}
                   onChange={(e) => onChange(e)}
-                 
+                  required
                 />
               </div>
     
@@ -208,6 +216,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
                   pattern="\d{4}-\d{2}-\d{2}"
                   value={date}
                   onChange={(e) => onChange(e)}
+                  required
                 />
               </div>
               <div className='form-group'>
@@ -219,7 +228,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
                   id='txtStartTime'
                   name='starttimeoff'
                   min="08:00" max="20:00"
-                  
+               
                   value={starttimeoff}
                   onChange={(e) => onChange(e)}
                 />
@@ -247,6 +256,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
                   name='Message'
                   value={Message}
                   onChange={(e) => onChange(e)}
+                  required
                 />
               </div>
 
@@ -261,6 +271,7 @@ const SendRequest =({requestLeave,getInstructorByID,instructor:{instructor,loadi
                   name='NumberofDays'
                   value={NumberofDays}
                   onChange={(e) => onChange(e)}
+                  required
                 />
               </div>
             
