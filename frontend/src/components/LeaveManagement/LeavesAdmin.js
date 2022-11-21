@@ -21,7 +21,7 @@ const ListLeaves = ({getLeaves,
           { leaves.length > 0 ? (
             <LeaveItemAdmin leave={leaves}/>
           ):(
-            <h4>No Leaves Found</h4>
+            <p className='lead'>No Leaves Found</p>
           )}
           
         </div>

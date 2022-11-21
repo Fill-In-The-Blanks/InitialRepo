@@ -35,7 +35,7 @@ app.use('/api/notices', require('./routes/api/notices'));
 app.use('/api/email', require('./routes/api/email'));
 app.use('/api/timetable2', require('./routes/api/timetable2'));
 app.use('/api/instructor2', require('./routes/api/instructor2'));
-
+app.use('/api/personalTimetable', require('./routes/api/personalTimetable'));
 app.use('/api/leaves', require('./routes/api/leaves'));
 app.use('/api/leave', require('./routes/api/leaves2'));
 app.use('/api/leave', require('./routes/api/leaves2'));
