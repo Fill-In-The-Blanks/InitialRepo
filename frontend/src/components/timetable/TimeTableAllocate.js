@@ -356,8 +356,33 @@ const TimeTableAllocate = ({
             >
               <option>Select Batch:</option>
               {test.map((item) => {
-                //Barrak - add ur if-else for admin access level
-                return <option value={item}>{item}</option>;
+                // checks if the coordinator is a super/admin coordinator
+                if (admin?.department === 'admin') {
+                  return <option value={item}>{item}</option>;
+                }
+                //checks if the coordinator is from from CCSE department
+                else if (admin?.department === 'CSSE') {
+                  if (item.includes('WD.SE') || item.includes('IM')) {
+                    return <option value={item}>{item}</option>;
+                  }
+                }
+                // checks if the coordinator is from the IT department
+                else if (admin?.department === 'IT') {
+                  if (item.includes('IT') || item.includes('DS')) {
+                    return <option value={item}>{item}</option>;
+                  }
+                }
+                // checks if the coordinator is from the CSE department
+                else if (admin?.department === 'CSE') {
+                  if (
+                    item.includes('ISE') ||
+                    item.includes('CSNE') ||
+                    item.includes('CS')
+                  ) {
+                    return <option value={item}>{item}</option>;
+                  }
+                  return;
+                }
               })}
             </select>
           </div>
@@ -750,9 +775,12 @@ const TimeTableAllocate = ({
           <tr>
             <th>Start Time</th>
             <th>End Time</th>
+            <th>Day</th>
+            <th>Batch</th>
             <th>Instructor Name</th>
-            <th>Hours</th>
+            <th>Session Hours</th>
             <th>Subject</th>
+            <th>Venue</th>
           </tr>
         </thead>
         <tbody>
@@ -762,9 +790,12 @@ const TimeTableAllocate = ({
                   <tr key={item.emp}>
                     <td>{item.startTime}</td>
                     <td>{item.endTime}</td>
+                    <td>{item.dayOfTheWeek}</td>
+                    <td>{item.batch}</td>
                     <td>{item.empName}</td>
                     <td>{item.hours}</td>
                     <td>{item.module}</td>
+                    <td>{item.venue}</td>
                   </tr>
                 );
               })

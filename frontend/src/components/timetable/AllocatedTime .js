@@ -121,8 +121,9 @@ function AllocatedTime() {
               <th>Day</th>
               <th>Batch</th>
               <th>Instructor Name</th>
-              <th>Hours</th>
+              <th>Total Instructor Hours</th>
               <th>Subject</th>
+              <th>Venue</th>
             </tr>
           </thead>
           <tbody>
@@ -143,6 +144,7 @@ function AllocatedTime() {
                         })}
                       </td>
                       <td>{item.module}</td>
+                      <td>{item.venue}</td>
                       <td>
                         <button
                           className='btn btn-danger'
