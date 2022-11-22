@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
-const EmployeeManagement = ({ addEmployee, setAlert }) => {
+const EmployeeManagement = ({ addEmployee, auth: { admin } }) => {
   const [formData, setFormData] = useState({
     empNo: '',
     empName: '',
@@ -123,13 +123,23 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
               onChange={(e) => onChange(e)}
             >
               <option value='0'>Select the department</option>
-              <option value='SE'>SE</option>
-              <option value='IT'>IT</option>
-              <option value='CSNE'>CSNE</option>
-              <option value='ISE'>ISE</option>
-              <option value='CS'>CS</option>
-              <option value='IM'>IM</option>
-              <option value='DS'>DS</option>
+              {/* If coordinator is of CSSE or is a FOC admin then render CSSE option */}
+              {(admin?.department === 'CSSE' ||
+                admin?.department === 'admin') && (
+                <option value='CSSE'>
+                  Computer Science & Software Engineering (CSSE)
+                </option>
+              )}
+              {/* If coordinator is of IT or is a FOC admin then render IT option */}
+              {(admin?.department === 'IT' ||
+                admin?.department === 'admin') && (
+                <option value='IT'>Information Technology (IT)</option>
+              )}
+              {/* If coordinator is of CSE or is a FOC admin then render CSE option */}
+              {(admin?.department === 'CSE' ||
+                admin?.department === 'admin') && (
+                <option value='CSE'>Computer Systems Engineering (CSE)</option>
+              )}
             </select>
           </div>
           <input type='submit' className='btn btn-primary' value='Confirm' />
@@ -145,6 +155,13 @@ const EmployeeManagement = ({ addEmployee, setAlert }) => {
 EmployeeManagement.propTypes = {
   addEmployee: PropTypes.func.isRequired,
   setAlert: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default connect(null, { addEmployee, setAlert })(EmployeeManagement);
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { addEmployee, setAlert })(
+  EmployeeManagement
+);

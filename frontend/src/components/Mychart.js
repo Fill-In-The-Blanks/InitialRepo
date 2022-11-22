@@ -33,7 +33,6 @@ function MyChart({ empNo }) {
     axios
       .get(`/api/timetable/getEmployeeTimeTable/${empNo}`)
       .then((body) => {
-        console.log(body.data.hours);
         setHours(body.data.hours);
         setData({
           labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],

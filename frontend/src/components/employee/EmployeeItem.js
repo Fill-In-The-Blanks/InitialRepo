@@ -43,13 +43,13 @@ const pdfGenerate = (e) => {
   });
 };
 
-const EmployeeItem = ({ employees, deleteEmployee }) => {
+const EmployeeItem = ({ employees, deleteEmployee, auth: { admin } }) => {
   const [value, SetValue] = useState('');
   const [dataSource, SetdataSource] = useState(employees);
   const [tableFilter, SetTableFilter] = useState([]);
 
   const filterData = (e) => {
-    if (e.target.value != '') {
+    if (e.target.value !== '') {
       SetValue(e.target.value);
       const filter = dataSource.filter((o) =>
         Object.keys(o).some((k) =>
@@ -81,7 +81,6 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
     });
   };
   const handleGraph = (index) => {
-    /* console.log(index) */
     let chart = document.getElementById(`chart-${index}`);
     if (chart.style.display === '') {
       chart.style.display = 'none';
@@ -90,106 +89,124 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
     }
   };
 
-  
-
-  const employeesMapped =  value.length > 0 ? tableFilter.map((employee,index) => (
-
-    <>  <tr key={employee._id}>
-      <td>{employee.empNo}</td>
-      <td>{employee.empName}</td>
-      <td>{employee.sliitEmail}</td>
-      <td>{employee.phone}</td>
-      <td>{employee.department}</td>
-      <td>{employee.vacancyStatus}</td>
-      <td>
-        {' '}
-        <button
-          className='btn btn-danger'
-          onClick={() => Delete(employee._id)}
-        >
-          <i className='fas fa-trash'></i>
-        </button>
-      </td>
-      <td>
-        <Link
-          to={`/updateEmployee/${employee._id}`}
-          className='btn btn-success'
-        >
-          <i className='fas fa-edit'></i>
-        </Link>
-
-      </td>
-      <td>
-    <Link to={`/ListAdminTime/${employee.empNo}`}>
-            <button className='btn btn-success'>
-  <i className='fas fa-calendar'></i></button>
-          </Link>
-    </td>
-    <td>
-        <button className='btn btn-primary' onClick = {()=>{
-      console.log(index)
-      handleGraph(index)}}>
-          Hours
-        </button>
-      </td>
-    </tr>
-      <tr>
-        <td colSpan={8} id={`chart-${index}`} style = {{display : "none" }} >
-        <MyChart empNo = {employee.empNo} />
-        </td>
-        </tr>
-        </>
-      
-    
-      
-          
-
-  )): employees.map((employee,index) => (
-   <> <tr key={employee._id}>
-      <td>{employee.empNo}</td>
-      <td>{employee.empName}</td>
-      <td>{employee.sliitEmail}</td>
-      <td>{employee.phone}</td>
-      <td>{employee.department}</td>
-      <td>{employee.vacancyStatus}</td>
-      <td>
-        {' '}
-        <button
-          className='btn btn-danger'
-          onClick={() => Delete(employee._id)}
-        >
-          <i className='fas fa-trash'></i>
-        </button>
-      </td>
-      <td>
-        <Link
-          to={`/updateEmployee/${employee._id}`}
-          className='btn btn-success'
-        >
-          <i className='fas fa-edit'></i>
-        </Link>
-      </td>
-      <td>
-    <Link to={`/ListAdminTime/${employee.empNo}`}>
-            <button className='btn btn-success'>
-  <i className='fas fa-calendar'></i></button>
-          </Link>
-    </td>
-      <td>
-        <button className='btn btn-primary' onClick = {()=>{
-      console.log(index)
-      handleGraph(index)}}>
-          Hours
-        </button>
-      </td>
-    </tr>
-      <tr>
-        <td colSpan={8} id={`chart-${index}`} style = {{display : "none" }} >
-        <MyChart empNo = {employee.empNo} />
-        </td>
-        </tr>
-        </>
-  ));
+  const employeesMapped =
+    value.length > 0
+      ? tableFilter.map((employee, index) => (
+          <>
+            {' '}
+            <tr key={employee._id}>
+              <td>{employee.empNo}</td>
+              <td>{employee.empName}</td>
+              <td>{employee.sliitEmail}</td>
+              <td>{employee.phone}</td>
+              <td>{employee.department}</td>
+              <td>{employee.vacancyStatus}</td>
+              {(admin?.department === 'admin' ||
+                admin?.department === employee.department) && (
+                <td>
+                  {/* {' '} */}
+                  <button
+                    className='btn btn-danger'
+                    onClick={() => Delete(employee._id)}
+                  >
+                    <i className='fas fa-trash'></i>
+                  </button>
+                </td>
+              )}
+              {(admin?.department === 'admin' ||
+                admin?.department === employee.department) && (
+                <td>
+                  <Link
+                    to={`/updateEmployee/${employee._id}`}
+                    className='btn btn-success'
+                  >
+                    <i className='fas fa-edit'></i>
+                  </Link>
+                </td>
+              )}
+              <td>
+                <Link to={`/ListAdminTime/${employee.empNo}`}>
+                  <button className='btn btn-success'>
+                    <i className='fas fa-calendar'></i>
+                  </button>
+                </Link>
+              </td>
+              <td>
+                <button
+                  className='btn btn-primary'
+                  onClick={() => {
+                    handleGraph(index);
+                  }}
+                >
+                  Hours
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan={8} id={`chart-${index}`} style={{ display: 'none' }}>
+                <MyChart empNo={employee.empNo} />
+              </td>
+            </tr>
+          </>
+        ))
+      : employees.map((employee, index) => (
+          <>
+            {' '}
+            <tr key={employee._id}>
+              <td>{employee.empNo}</td>
+              <td>{employee.empName}</td>
+              <td>{employee.sliitEmail}</td>
+              <td>{employee.phone}</td>
+              <td>{employee.department}</td>
+              <td>{employee.vacancyStatus}</td>
+              {(admin?.department === 'admin' ||
+                admin?.department === employee.department) && (
+                <td>
+                  {/* {' '} */}
+                  <button
+                    className='btn btn-danger'
+                    onClick={() => Delete(employee._id)}
+                  >
+                    <i className='fas fa-trash'></i>
+                  </button>
+                </td>
+              )}
+              {(admin?.department === 'admin' ||
+                admin?.department === employee.department) && (
+                <td>
+                  <Link
+                    to={`/updateEmployee/${employee._id}`}
+                    className='btn btn-success'
+                  >
+                    <i className='fas fa-edit'></i>
+                  </Link>
+                </td>
+              )}
+              <td>
+                <Link to={`/ListAdminTime/${employee.empNo}`}>
+                  <button className='btn btn-success'>
+                    <i className='fas fa-calendar'></i>
+                  </button>
+                </Link>
+              </td>
+              <td>
+                <button
+                  className='btn btn-primary'
+                  onClick={() => {
+                    handleGraph(index);
+                  }}
+                >
+                  Hours
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan={8} id={`chart-${index}`} style={{ display: 'none' }}>
+                <MyChart empNo={employee.empNo} />
+              </td>
+            </tr>
+          </>
+        ));
   return (
     <Fragment>
       <div className='search'>
@@ -237,11 +254,16 @@ const EmployeeItem = ({ employees, deleteEmployee }) => {
       </table>
     </Fragment>
   );
-  } 
+};
 
 EmployeeItem.propTypes = {
   employees: PropTypes.array.isRequired,
   deleteEmployee: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default connect(null, { deleteEmployee })(EmployeeItem);
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { deleteEmployee })(EmployeeItem);

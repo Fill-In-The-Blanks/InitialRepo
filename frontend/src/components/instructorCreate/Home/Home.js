@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import AdminUpdate from "../Admin/AdminUpdate";
-import AdminCreate from "../Admin/AdminCreate";
-import InstructorUpdate from "../Instructor/InstructorUpdate";
-import InstructorView from "../Instructor/InstuctorView";
-import InstructorCreate from "../Instructor/InstructorCreate";
-import AdminView from "../Admin/AdminView";
+import AdminUpdate from '../Admin/AdminUpdate';
+import AdminCreate from '../Admin/AdminCreate';
+import InstructorUpdate from '../Instructor/InstructorUpdate';
+import InstructorView from '../Instructor/InstuctorView';
+import InstructorCreate from '../Instructor/InstructorCreate';
+import AdminView from '../Admin/AdminView';
 
 const Home = () => {
-  const [currentTab, setCurrentTab] = useState("1");
+  const [currentTab, setCurrentTab] = useState('1');
 
   const tabs = [
     {
       id: 1,
-      tabTitle: "View All Admin",
+      tabTitle: 'View All Admins',
       content: (
         <div>
           <AdminView />
@@ -22,7 +22,7 @@ const Home = () => {
     },
     {
       id: 2,
-      tabTitle: "View All Instructors",
+      tabTitle: 'View All Instructors',
       content: (
         <div>
           <InstructorView />
@@ -31,9 +31,9 @@ const Home = () => {
     },
     {
       id: 3,
-      tabTitle: "Admin",
-      
-      title: "Create Admin",
+      tabTitle: 'Create Admin Account',
+
+      title: 'Create Admin',
       content: (
         <div>
           <AdminCreate />
@@ -42,8 +42,8 @@ const Home = () => {
     },
     {
       id: 4,
-      tabTitle: "Instructor",
-      title: "Create Instructor",
+      tabTitle: 'Create Instructor Account',
+      title: 'Create Instructor',
       content: (
         <div>
           <InstructorCreate />
@@ -52,8 +52,8 @@ const Home = () => {
     },
     {
       id: 5,
-      title: "Update Admin",
-      tabTitle: "Update Admin",
+      title: 'Update Admin',
+      tabTitle: 'Update Admin Account',
       content: (
         <div>
           <AdminUpdate />
@@ -62,8 +62,8 @@ const Home = () => {
     },
     {
       id: 6,
-      tabTitle: "Update Instructor",
-      title: "Update Instructor",
+      tabTitle: 'Update Instructor Account',
+      title: 'Update Instructor',
       content: (
         <div>
           <InstructorUpdate />
@@ -78,11 +78,11 @@ const Home = () => {
 
   return (
     <div>
-      <div className="myTabs">
-        <div className="tabs">
+      <div className='myTabs'>
+        <div className='tabs'>
           {tabs.map((tab, i) => (
             <button
-              className="btn btn-primary"
+              className='btn btn-primary'
               key={i}
               id={tab.id}
               disabled={currentTab === `${tab.id}`}
@@ -92,12 +92,12 @@ const Home = () => {
             </button>
           ))}
         </div>
-        <div className="content">
+        <div className='content'>
           {tabs.map((tab, i) => (
             <div key={i}>
               {currentTab === `${tab.id}` && (
                 <div>
-                  <h3 className="title">{tab.title}</h3>
+                  <h3 className='title'>{tab.title}</h3>
                   {tab.content}
                 </div>
               )}
