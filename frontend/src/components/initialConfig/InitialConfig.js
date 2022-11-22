@@ -4,8 +4,13 @@ import { addEmployees } from '../../actions/employee';
 import { addTimetableSheet } from '../../actions/timetable';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
 
-const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
+const InitialConfig = ({
+  addEmployees,
+  addTimetableSheet,
+  auth: { admin },
+}) => {
   const [instructorFormData, setInstructorFormData] = useState([]);
   const [timetableFormData, setTimetableFormData] = useState([]);
 
@@ -22,9 +27,38 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
     return hoursCalculated;
   }; */
 
+  // to check the separate the extension from a file and return only the extension
+  function getExtension(filename) {
+    return filename.split('.').pop();
+  }
+
   // Sam Lama's code - https://github.com/Rinlama/ReactTools/blob/readexcel/src/App.js
   // YouTube - https://www.youtube.com/watch?v=h33eakwu7oo
   const readInstructorExcel = (file) => {
+    // if admin is not an FOC, then don't allow upload
+    if (admin?.department !== 'admin') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Unauthorized',
+        text: "Only FOC Admin's can upload data sheets",
+      });
+      return;
+    }
+
+    // only allow xlsx, xlsx, and csv extensions
+    if (
+      getExtension(file['name']).toLowerCase() !== 'xlsx' ||
+      getExtension(file['name']).toLowerCase() !== 'xls' ||
+      getExtension(file['name']).toLowerCase() !== 'csv'
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'File Type Error',
+        text: 'Accepted files - XLSX, XLS, CSV',
+      });
+      return;
+    }
+
     const promise = new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(file);
@@ -55,6 +89,29 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
   };
 
   const readTimetableExcel = (file) => {
+    // if admin is not an FOC, then don't allow upload
+    if (admin?.department !== 'admin') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Unauthorized',
+        text: "Only FOC Admin's can upload data sheets",
+      });
+      return;
+    }
+
+    // only allow xlsx, xlsx, and csv extensions
+    if (
+      getExtension(file['name']).toLowerCase() !== 'xlsx' ||
+      getExtension(file['name']).toLowerCase() !== 'xls' ||
+      getExtension(file['name']).toLowerCase() !== 'csv'
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'File Type Error',
+        text: 'Accepted files - XLSX, XLS, CSV',
+      });
+      return;
+    }
     const promise = new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(file);
@@ -159,10 +216,6 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
           {timetableFormData.map((row) => (
             <tr key={row.startTime + row.dayOfTheWeek + row.group}>
               <td>
-                {/* {row.startTime[0] + row.startTime[1]}:
-                {row.startTime[2] + row.startTime[3]} -{' '}
-                {row.endTime[0] + row.endTime[1]}:
-                {row.endTime[2] + row.endTime[3]} */}
                 {row.startTime} - {row.endTime}
               </td>
               <td>{row.dayOfTheWeek}</td>
@@ -180,8 +233,13 @@ const InitialConfig = ({ addEmployees, addTimetableSheet }) => {
 InitialConfig.propTypes = {
   addEmployees: PropTypes.func.isRequired,
   addTimetableSheet: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default connect(null, { addEmployees, addTimetableSheet })(
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { addEmployees, addTimetableSheet })(
   InitialConfig
 );
