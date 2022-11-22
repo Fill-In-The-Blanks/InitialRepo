@@ -267,7 +267,6 @@ router.get('/getEmployeeTimeTable/:empNo', async (req, res) => {
     const slots = await Timetable.find({ empNo: empNo });
     slots.forEach((item) => {
       time[item.day] += item.hours;
-      console.log(item.hours);
     });
     let hours = [
       time.Monday,
@@ -276,7 +275,6 @@ router.get('/getEmployeeTimeTable/:empNo', async (req, res) => {
       time.Thursday,
       time.Friday,
     ];
-    console.log(hours);
     res.status(200).json({ hours: hours });
   } catch (error) {
     return res.status(500).json({ msg: 'Internal Server Error' });

@@ -19,11 +19,6 @@ const Employees = ({ getEmployees, employee: { employees, loading } }) => {
           {/* <i className='fas fa-user'></i> */} Employee Management
         </p>
 
-        {/* <Link to={`/employeeManagement`}>
-          <button className="btn btn-success" style={{ marginBottom: "5px" }}>
-            + Add New
-          </button>
-        </Link> */}
         {employees.length > 0 ? (
           <EmployeeItem employees={employees} />
         ) : (
