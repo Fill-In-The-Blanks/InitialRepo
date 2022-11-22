@@ -19,6 +19,7 @@ const UpdateEmployee = ({
   getEmployeeByID,
   updateEmployeeByID,
   employee: { employee, loading },
+  auth: { admin },
 }) => {
   const [formData, setFormData] = useState(initialState);
 
@@ -117,13 +118,21 @@ const UpdateEmployee = ({
             onChange={(e) => onChange(e)}
           >
             <option value='0'>* Select the department</option>
-            <option value='SE'>SE</option>
-            <option value='IT'>IT</option>
-            <option value='CSNE'>CSNE</option>
-            <option value='ISE'>ISE</option>
-            <option value='CS'>CS</option>
-            <option value='IM'>IM</option>
-            <option value='DS'>DS</option>
+            {/* If coordinator is of CSSE or is a FOC admin then render CSSE option */}
+            {(admin?.department === 'CSSE' ||
+              admin?.department === 'admin') && (
+              <option value='CSSE'>
+                Computer Science & Software Engineering (CSSE)
+              </option>
+            )}
+            {/* If coordinator is of IT or is a FOC admin then render IT option */}
+            {(admin?.department === 'IT' || admin?.department === 'admin') && (
+              <option value='IT'>Information Technology (IT)</option>
+            )}
+            {/* If coordinator is of CSE or is a FOC admin then render CSE option */}
+            {(admin?.department === 'CSE' || admin?.department === 'admin') && (
+              <option value='CSE'>Computer Systems Engineering (CSE)</option>
+            )}
           </select>
         </div>
 
@@ -145,10 +154,12 @@ UpdateEmployee.propTypes = {
   getEmployeeByID: PropTypes.func.isRequired,
   updateEmployeeByID: PropTypes.func.isRequired,
   employee: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   employee: state.employee,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
