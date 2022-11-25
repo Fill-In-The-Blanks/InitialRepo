@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -43,9 +43,26 @@ const pdfGenerate = (e) => {
   });
 };
 
-const EmployeeItem = ({ employees, deleteEmployee, auth: { admin } }) => {
+const EmployeeItem = ({
+  currentEmployees,
+  allEmployees,
+  deleteEmployee,
+  auth: { admin },
+}) => {
+  // currentEmployees -> the data of the current page
+  // allEmployees -> used for search bar filtering purposes
+
   const [value, SetValue] = useState('');
-  const [dataSource, SetdataSource] = useState(employees);
+
+  // holds the data for filtering by search
+  const [dataSource, SetdataSource] = useState(allEmployees);
+
+  // if new employee is added or updated then run this to update this component as well
+  useEffect(() => {
+    SetdataSource(allEmployees);
+  }, [dataSource, allEmployees]);
+
+  // holds the filtered data from dataSource
   const [tableFilter, SetTableFilter] = useState([]);
 
   const filterData = (e) => {
@@ -149,7 +166,7 @@ const EmployeeItem = ({ employees, deleteEmployee, auth: { admin } }) => {
             </tr>
           </>
         ))
-      : employees.map((employee, index) => (
+      : currentEmployees.map((employee, index) => (
           <>
             {' '}
             <tr key={employee._id}>
@@ -257,7 +274,8 @@ const EmployeeItem = ({ employees, deleteEmployee, auth: { admin } }) => {
 };
 
 EmployeeItem.propTypes = {
-  employees: PropTypes.array.isRequired,
+  currentEmployees: PropTypes.array.isRequired,
+  allEmployees: PropTypes.array.isRequired,
   deleteEmployee: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };

@@ -11,14 +11,19 @@ const Employees = ({ getEmployees, employee: { employees, loading } }) => {
   const [dataSource, SetdataSource] = useState([]);
 
   useEffect(() => {
-    getEmployees();
-    SetdataSource(employees);
+    if (
+      employees.length === 0 ||
+      JSON.stringify(dataSource) != JSON.stringify(employees)
+    ) {
+      getEmployees();
+      SetdataSource(employees);
+    }
   }, [getEmployees, employees]);
 
   // holds pagination page number
   const [currentPage, setCurrentPage] = useState(1);
   // no. of records per page
-  const [recordsPerPage] = useState(10);
+  const [recordsPerPage] = useState(20);
 
   // holds the last record in the current page
   const indexOfLastRecord = currentPage * recordsPerPage;
@@ -41,7 +46,10 @@ const Employees = ({ getEmployees, employee: { employees, loading } }) => {
 
         {dataSource.length > 0 ? (
           <Fragment>
-            <EmployeeItem employees={currentRecords} />
+            <EmployeeItem
+              currentEmployees={currentRecords}
+              allEmployees={dataSource}
+            />
             <Pagination
               nPages={nPages}
               currentPage={currentPage}

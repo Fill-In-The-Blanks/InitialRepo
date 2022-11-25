@@ -5,16 +5,43 @@ import Spinner from '../layout/Spinner';
 import { getSlots } from '../../actions/timetable';
 import TimetableItem from './TimetableItem';
 import SlotsConfirmationDialog from '../dialogBox/SlotsConfirmationDialog';
+import Pagination from '../Pagination';
 
 const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
+  // holds the list of slots
+  const [dataSource, SetdataSource] = useState([]);
+
   const [buttonStatus, setButtonStatus] = useState({
     delete: false,
   });
 
   useEffect(() => {
-    getSlots();
+    if (
+      slots.length === 0 ||
+      JSON.stringify(dataSource) !== JSON.stringify(slots)
+    ) {
+      getSlots();
+      SetdataSource(slots);
+    }
     buttonStatus.delete = false;
-  }, []);
+  }, [getSlots, slots]);
+
+  // holds pagination page number
+  const [currentPage, setCurrentPage] = useState(1);
+  // no. of records per page
+  const [recordsPerPage] = useState(100);
+
+  // holds the last record in the current page
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  // holds the first record in the current page
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  // holds the records of the current page
+  const currentRecords = dataSource.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
+  // calculate no. of pages needed to display all records
+  const nPages = Math.ceil(dataSource.length / recordsPerPage);
 
   return (
     <Fragment>
@@ -39,7 +66,18 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
               <i className='fas fa-trash'></i>
               {''} Delete All Slots{' '}
             </button>
-            {slots.length > 0 ? <TimetableItem slots={slots} /> : <Spinner />}
+            {dataSource.length > 0 ? (
+              <Fragment>
+                <Pagination
+                  nPages={nPages}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
+                <TimetableItem currentSlots={currentRecords} allSlots={slots} />
+              </Fragment>
+            ) : (
+              <Spinner />
+            )}
           </Fragment>
         )}
       </section>

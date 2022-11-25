@@ -93,11 +93,13 @@ export const updateVenueByID = (ID, formData, navigate) => async (dispatch) => {
       showConfirmButton: false,
       timer: 1500,
     });
-    navigate('/ListVenues');
+
     dispatch({
-      type: GET_VENUES,
+      type: GET_VENUE,
       payload: res.data,
     });
+
+    navigate('/ListVenues');
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

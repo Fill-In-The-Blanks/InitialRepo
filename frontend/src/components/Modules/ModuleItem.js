@@ -41,14 +41,18 @@ const pdfGenerate = (e) => {
     timer: 1500,
   });
 };
-const ModuleItem = ({ module, deleteModule }) => {
+const ModuleItem = ({ currentModules, allModules, deleteModule }) => {
   const [value, SetValue] = useState('');
-  const [dataSource, SetdataSource] = useState(module);
+
+  const [dataSource, SetdataSource] = useState(allModules);
+  useEffect(() => {
+    SetdataSource(allModules);
+  }, [dataSource, allModules]);
+
   const [tableFilter, SetTableFilter] = useState([]);
-  //const [sortvalue,SetsortValue]=useState('');
 
   const filterData = (e) => {
-    if (e.target.value != '') {
+    if (e.target.value !== '') {
       SetValue(e.target.value);
       const filter = dataSource.filter((o) =>
         Object.keys(o).some((k) =>
@@ -93,7 +97,6 @@ const ModuleItem = ({ module, deleteModule }) => {
       ? tableFilter.map((mod) => (
           <tr key={mod._id}>
             <td>{mod.moduleName}</td>
-            {/* <td>{mod.ModuleID}</td> */}
             <td>{mod.specialization}</td>
             <td>{mod.year}</td>
             <td>{mod.semester}</td>
@@ -123,10 +126,9 @@ const ModuleItem = ({ module, deleteModule }) => {
             </td>
           </tr>
         ))
-      : module.map((mod) => (
+      : currentModules.map((mod) => (
           <tr key={mod._id}>
             <td>{mod.moduleName}</td>
-            {/* <td>{mod.ModuleID}</td> */}
             <td>{mod.specialization}</td>
             <td>{mod.year}</td>
             <td>{mod.semester}</td>
@@ -212,7 +214,7 @@ const ModuleItem = ({ module, deleteModule }) => {
         <i className='fas fa-file-download'></i> PDF
       </button>
 
-      <table className='table' id='module-table'>
+      <table className='table' id='currentModules-table'>
         <thead>
           <tr>
             {/* <th>Module Name</th> */}
@@ -237,7 +239,8 @@ const ModuleItem = ({ module, deleteModule }) => {
 };
 
 ModuleItem.propTypes = {
-  module: PropTypes.array.isRequired,
+  currentModules: PropTypes.array.isRequired,
+  allModules: PropTypes.array.isRequired,
   deleteModule: PropTypes.func.isRequired,
 };
 
