@@ -42,7 +42,14 @@ const pdfGenerate = (e) => {
     timer: 1500,
   });
 };
-const TimetableItem = ({ allSlots, currentSlots, deleteSlot, getSlots }) => {
+const TimetableItem = ({
+  allSlots,
+  currentSlots,
+  state,
+  setState,
+  deleteSlot,
+  getSlots,
+}) => {
   // currentSlots -> the slots of the current page due to pagination
   // allSlots -> all slots for search bar filtering purposes
 
@@ -97,6 +104,11 @@ const TimetableItem = ({ allSlots, currentSlots, deleteSlot, getSlots }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setState(!state);
   };
 
   const slotsMapped =
@@ -202,6 +214,12 @@ const TimetableItem = ({ allSlots, currentSlots, deleteSlot, getSlots }) => {
       <button className='btn btn-success' onClick={pdfGenerate}>
         <i className='fas fa-file-download'></i> PDF
       </button>
+
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {state ? 'View Paginated Data' : 'View All Data'}
+      </button>
+
       <table className='table' id='timelist'>
         <thead>
           <tr>

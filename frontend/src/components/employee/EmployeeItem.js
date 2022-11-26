@@ -46,6 +46,8 @@ const pdfGenerate = (e) => {
 const EmployeeItem = ({
   currentEmployees,
   allEmployees,
+  state,
+  setState,
   deleteEmployee,
   auth: { admin },
 }) => {
@@ -106,11 +108,15 @@ const EmployeeItem = ({
     }
   };
 
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setState(!state);
+  };
+
   const employeesMapped =
     value.length > 0
       ? tableFilter.map((employee, index) => (
           <>
-            {' '}
             <tr key={employee._id}>
               <td>{employee.empNo}</td>
               <td>{employee.empName}</td>
@@ -121,7 +127,6 @@ const EmployeeItem = ({
               {(admin?.department === 'admin' ||
                 admin?.department === employee.department) && (
                 <td>
-                  {/* {' '} */}
                   <button
                     className='btn btn-danger'
                     onClick={() => Delete(employee._id)}
@@ -168,7 +173,6 @@ const EmployeeItem = ({
         ))
       : currentEmployees.map((employee, index) => (
           <>
-            {' '}
             <tr key={employee._id}>
               <td>{employee.empNo}</td>
               <td>{employee.empName}</td>
@@ -179,7 +183,6 @@ const EmployeeItem = ({
               {(admin?.department === 'admin' ||
                 admin?.department === employee.department) && (
                 <td>
-                  {/* {' '} */}
                   <button
                     className='btn btn-danger'
                     onClick={() => Delete(employee._id)}
@@ -242,6 +245,11 @@ const EmployeeItem = ({
 
       <button className='btn btn-success' onClick={pdfGenerate}>
         <i className='fas fa-file-download'></i> PDF
+      </button>
+
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {state ? 'View Paginated Data' : 'View All Data'}
       </button>
 
       <table className='table' id='employee-table'>

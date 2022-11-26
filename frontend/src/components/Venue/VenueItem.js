@@ -41,7 +41,13 @@ const pdfGenerate = (e) => {
     timer: 1500,
   });
 };
-const VenueItem = ({ allVenues, currentVenues, deleteVenue }) => {
+const VenueItem = ({
+  allVenues,
+  currentVenues,
+  state,
+  setState,
+  deleteVenue,
+}) => {
   // currentVenues -> the data of the current page
   // allVenues -> use for search bar filtering
 
@@ -85,6 +91,11 @@ const VenueItem = ({ allVenues, currentVenues, deleteVenue }) => {
         Swal.fire('Deleted!', 'Venue has been deleted.', 'success');
       }
     });
+  };
+
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setState(!state);
   };
 
   const venues =
@@ -156,6 +167,11 @@ const VenueItem = ({ allVenues, currentVenues, deleteVenue }) => {
       </Link>
       <button className='btn btn-success' onClick={pdfGenerate}>
         <i className='fas fa-file-download'></i> PDF
+      </button>
+
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {state ? 'View Paginated Data' : 'View All Data'}
       </button>
 
       <table className='table' id='venuetable'>

@@ -14,6 +14,9 @@ const ListVenue = ({
   // holds the list of venues
   const [dataSource, SetdataSource] = useState([]);
 
+  // to handle switching between rendering only paginated data or whole data
+  const [renderWhole, setDataRender] = useState(false);
+
   useEffect(() => {
     if (
       venues.length === 0 ||
@@ -44,18 +47,32 @@ const ListVenue = ({
   return (
     <Fragment>
       <section className='container container-margin-top-override'>
-        <p className='lead'>
-          {/* <i className='fas fa-user'></i> */} Venue Management
-        </p>
+        <p className='lead'>Venue Management</p>
         {dataSource.length > 0 ? (
-          <Fragment>
-            <VenueItem allVenues={venues} currentVenues={currentRecords} />
-            <Pagination
-              nPages={nPages}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </Fragment>
+          renderWhole ? (
+            <Fragment>
+              <VenueItem
+                allVenues={venues}
+                currentVenues={venues}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+            </Fragment>
+          ) : (
+            <Fragment>
+              <VenueItem
+                allVenues={venues}
+                currentVenues={currentRecords}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+              <Pagination
+                nPages={nPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </Fragment>
+          )
         ) : (
           <h4>No Venues found</h4>
         )}

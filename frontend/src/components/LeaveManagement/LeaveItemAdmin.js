@@ -45,6 +45,8 @@ const pdfGenerate = (e) => {
 const LeaveItemAdmmin = ({
   allLeaves,
   currentLeaves,
+  state,
+  setState,
   updatestatusByID,
   deleteAllLeaves,
 }) => {
@@ -125,6 +127,11 @@ const LeaveItemAdmmin = ({
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setState(!state);
   };
 
   const leaves =
@@ -249,6 +256,12 @@ const LeaveItemAdmmin = ({
       <button className='btn btn-success' onClick={pdfGenerate}>
         <i className='fas fa-file-download'></i> PDF
       </button>
+
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {state ? 'View Paginated Data' : 'View All Data'}
+      </button>
+
       <table className='table' id='leavetable'>
         <thead>
           <tr>

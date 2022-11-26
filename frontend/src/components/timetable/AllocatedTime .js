@@ -165,8 +165,6 @@ function AllocatedTime() {
       <button className='btn btn-success ' onClick={pdfGenerate}>
         <i className='fas fa-file-download'></i>PDF
       </button>
-      {/* Adhil - add excel generation button here */}
-      {/* Nuzha - add pdf generation button here */}
       <button className='btn btn-success ' onClick={excelGenerate}>
         Excel
       </button>

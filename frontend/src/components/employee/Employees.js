@@ -10,6 +10,9 @@ const Employees = ({ getEmployees, employee: { employees, loading } }) => {
   // holds the list of employees
   const [dataSource, SetdataSource] = useState([]);
 
+  // to handle switching between rendering only paginated data or whole data
+  const [renderWhole, setDataRender] = useState(false);
+
   useEffect(() => {
     if (
       employees.length === 0 ||
@@ -45,17 +48,30 @@ const Employees = ({ getEmployees, employee: { employees, loading } }) => {
         <p className='lead'>Employee Management</p>
 
         {dataSource.length > 0 ? (
-          <Fragment>
-            <EmployeeItem
-              currentEmployees={currentRecords}
-              allEmployees={dataSource}
-            />
-            <Pagination
-              nPages={nPages}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </Fragment>
+          renderWhole ? (
+            <Fragment>
+              <EmployeeItem
+                currentEmployees={dataSource}
+                allEmployees={dataSource}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+            </Fragment>
+          ) : (
+            <Fragment>
+              <EmployeeItem
+                currentEmployees={currentRecords}
+                allEmployees={dataSource}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+              <Pagination
+                nPages={nPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </Fragment>
+          )
         ) : (
           <h4>No employees found</h4>
         )}

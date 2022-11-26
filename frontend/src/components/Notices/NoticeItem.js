@@ -44,7 +44,13 @@ const pdfGenerate = (e) => {
   });
 };
 
-const NoticeItem = ({ allNotices, currentNotices, deleteNotice }) => {
+const NoticeItem = ({
+  allNotices,
+  currentNotices,
+  state,
+  setState,
+  deleteNotice,
+}) => {
   const sendReminder = (notice) => {
     Swal.fire({
       title: 'Do you want to send Reminders?',
@@ -113,6 +119,11 @@ const NoticeItem = ({ allNotices, currentNotices, deleteNotice }) => {
     });
   };
 
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setState(!state);
+  };
+
   const noticeMapped =
     value.length > 0
       ? tableFilter.map((notice, index) => (
@@ -179,6 +190,11 @@ const NoticeItem = ({ allNotices, currentNotices, deleteNotice }) => {
       </Link>
       <button className='btn btn-success' onClick={pdfGenerate}>
         <i className='fas fa-file-download'></i> PDF
+      </button>
+
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {state ? 'View Paginated Data' : 'View All Data'}
       </button>
 
       <table className='table' id='noticetable'>

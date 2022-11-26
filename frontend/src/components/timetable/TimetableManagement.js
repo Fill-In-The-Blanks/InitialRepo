@@ -11,6 +11,9 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
   // holds the list of slots
   const [dataSource, SetdataSource] = useState([]);
 
+  // to handle switching between rendering only paginated data or whole data
+  const [renderWhole, setDataRender] = useState(false);
+
   const [buttonStatus, setButtonStatus] = useState({
     delete: false,
   });
@@ -67,14 +70,30 @@ const TimetableManagement = ({ getSlots, timetable: { slots } }) => {
               {''} Delete All Slots{' '}
             </button>
             {dataSource.length > 0 ? (
-              <Fragment>
-                <Pagination
-                  nPages={nPages}
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                />
-                <TimetableItem currentSlots={currentRecords} allSlots={slots} />
-              </Fragment>
+              renderWhole ? (
+                <Fragment>
+                  <TimetableItem
+                    currentSlots={slots}
+                    allSlots={slots}
+                    state={renderWhole}
+                    setState={setDataRender}
+                  />
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Pagination
+                    nPages={nPages}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                  />
+                  <TimetableItem
+                    currentSlots={currentRecords}
+                    allSlots={slots}
+                    state={renderWhole}
+                    setState={setDataRender}
+                  />
+                </Fragment>
+              )
             ) : (
               <Spinner />
             )}

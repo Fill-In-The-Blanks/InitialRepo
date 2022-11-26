@@ -41,7 +41,13 @@ const pdfGenerate = (e) => {
     timer: 1500,
   });
 };
-const ModuleItem = ({ currentModules, allModules, deleteModule }) => {
+const ModuleItem = ({
+  currentModules,
+  allModules,
+  state,
+  setState,
+  deleteModule,
+}) => {
   const [value, SetValue] = useState('');
 
   const [dataSource, SetdataSource] = useState(allModules);
@@ -90,6 +96,11 @@ const ModuleItem = ({ currentModules, allModules, deleteModule }) => {
       (module) => module.specialization === value
     );
     SetTableFilter([...filterData]);
+  };
+
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setState(!state);
   };
 
   const modules =
@@ -214,7 +225,12 @@ const ModuleItem = ({ currentModules, allModules, deleteModule }) => {
         <i className='fas fa-file-download'></i> PDF
       </button>
 
-      <table className='table' id='currentModules-table'>
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {state ? 'View Paginated Data' : 'View All Data'}
+      </button>
+
+      <table className='table' id='module-table'>
         <thead>
           <tr>
             {/* <th>Module Name</th> */}

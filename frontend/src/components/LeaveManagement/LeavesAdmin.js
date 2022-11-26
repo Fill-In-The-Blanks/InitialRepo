@@ -13,6 +13,9 @@ const ListLeaves = ({
   // holds the list of leaves from instructors
   const [dataSource, SetdataSource] = useState([]);
 
+  // to handle switching between rendering only paginated data or whole data
+  const [renderWhole, setDataRender] = useState(false);
+
   useEffect(() => {
     if (
       leaves.length === 0 ||
@@ -44,14 +47,30 @@ const ListLeaves = ({
     <Fragment>
       <div>
         {dataSource.length > 0 ? (
-          <Fragment>
-            <LeaveItemAdmin allLeaves={leaves} currentLeaves={currentRecords} />
-            <Pagination
-              nPages={nPages}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </Fragment>
+          renderWhole ? (
+            <Fragment>
+              <LeaveItemAdmin
+                allLeaves={leaves}
+                currentLeaves={leaves}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+            </Fragment>
+          ) : (
+            <Fragment>
+              <LeaveItemAdmin
+                allLeaves={leaves}
+                currentLeaves={currentRecords}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+              <Pagination
+                nPages={nPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </Fragment>
+          )
         ) : (
           <p className='lead'>No Leaves Found</p>
         )}

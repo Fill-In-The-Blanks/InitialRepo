@@ -11,6 +11,9 @@ const Notices = ({ getNotices, notice: { notices, loading } }) => {
   // holds the list of notices
   const [dataSource, SetdataSource] = useState([]);
 
+  // to handle switching between rendering only paginated data or whole data
+  const [renderWhole, setDataRender] = useState(false);
+
   useEffect(() => {
     if (
       notices.length === 0 ||
@@ -46,14 +49,30 @@ const Notices = ({ getNotices, notice: { notices, loading } }) => {
         <p className='lead'>Notice Management</p>
 
         {dataSource.length > 0 ? (
-          <Fragment>
-            <NoticeItem allNotices={notices} currentNotices={currentRecords} />
-            <Pagination
-              nPages={nPages}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </Fragment>
+          renderWhole ? (
+            <Fragment>
+              <NoticeItem
+                allNotices={notices}
+                currentNotices={notices}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+            </Fragment>
+          ) : (
+            <Fragment>
+              <NoticeItem
+                allNotices={notices}
+                currentNotices={currentRecords}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+              <Pagination
+                nPages={nPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </Fragment>
+          )
         ) : (
           <h4>No notices found</h4>
         )}

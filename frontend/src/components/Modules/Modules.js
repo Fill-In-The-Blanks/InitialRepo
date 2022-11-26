@@ -14,6 +14,9 @@ const List = ({
   // holds the list of modules
   const [dataSource, SetdataSource] = useState([]);
 
+  // to handle switching between rendering only paginated data or whole data
+  const [renderWhole, setDataRender] = useState(false);
+
   useEffect(() => {
     if (
       modules.length == 0 ||
@@ -45,14 +48,30 @@ const List = ({
     <Fragment>
       <div>
         {dataSource.length > 0 ? (
-          <Fragment>
-            <ModuleItem currentModules={currentRecords} allModules={modules} />
-            <Pagination
-              nPages={nPages}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </Fragment>
+          renderWhole ? (
+            <Fragment>
+              <ModuleItem
+                currentModules={modules}
+                allModules={modules}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+            </Fragment>
+          ) : (
+            <Fragment>
+              <ModuleItem
+                currentModules={currentRecords}
+                allModules={modules}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+              <Pagination
+                nPages={nPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </Fragment>
+          )
         ) : (
           <h4>No modules found</h4>
         )}
