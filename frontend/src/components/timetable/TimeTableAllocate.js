@@ -767,9 +767,9 @@ const TimeTableAllocate = ({
         </button>
       )}
 
-      <Link to='/allocatedSlot'>
-        {module && <button className='btn btn-success'>Allocated Slots</button>}
-      </Link>
+      {/* <Link to='/allocatedSlot'>
+        <button className='btn btn-success'>Allocated Slots</button>
+      </Link> */}
 
       <h2 className='d-flex justify-content-center m-1'>Selected Slots</h2>
       <table className='table'>

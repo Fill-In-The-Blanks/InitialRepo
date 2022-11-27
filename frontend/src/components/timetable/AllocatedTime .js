@@ -6,9 +6,13 @@ import XLSX from 'sheetjs-style';
 import autoTable from 'jspdf-autotable';
 import jsPDF from 'jspdf';
 import Swal from 'sweetalert2';
+import Pagination from '../Pagination';
 
 function AllocatedTime() {
+  // holds the total hours allocated to each instructor
   const [emphour, setEmphours] = useState([]);
+
+  // holds all the allocation records
   const [timeTable, setTimeTable] = useState([]);
 
   useEffect(() => {
@@ -17,6 +21,20 @@ function AllocatedTime() {
       .then((body) => setTimeTable(body.data))
       .catch((err) => console.log(err));
   }, []);
+
+  // holds pagination page number
+  const [currentPage, setCurrentPage] = useState(1);
+  // no. of records per page
+  const [recordsPerPage] = useState(5);
+
+  // holds the last record in the current page
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  // holds the first record in the current page
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  // holds the records of the current page
+  const currentRecords = timeTable.slice(indexOfFirstRecord, indexOfLastRecord);
+  // calculate no. of pages needed to display all records
+  const nPages = Math.ceil(timeTable.length / recordsPerPage);
 
   // displays a sweet alert for deletion
   const handleDelete = (item) => {
@@ -128,7 +146,7 @@ function AllocatedTime() {
           </thead>
           <tbody>
             {timeTable
-              ? timeTable.map((item) => {
+              ? currentRecords.map((item) => {
                   return (
                     <tr>
                       <td>{item.startTime}</td>
@@ -162,6 +180,13 @@ function AllocatedTime() {
           </tbody>
         </table>
       )}
+
+      <Pagination
+        nPages={nPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+
       <button className='btn btn-success ' onClick={pdfGenerate}>
         <i className='fas fa-file-download'></i>PDF
       </button>
