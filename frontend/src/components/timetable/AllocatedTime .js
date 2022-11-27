@@ -15,6 +15,9 @@ function AllocatedTime() {
   // holds all the allocation records
   const [timeTable, setTimeTable] = useState([]);
 
+  // to handle switching between rendering only paginated data or whole data
+  const [renderWhole, setDataRender] = useState(false);
+
   useEffect(() => {
     axios
       .get('/api/timetable/getTimeTable')
@@ -25,7 +28,7 @@ function AllocatedTime() {
   // holds pagination page number
   const [currentPage, setCurrentPage] = useState(1);
   // no. of records per page
-  const [recordsPerPage] = useState(5);
+  const [recordsPerPage] = useState(20);
 
   // holds the last record in the current page
   const indexOfLastRecord = currentPage * recordsPerPage;
