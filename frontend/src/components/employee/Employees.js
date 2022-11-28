@@ -1,26 +1,77 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
+import Pagination from '../Pagination';
 import { connect } from 'react-redux';
 import { getEmployees } from '../../actions/employee';
 import EmployeeItem from './EmployeeItem';
 import Spinner from '../layout/Spinner';
 
 const Employees = ({ getEmployees, employee: { employees, loading } }) => {
+  // holds the list of employees
+  const [dataSource, SetdataSource] = useState([]);
+
+  // to handle switching between rendering only paginated data or whole data
+  const [renderWhole, setDataRender] = useState(false);
+
   useEffect(() => {
-    getEmployees();
-  }, []);
+    if (
+      employees.length === 0 ||
+      JSON.stringify(dataSource) != JSON.stringify(employees)
+    ) {
+      getEmployees();
+      SetdataSource(employees);
+    }
+  }, [getEmployees, employees]);
+
+  // holds pagination page number
+  const [currentPage, setCurrentPage] = useState(1);
+  // no. of records per page
+  const [recordsPerPage] = useState(20);
+
+  // holds the last record in the current page
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  // holds the first record in the current page
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  // holds the records of the current page
+  const currentRecords = dataSource.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
+  // calculate no. of pages needed to display all records
+  const nPages = Math.ceil(dataSource.length / recordsPerPage);
+
   return loading ? (
     <Spinner />
   ) : (
     <Fragment>
       <section className='container container-margin-top-override'>
-        <p className='lead'>
-          {/* <i className='fas fa-user'></i> */} Employee Management
-        </p>
+        <p className='lead'>Employee Management</p>
 
-        {employees.length > 0 ? (
-          <EmployeeItem employees={employees} />
+        {dataSource.length > 0 ? (
+          renderWhole ? (
+            <Fragment>
+              <EmployeeItem
+                currentEmployees={dataSource}
+                allEmployees={dataSource}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+            </Fragment>
+          ) : (
+            <Fragment>
+              <EmployeeItem
+                currentEmployees={currentRecords}
+                allEmployees={dataSource}
+                state={renderWhole}
+                setState={setDataRender}
+              />
+              <Pagination
+                nPages={nPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </Fragment>
+          )
         ) : (
           <h4>No employees found</h4>
         )}

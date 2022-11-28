@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -41,9 +41,24 @@ const pdfGenerate = (e) => {
     timer: 1500,
   });
 };
-const VenueItem = ({ venue, deleteVenue }) => {
+const VenueItem = ({
+  allVenues,
+  currentVenues,
+  state,
+  setState,
+  deleteVenue,
+}) => {
+  // currentVenues -> the data of the current page
+  // allVenues -> use for search bar filtering
+
   const [value, SetValue] = useState('');
-  const [dataSource, SetdataSource] = useState(venue);
+
+  // holds the data for filtering by search
+  const [dataSource, SetdataSource] = useState(allVenues);
+  useEffect(() => {
+    SetdataSource(allVenues);
+  }, [dataSource, allVenues]);
+
   const [tableFilter, SetTableFilter] = useState([]);
 
   const filterData = (e) => {
@@ -78,6 +93,11 @@ const VenueItem = ({ venue, deleteVenue }) => {
     });
   };
 
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setState(!state);
+  };
+
   const venues =
     value.length > 0
       ? tableFilter.map((ven) => (
@@ -106,7 +126,7 @@ const VenueItem = ({ venue, deleteVenue }) => {
             </td>
           </tr>
         ))
-      : venue.map((ven) => (
+      : currentVenues.map((ven) => (
           <tr key={ven._id}>
             <td>{ven.vName}</td>
             <td>{ven.vID}</td>
@@ -149,6 +169,11 @@ const VenueItem = ({ venue, deleteVenue }) => {
         <i className='fas fa-file-download'></i> PDF
       </button>
 
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {state ? 'View Paginated Data' : 'View All Data'}
+      </button>
+
       <table className='table' id='venuetable'>
         <thead>
           <tr>
@@ -177,7 +202,8 @@ const VenueItem = ({ venue, deleteVenue }) => {
 };
 
 VenueItem.propTypes = {
-  Venue: PropTypes.array.isRequired,
+  allVenues: PropTypes.array.isRequired,
+  currentVenues: PropTypes.array.isRequired,
   deleteVenue: PropTypes.func.isRequired,
 };
 

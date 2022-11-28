@@ -6,10 +6,17 @@ import XLSX from 'sheetjs-style';
 import autoTable from 'jspdf-autotable';
 import jsPDF from 'jspdf';
 import Swal from 'sweetalert2';
+import Pagination from '../Pagination';
 
 function AllocatedTime() {
+  // holds the total hours allocated to each instructor
   const [emphour, setEmphours] = useState([]);
+
+  // holds all the allocation records
   const [timeTable, setTimeTable] = useState([]);
+
+  // to handle switching between rendering only paginated data or whole data
+  const [renderWhole, setDataRender] = useState(false);
 
   useEffect(() => {
     axios
@@ -17,6 +24,20 @@ function AllocatedTime() {
       .then((body) => setTimeTable(body.data))
       .catch((err) => console.log(err));
   }, []);
+
+  // holds pagination page number
+  const [currentPage, setCurrentPage] = useState(1);
+  // no. of records per page
+  const [recordsPerPage] = useState(20);
+
+  // holds the last record in the current page
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  // holds the first record in the current page
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  // holds the records of the current page
+  const currentRecords = timeTable.slice(indexOfFirstRecord, indexOfLastRecord);
+  // calculate no. of pages needed to display all records
+  const nPages = Math.ceil(timeTable.length / recordsPerPage);
 
   // displays a sweet alert for deletion
   const handleDelete = (item) => {
@@ -107,11 +128,20 @@ function AllocatedTime() {
     });
   }, [timeTable, emphour]);
 
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setDataRender(!renderWhole);
+  };
+
   return (
     <div>
       {timeTable && (
         <h2 className='d-flex justify-content-center m-1'>Allocated Slots</h2>
       )}
+      <p style={{ color: 'red' }}>
+        If 'Total Instructor Hours' column isn't displaying data then click on
+        the 'View All/Paginated Data' button please
+      </p>
       {timeTable && (
         <table className='table' id='allocatedSlots'>
           <thead>
@@ -127,48 +157,91 @@ function AllocatedTime() {
             </tr>
           </thead>
           <tbody>
+            {/* If timetable is received then check if we have to render whole data. If we have timetable but don't have to display whole data, then data will be displayed in a paginated way. If we don't have timetable then 'No timetable data' will be displayed */}
             {timeTable
-              ? timeTable.map((item) => {
-                  return (
-                    <tr>
-                      <td>{item.startTime}</td>
-                      <td>{item.endTime}</td>
-                      <td>{item.day}</td>
-                      <td>{item.batch}</td>
-                      <td>{item.empName}</td>
-                      <td>
-                        {emphour.map((item3) => {
-                          if (item.empNo === item3.empNo) {
-                            return <p>{item3.hours}</p>;
-                          }
-                        })}
-                      </td>
-                      <td>{item.module}</td>
-                      <td>{item.venue}</td>
-                      <td>
-                        <button
-                          className='btn btn-danger'
-                          onClick={() => {
-                            handleDelete(item);
-                          }}
-                        >
-                          <i className='fas fa-trash'></i>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
-              : 'hello'}
+              ? renderWhole
+                ? timeTable.map((item) => {
+                    return (
+                      <tr>
+                        <td>{item.startTime}</td>
+                        <td>{item.endTime}</td>
+                        <td>{item.day}</td>
+                        <td>{item.batch}</td>
+                        <td>{item.empName}</td>
+                        <td>
+                          {emphour.map((item3) => {
+                            if (item.empNo === item3.empNo) {
+                              return <p>{item3.hours}</p>;
+                            }
+                          })}
+                        </td>
+                        <td>{item.module}</td>
+                        <td>{item.venue}</td>
+                        <td>
+                          <button
+                            className='btn btn-danger'
+                            onClick={() => {
+                              handleDelete(item);
+                            }}
+                          >
+                            <i className='fas fa-trash'></i>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : currentRecords.map((item) => {
+                    return (
+                      <tr>
+                        <td>{item.startTime}</td>
+                        <td>{item.endTime}</td>
+                        <td>{item.day}</td>
+                        <td>{item.batch}</td>
+                        <td>{item.empName}</td>
+                        <td>
+                          {emphour.map((item3) => {
+                            if (item.empNo === item3.empNo) {
+                              return <p>{item3.hours}</p>;
+                            }
+                          })}
+                        </td>
+                        <td>{item.module}</td>
+                        <td>{item.venue}</td>
+                        <td>
+                          <button
+                            className='btn btn-danger'
+                            onClick={() => {
+                              handleDelete(item);
+                            }}
+                          >
+                            <i className='fas fa-trash'></i>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+              : 'No timetable data'}
           </tbody>
         </table>
       )}
+
+      {!renderWhole && (
+        <Pagination
+          nPages={nPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
+
       <button className='btn btn-success ' onClick={pdfGenerate}>
         <i className='fas fa-file-download'></i>PDF
       </button>
-      {/* Adhil - add excel generation button here */}
-      {/* Nuzha - add pdf generation button here */}
       <button className='btn btn-success ' onClick={excelGenerate}>
         Excel
+      </button>
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {renderWhole ? 'View Paginated Data' : 'View All Data'}
       </button>
     </div>
   );

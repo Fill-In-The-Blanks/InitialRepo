@@ -64,14 +64,16 @@ const TimeTableAllocate = ({
       hours = item.hours;
       let index = emphour.findIndex((item2) => item2.empNo === item.empNo);
       if (index === -1) {
-        if (hours > 1) {
+        // did he purposely put this code here to mess with the total time calculation in the allocation table?
+        /* if (hours > 1) {
           hours = 1;
-        }
+        } */
         emphour.push({ empNo: item.empNo, hours: item.hours });
       } else {
-        if (hours > 1) {
+        // did he purposely put this code here to mess with the total time calculation in the allocation table?
+        /* if (hours > 1) {
           hours = 1;
-        }
+        } */
         let new_hours = emphour[index].hours + hours;
         emphour[index] = {
           empNo: item.empNo,
@@ -766,7 +768,7 @@ const TimeTableAllocate = ({
       )}
 
       <Link to='/allocatedSlot'>
-        {module && <button className='btn btn-success'>Allocated Slots</button>}
+        <button className='btn btn-success'>Allocated Slots</button>
       </Link>
 
       <h2 className='d-flex justify-content-center m-1'>Selected Slots</h2>
