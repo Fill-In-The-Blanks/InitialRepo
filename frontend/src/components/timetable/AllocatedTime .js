@@ -128,11 +128,20 @@ function AllocatedTime() {
     });
   }, [timeTable, emphour]);
 
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setDataRender(!renderWhole);
+  };
+
   return (
     <div>
       {timeTable && (
         <h2 className='d-flex justify-content-center m-1'>Allocated Slots</h2>
       )}
+      <p style={{ color: 'red' }}>
+        If 'Total Instructor Hours' column isn't displaying data then click on
+        the 'View All/Paginated Data' button please
+      </p>
       {timeTable && (
         <table className='table' id='allocatedSlots'>
           <thead>
@@ -148,53 +157,91 @@ function AllocatedTime() {
             </tr>
           </thead>
           <tbody>
+            {/* If timetable is received then check if we have to render whole data. If we have timetable but don't have to display whole data, then data will be displayed in a paginated way. If we don't have timetable then 'No timetable data' will be displayed */}
             {timeTable
-              ? currentRecords.map((item) => {
-                  return (
-                    <tr>
-                      <td>{item.startTime}</td>
-                      <td>{item.endTime}</td>
-                      <td>{item.day}</td>
-                      <td>{item.batch}</td>
-                      <td>{item.empName}</td>
-                      <td>
-                        {emphour.map((item3) => {
-                          if (item.empNo === item3.empNo) {
-                            return <p>{item3.hours}</p>;
-                          }
-                        })}
-                      </td>
-                      <td>{item.module}</td>
-                      <td>{item.venue}</td>
-                      <td>
-                        <button
-                          className='btn btn-danger'
-                          onClick={() => {
-                            handleDelete(item);
-                          }}
-                        >
-                          <i className='fas fa-trash'></i>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
-              : 'hello'}
+              ? renderWhole
+                ? timeTable.map((item) => {
+                    return (
+                      <tr>
+                        <td>{item.startTime}</td>
+                        <td>{item.endTime}</td>
+                        <td>{item.day}</td>
+                        <td>{item.batch}</td>
+                        <td>{item.empName}</td>
+                        <td>
+                          {emphour.map((item3) => {
+                            if (item.empNo === item3.empNo) {
+                              return <p>{item3.hours}</p>;
+                            }
+                          })}
+                        </td>
+                        <td>{item.module}</td>
+                        <td>{item.venue}</td>
+                        <td>
+                          <button
+                            className='btn btn-danger'
+                            onClick={() => {
+                              handleDelete(item);
+                            }}
+                          >
+                            <i className='fas fa-trash'></i>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : currentRecords.map((item) => {
+                    return (
+                      <tr>
+                        <td>{item.startTime}</td>
+                        <td>{item.endTime}</td>
+                        <td>{item.day}</td>
+                        <td>{item.batch}</td>
+                        <td>{item.empName}</td>
+                        <td>
+                          {emphour.map((item3) => {
+                            if (item.empNo === item3.empNo) {
+                              return <p>{item3.hours}</p>;
+                            }
+                          })}
+                        </td>
+                        <td>{item.module}</td>
+                        <td>{item.venue}</td>
+                        <td>
+                          <button
+                            className='btn btn-danger'
+                            onClick={() => {
+                              handleDelete(item);
+                            }}
+                          >
+                            <i className='fas fa-trash'></i>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+              : 'No timetable data'}
           </tbody>
         </table>
       )}
 
-      <Pagination
-        nPages={nPages}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {!renderWhole && (
+        <Pagination
+          nPages={nPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
 
       <button className='btn btn-success ' onClick={pdfGenerate}>
         <i className='fas fa-file-download'></i>PDF
       </button>
       <button className='btn btn-success ' onClick={excelGenerate}>
         Excel
+      </button>
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {renderWhole ? 'View Paginated Data' : 'View All Data'}
       </button>
     </div>
   );
