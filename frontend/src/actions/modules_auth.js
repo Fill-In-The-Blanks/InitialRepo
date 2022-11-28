@@ -98,11 +98,11 @@ export const updateModuleByID =
         showConfirmButton: false,
         timer: 1500,
       });
-      navigate('/ListModules');
       dispatch({
-        type: GET_MODULES,
+        type: GET_MODULE,
         payload: res.data,
       });
+      navigate('/ListModules');
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {

@@ -1,8 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { connect, shallowEqual } from 'react-redux';
+import { connect } from 'react-redux';
 import { deleteSlot, getSlots } from '../../actions/timetable';
 import jsPDF from 'jspdf';
 import logo from '../../img/sllit logo.png';
@@ -42,12 +42,28 @@ const pdfGenerate = (e) => {
     timer: 1500,
   });
 };
-const TimetableItem = ({ slots, deleteSlot, getSlots }) => {
+const TimetableItem = ({
+  allSlots,
+  currentSlots,
+  state,
+  setState,
+  deleteSlot,
+  getSlots,
+}) => {
+  // currentSlots -> the slots of the current page due to pagination
+  // allSlots -> all slots for search bar filtering purposes
+
   const [value, SetValue] = useState('');
-  const [dataSource, SetdataSource] = useState(slots);
+
+  // holds the data for filtering by search
+  const [dataSource, SetdataSource] = useState(allSlots);
+  useEffect(() => {
+    SetdataSource(allSlots);
+  }, [dataSource, allSlots]);
+
   const [tableFilter, SetTableFilter] = useState([]);
   const filterData = (e) => {
-    if (e.target.value != '') {
+    if (e.target.value !== '') {
       SetValue(e.target.value);
       const filter = dataSource.filter((o) =>
         Object.keys(o).some((k) =>
@@ -81,8 +97,6 @@ const TimetableItem = ({ slots, deleteSlot, getSlots }) => {
 
   const selectStaffRequirement = async (slot, e) => {
     try {
-      /* console.log(e.target.value);
-      console.log(slot); */
       await axios.post('/api/timetable/slot', {
         slotID: slot,
         staffRequirement: e.target.value,
@@ -90,6 +104,11 @@ const TimetableItem = ({ slots, deleteSlot, getSlots }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setState(!state);
   };
 
   const slotsMapped =
@@ -111,7 +130,7 @@ const TimetableItem = ({ slots, deleteSlot, getSlots }) => {
                   onChange={(e) => {
                     selectStaffRequirement(slot._id, e);
                     window.location.reload();
-                    //getSlots();
+                    /* getSlots(); */
                   }}
                 >
                   <option value='0' style={{ display: 'none' }}>
@@ -135,7 +154,7 @@ const TimetableItem = ({ slots, deleteSlot, getSlots }) => {
             </td>
           </tr>
         ))
-      : slots.map((slot, index) => (
+      : currentSlots.map((slot, index) => (
           <tr key={index}>
             <td>{index + 1}</td>
             <td>
@@ -195,6 +214,12 @@ const TimetableItem = ({ slots, deleteSlot, getSlots }) => {
       <button className='btn btn-success' onClick={pdfGenerate}>
         <i className='fas fa-file-download'></i> PDF
       </button>
+
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {state ? 'View Paginated Data' : 'View All Data'}
+      </button>
+
       <table className='table' id='timelist'>
         <thead>
           <tr>
@@ -232,7 +257,8 @@ const TimetableItem = ({ slots, deleteSlot, getSlots }) => {
 
 TimetableItem.propTypes = {
   getSlots: PropTypes.func.isRequired,
-  slots: PropTypes.array.isRequired,
+  allSlots: PropTypes.array.isRequired,
+  currentSlots: PropTypes.array.isRequired,
   deleteSlot: PropTypes.func.isRequired,
 };
 

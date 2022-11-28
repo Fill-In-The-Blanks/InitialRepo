@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -44,7 +44,13 @@ const pdfGenerate = (e) => {
   });
 };
 
-const NoticeItem = ({ notices, deleteNotice }) => {
+const NoticeItem = ({
+  allNotices,
+  currentNotices,
+  state,
+  setState,
+  deleteNotice,
+}) => {
   const sendReminder = (notice) => {
     Swal.fire({
       title: 'Do you want to send Reminders?',
@@ -65,8 +71,20 @@ const NoticeItem = ({ notices, deleteNotice }) => {
     });
   };
 
+  // currentNotices -> the data of the current page
+  // allNotices -> used for search bar filtering purposes
+
   const [value, SetValue] = useState('');
-  const [dataSource, SetdataSource] = useState(notices);
+
+  // holds the data for filtering purposes
+  const [dataSource, SetdataSource] = useState(allNotices);
+
+  // run this if there are changes to allNotices, meaning new notice was added or notice was updated
+  useEffect(() => {
+    SetdataSource(allNotices);
+  }, [dataSource, allNotices]);
+
+  // holds the filtered data from dataSource
   const [tableFilter, SetTableFilter] = useState([]);
 
   const filterData = (e) => {
@@ -101,6 +119,11 @@ const NoticeItem = ({ notices, deleteNotice }) => {
     });
   };
 
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setState(!state);
+  };
+
   const noticeMapped =
     value.length > 0
       ? tableFilter.map((notice, index) => (
@@ -122,7 +145,7 @@ const NoticeItem = ({ notices, deleteNotice }) => {
             </td>
           </tr>
         ))
-      : notices.map((notice, index) => (
+      : currentNotices.map((notice, index) => (
           <tr key={notice._id}>
             <td>{index + 1}</td>
             <td>{notice.heading}</td>
@@ -169,6 +192,11 @@ const NoticeItem = ({ notices, deleteNotice }) => {
         <i className='fas fa-file-download'></i> PDF
       </button>
 
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {state ? 'View Paginated Data' : 'View All Data'}
+      </button>
+
       <table className='table' id='noticetable'>
         <thead>
           <tr>
@@ -199,7 +227,8 @@ const NoticeItem = ({ notices, deleteNotice }) => {
 };
 
 NoticeItem.propTypes = {
-  notices: PropTypes.array.isRequired,
+  allNotices: PropTypes.array.isRequired,
+  currentNotices: PropTypes.array.isRequired,
   deleteNotice: PropTypes.func.isRequired,
 };
 

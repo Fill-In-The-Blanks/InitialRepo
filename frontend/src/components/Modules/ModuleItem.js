@@ -41,14 +41,24 @@ const pdfGenerate = (e) => {
     timer: 1500,
   });
 };
-const ModuleItem = ({ module, deleteModule }) => {
+const ModuleItem = ({
+  currentModules,
+  allModules,
+  state,
+  setState,
+  deleteModule,
+}) => {
   const [value, SetValue] = useState('');
-  const [dataSource, SetdataSource] = useState(module);
+
+  const [dataSource, SetdataSource] = useState(allModules);
+  useEffect(() => {
+    SetdataSource(allModules);
+  }, [dataSource, allModules]);
+
   const [tableFilter, SetTableFilter] = useState([]);
-  //const [sortvalue,SetsortValue]=useState('');
 
   const filterData = (e) => {
-    if (e.target.value != '') {
+    if (e.target.value !== '') {
       SetValue(e.target.value);
       const filter = dataSource.filter((o) =>
         Object.keys(o).some((k) =>
@@ -88,12 +98,16 @@ const ModuleItem = ({ module, deleteModule }) => {
     SetTableFilter([...filterData]);
   };
 
+  // used a custom function to change renderWhole state because kept facing infinite re-render loop when I just called setDataRender(!renderWhole) in button onClick
+  const changeRender = () => {
+    setState(!state);
+  };
+
   const modules =
     value.length > 0
       ? tableFilter.map((mod) => (
           <tr key={mod._id}>
             <td>{mod.moduleName}</td>
-            {/* <td>{mod.ModuleID}</td> */}
             <td>{mod.specialization}</td>
             <td>{mod.year}</td>
             <td>{mod.semester}</td>
@@ -123,10 +137,9 @@ const ModuleItem = ({ module, deleteModule }) => {
             </td>
           </tr>
         ))
-      : module.map((mod) => (
+      : currentModules.map((mod) => (
           <tr key={mod._id}>
             <td>{mod.moduleName}</td>
-            {/* <td>{mod.ModuleID}</td> */}
             <td>{mod.specialization}</td>
             <td>{mod.year}</td>
             <td>{mod.semester}</td>
@@ -212,6 +225,11 @@ const ModuleItem = ({ module, deleteModule }) => {
         <i className='fas fa-file-download'></i> PDF
       </button>
 
+      <button className='btn btn-success' onClick={changeRender}>
+        <i className='fas fa-file-download'></i>{' '}
+        {state ? 'View Paginated Data' : 'View All Data'}
+      </button>
+
       <table className='table' id='module-table'>
         <thead>
           <tr>
@@ -237,7 +255,8 @@ const ModuleItem = ({ module, deleteModule }) => {
 };
 
 ModuleItem.propTypes = {
-  module: PropTypes.array.isRequired,
+  currentModules: PropTypes.array.isRequired,
+  allModules: PropTypes.array.isRequired,
   deleteModule: PropTypes.func.isRequired,
 };
 
